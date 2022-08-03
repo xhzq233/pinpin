@@ -1,16 +1,21 @@
 # pinpin
 
-A new Flutter project.
+1037拼拼
+
+1037pinpin
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+使用GetX框架进行状态管理
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Use GetX for UI state management
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Build APK
+
+`flutter build apk --obfuscate --split-debug-info=build/split-debug-info/ --split-per-abi`
+
+### Generate Json Model
+
+`flutter packages pub run build_runner build --delete-conflicting-outputs`

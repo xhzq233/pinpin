@@ -6,7 +6,7 @@ import 'package:pinpin/component/loading/load_more_indicator.dart';
 import 'package:pinpin/model/load_more/data_refreshable_list.dart';
 
 class LoadMoreListView<T, S> extends StatelessWidget {
-  final RefreshableDataList<T, S> sourceList;
+  final RefreshableListAdapter<T, S> sourceList;
   final EdgeInsetsGeometry padding;
   final SliverGridDelegate? gridDelegate;
   final ExtendedListDelegate? extendedListDelegate;

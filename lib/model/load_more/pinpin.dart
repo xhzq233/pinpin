@@ -7,7 +7,7 @@ import 'package:pinpin/manager/api/http_client.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'data_refreshable_list.dart';
 
-class PinPinLoadMoreSource extends RefreshableDataList<PinPin, int> {
+class PinPinLoadMoreSource extends RefreshableListAdapter<PinPin, int> {
   final ppHttp = Get.find<PPHttp>();
 
   @override

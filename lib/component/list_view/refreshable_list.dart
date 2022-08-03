@@ -4,12 +4,12 @@
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pinpin/component/loading/load_more_indicator.dart';
-import 'package:pinpin/component/refresh/refresh_header.dart';
+import 'package:pinpin/component/header/refresh_header.dart';
 import 'package:pinpin/model/load_more/data_refreshable_list.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 class RefreshableSliverList<T, S> extends StatelessWidget {
-  final RefreshableDataList<T, S> sourceList;
+  final RefreshableListAdapter<T, S> sourceList;
   final EdgeInsetsGeometry padding;
   final SliverGridDelegate? gridDelegate;
   final ExtendedListDelegate? extendedListDelegate;
