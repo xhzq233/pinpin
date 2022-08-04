@@ -64,9 +64,8 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
               borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius), color: Colors.blueAccent),
         ).sized(height: min(height, backgroundMaxHeight), width: width);
 
-        final diff = (height - appBarMinHeight) / appBarHeightRange;
+        final diff = Curves.easeInOutSine.transform((height - appBarMinHeight) / appBarHeightRange);
         // 1 -> 0
-
         return Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -79,16 +78,15 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
             ),
             Align(
-              alignment: Alignment(sqrt(1.0 - diff) * 0.04 + 0.86, 0.66 * pow((1.0 - diff), 5)),
+              alignment: Alignment((1.0 - diff) * 0.04 + 0.86, 0.66 * (1.0 - diff)),
               //0.8->0.92,  0->0.6
               child: mailbox,
             ),
             Align(
               alignment: _computeSearchBarAlignment(height),
-              child: const PPHomeSearchBar()
-                .sized(
-                    width: diff * searchBarWidthRange + searchBarMinWidth,
-                    height: diff * searchBarHeightRange + searchBarMinHeight),
+              child: const PPHomeSearchBar().sized(
+                  width: diff * searchBarWidthRange + searchBarMinWidth,
+                  height: diff * searchBarHeightRange + searchBarMinHeight),
             ),
           ],
         ).sized(height: height, width: width);

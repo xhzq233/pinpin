@@ -2,10 +2,23 @@
 /// Created by xhz on 02/08/2022
 
 import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:boxy/boxy.dart';
 
 extension WidgetExtensions on Widget {
+  static void emptyCallback() {}
+
+  static const maskWhite = Color(0xBFEEEEEE);
+  static const maskBlack = Colors.black54;
+
+  Widget blur([double sigma = 10]) => overlay(ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+          child: const SizedBox(),
+        ),
+      ));
+
   Widget onTap(void Function() function) => GestureDetector(
         onTap: function,
         child: this,
@@ -15,7 +28,7 @@ extension WidgetExtensions on Widget {
         child: this,
       );
 
-  Widget overlay(Widget content, [AlignmentGeometry alignment = Alignment.center]) => CustomBoxy(
+  Widget overlay(Widget content) => CustomBoxy(
         delegate: AdaptiveOverlayDelegate(),
         children: [
           BoxyId(id: #overlaid, child: this),
@@ -23,12 +36,17 @@ extension WidgetExtensions on Widget {
         ],
       );
 
-  Widget background(Widget content, [AlignmentGeometry alignment = Alignment.center]) => CustomBoxy(
+  Widget background(Widget content) => CustomBoxy(
         delegate: AdaptiveBackgroundDelegate(),
         children: [
           BoxyId(id: #background, child: content),
           BoxyId(id: #foreground, child: this),
         ],
+      );
+
+  Widget decorated(BoxDecoration boxDecoration) => DecoratedBox(
+        decoration: boxDecoration,
+        child: this,
       );
 
   Widget sized({double? width, double? height}) => SizedBox(
@@ -41,6 +59,11 @@ extension WidgetExtensions on Widget {
         margin: margin,
         padding: padding,
         decoration: BoxDecoration(border: Border.all(color: color)),
+        child: this,
+      );
+
+  Widget clipped([BorderRadius? borderRadius]) => ClipRRect(
+        borderRadius: borderRadius,
         child: this,
       );
 }
@@ -62,12 +85,13 @@ class AdaptiveOverlayDelegate extends BoxyDelegate {
 class AdaptiveBackgroundDelegate extends BoxyDelegate {
   @override
   Size layout() {
-    final overlay = getChild(#foreground);
+    final foreground = getChild(#foreground);
     final background = getChild(#background);
-    final overlaySize = overlay.layout(constraints);
-    final backgroundConstraints = constraints.copyWith(minHeight: overlaySize.height, minWidth: overlaySize.width);
+    final foregroundSize = foreground.layout(constraints);
+    final backgroundConstraints =
+        constraints.copyWith(minHeight: foregroundSize.height, minWidth: foregroundSize.width);
     final backgroundSize = background.layout(backgroundConstraints);
 
-    return Size(max(overlaySize.width, backgroundSize.width), max(overlaySize.height, backgroundSize.height));
+    return Size(max(foregroundSize.width, backgroundSize.width), max(foregroundSize.height, backgroundSize.height));
   }
 }
