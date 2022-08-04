@@ -19,7 +19,7 @@ class PinPinLoadMoreSource extends RefreshableListAdapter<PinPin, int> {
         cancelToken: cancelToken,
       )
           .then((value) {
-        nextDataPointer = value?.latestTime;
+        nextDataPointer = value?.next;
         return value?.data;
       });
 
@@ -32,7 +32,7 @@ class PinPinLoadMoreSource extends RefreshableListAdapter<PinPin, int> {
         startTime: nextDataPointer!,
       )
           .then((value) {
-        nextDataPointer = value?.latestTime;
+        nextDataPointer = value?.next;
         return value?.data;
       });
 }

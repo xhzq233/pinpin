@@ -17,7 +17,6 @@ class StatefulButton<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Logger.i('$this build');
     return Obx(() => GestureDetector(
           onTap: () => onPress(state),
           child: childBuilder(state.value),

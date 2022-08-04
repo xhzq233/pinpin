@@ -39,7 +39,7 @@ abstract class HttpClientInterface {
     }, onError: (DioError e, handler) {
       Loading.hide();
       if (e.response == null) {
-        toast('network unavailable');
+        toast('Network unavailable');
       } else {
         final String? msg = e.response?.data['msg'];
         toast(msg ?? 'Request Failed');
@@ -80,12 +80,9 @@ abstract class HttpClientInterface {
           onSendProgress: onSendProgress,
           onReceiveProgress: onReceiveProgress,
           options: options?.copyWith(method: api.method) ?? Options(method: api.method));
-      return decoder.call(response.data);
+      return decoder.call(response.data['data']);
     } catch (e) {
-      Logger.e('HttpClientInterface.request<$T>', e);
-      if (e is NoSuchMethodError && (T is Map || T is List)) {
-        return response?.data as T?;
-      }
+      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
       return null;
     }
   }

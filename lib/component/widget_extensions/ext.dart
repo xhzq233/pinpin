@@ -2,8 +2,6 @@
 /// Created by xhz on 02/08/2022
 
 import 'dart:math';
-
-import 'package:boxy/flex.dart';
 import 'package:flutter/material.dart';
 import 'package:boxy/boxy.dart';
 
@@ -18,19 +16,18 @@ extension WidgetExtensions on Widget {
       );
 
   Widget overlay(Widget content, [AlignmentGeometry alignment = Alignment.center]) => CustomBoxy(
-        delegate: StackWithFittingBiggestChildDelegate(),
+        delegate: AdaptiveOverlayDelegate(),
         children: [
-          BoxyId(id: #background, child: this),
+          BoxyId(id: #overlaid, child: this),
           BoxyId(id: #overlay, child: content),
         ],
       );
 
-  Widget background(Widget content, [AlignmentGeometry alignment = Alignment.center]) => Stack(
-        alignment: alignment,
-        fit: StackFit.passthrough,
+  Widget background(Widget content, [AlignmentGeometry alignment = Alignment.center]) => CustomBoxy(
+        delegate: AdaptiveBackgroundDelegate(),
         children: [
-          content,
-          this,
+          BoxyId(id: #background, child: content),
+          BoxyId(id: #foreground, child: this),
         ],
       );
 
@@ -48,15 +45,28 @@ extension WidgetExtensions on Widget {
       );
 }
 
-class StackWithFittingBiggestChildDelegate extends BoxyDelegate {
+class AdaptiveOverlayDelegate extends BoxyDelegate {
   @override
   Size layout() {
     final overlay = getChild(#overlay);
-    final background = getChild(#background);
+    final background = getChild(#overlaid);
 
-    final overlaySize = overlay.layout(constraints);
     final backgroundSize = background.layout(constraints);
-    BoxyColumn;Dominant;
+    final overlayConstraints = constraints.copyWith(minHeight: backgroundSize.height, minWidth: backgroundSize.width);
+    final overlaySize = overlay.layout(overlayConstraints);
+
+    return Size(max(overlaySize.width, backgroundSize.width), max(overlaySize.height, backgroundSize.height));
+  }
+}
+
+class AdaptiveBackgroundDelegate extends BoxyDelegate {
+  @override
+  Size layout() {
+    final overlay = getChild(#foreground);
+    final background = getChild(#background);
+    final overlaySize = overlay.layout(constraints);
+    final backgroundConstraints = constraints.copyWith(minHeight: overlaySize.height, minWidth: overlaySize.width);
+    final backgroundSize = background.layout(backgroundConstraints);
 
     return Size(max(overlaySize.width, backgroundSize.width), max(overlaySize.height, backgroundSize.height));
   }

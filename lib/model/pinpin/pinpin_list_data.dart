@@ -1,18 +1,27 @@
 /// pinpin - pinpin_list_data
 /// Created by xhz on 2022/7/28
+import 'package:json_annotation/json_annotation.dart';
 import 'pin_pin.dart';
 
+part 'pinpin_list_data.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class PinPinListData {
+  @JsonKey(name: 'Res')
   List<PinPin> data;
-  int? latestTime;
+  @JsonKey(name: 'Latest')
+  int latestTime;
+
+  int? get next => latestTime == 0 ? null : latestTime;
 
   PinPinListData({
     required this.data,
-    this.latestTime,
+    required this.latestTime,
   });
 
-  factory PinPinListData.fromJson(dynamic json) => PinPinListData(
-      latestTime: json['latest'] == 0 ? null : json['latest'],
-      //means nothing when latestTime is zero
-      data: (json['msg'] as Iterable).map((e) => PinPin.fromJson(e)).toList());
+  factory PinPinListData.fromJson(dynamic json) {
+    return _$PinPinListDataFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() => _$PinPinListDataToJson(this);
 }

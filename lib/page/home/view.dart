@@ -21,12 +21,18 @@ class _HomePageState extends State<HomePage> {
   final source = PinPinLoadMoreSource();
   late final tabPages = [
     RefreshableSliverList(
-      sliverHeader: const PinPinHomeSliverHeader(),
+      sliverHeader: const SliverPersistentHeader(
+        pinned: true,
+        delegate: PinPinHomeSliverHeaderDelegate(),
+      ),
       sourceList: source,
       itemBuilder: (BuildContext context, PinPin item, int index) => Text(
         item.title,
         style: Get.textTheme.headline1,
-      ),
+      )
+          .background(const DecoratedBox(
+              decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.all(Radius.circular(50)))))
+          .paddingSymmetric(vertical: 20),
     ),
     const Text('data').centralized(),
   ];
@@ -46,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           Image.asset(
             tabBarIndex == index ? active_items[index] : items[index],
             height: 30,
-          ).paddingOnly(top: 12, bottom: 3.5),
+          ).paddingOnly(top: 15, bottom: 3.5),
           Text(titles[index]),
         ],
       ).onTap(() {
@@ -59,31 +65,38 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         index: tabBarIndex,
         children: tabPages,
+      ).overlay(
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildTabItem(0),
+              Container(
+                height: 50,
+                width: 54,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.blueAccent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x5882B1FF),
+                        spreadRadius: 6,
+                        blurRadius: 10,
+                        offset: Offset(1, 5),
+                      )
+                    ]),
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+              ).paddingOnly(top: 5),
+              _buildTabItem(1),
+            ],
+          ).sized(height: 88).cupertinoSystemBlurEffect(),
+        ),
       ),
-      bottomNavigationBar: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildTabItem(0),
-          Container(
-            height: 50,
-            width: 54,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Colors.blueAccent,
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x5882B1FF),
-                    spreadRadius: 7,
-                    blurRadius: 10,
-                    offset: Offset(1,4),
-                  )
-                ]),
-            child: const Icon(Icons.add,color: Colors.white,),
-          ).paddingOnly(top: 4),
-          _buildTabItem(1),
-        ],
-      ).border().cupertinoSystemBlurEffect().sized(height: 80),
     );
   }
 }
