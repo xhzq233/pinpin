@@ -31,6 +31,8 @@ dependencies:
     sdk: flutter
   dio: ^4.0.6
   get: ^4.6.5
+  sqflite: ^2.0.3
+  path: ^1.8.1
   json_annotation: ^4.6.0
   shared_preferences: ^2.0.15
   loading_more_list: ^4.1.2

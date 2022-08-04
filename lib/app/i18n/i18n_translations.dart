@@ -6,7 +6,7 @@ import 'i18n_names.dart';
 class I18nTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
-    'zh_CN': {
+    'zh': {
       I18n.title:'1037拼拼',
       I18n.join:'加入拼拼',
       I18n.takeALook:'我先逛逛',
@@ -14,7 +14,7 @@ class I18nTranslations extends Translations {
       I18n.welcome:'1037拼拼欢迎你',
       I18n.notice:'提示',
     },
-    'en_US': {
+    'en': {
       I18n.title:'1037PinPin',
       I18n.join:'Join now',
       I18n.takeALook:'Just take a look',

@@ -7,25 +7,27 @@ import 'package:pinpin/manager/db_manager/pinpin_db.dart';
 import 'package:pinpin/app/route/route.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/i18n/i18n_names.dart';
+import 'package:pinpin/manager/setting/settings_manager.dart';
 
 void main() async {
-  await init();
-  runApp(const MyApp());
+  await _init();
+  runApp(const PPApp());
 }
 
-Future<void> init() async {
+Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Get.putAsync(() => AccountManager().init());
   Get.put(PPHttp.init(
       deviceName: 'XHZQ',
       accountGetter: () => Get.find<AccountManager>().current,
       accountUpdater: (data) => Get.find<AccountManager>().updateAccount(data)));
+  await Get.putAsync(() => SettingsManager().init());
+  await Get.putAsync(() => PPDBManager().init());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class PPApp extends StatelessWidget {
+  const PPApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -33,13 +35,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: I18n.title.tr,
       translations: I18nTranslations(),
-      supportedLocales: const [
-        Locale('zh', 'CN'),
-        Locale('en', 'US'),
-      ],
-      fallbackLocale: const Locale('zh', 'CN'),
+      supportedLocales: SettingsManager.supportedLocales,
+      fallbackLocale: SettingsManager.defaultLocale,
       getPages: Routes.routes,
-      locale: Get.deviceLocale,
+      locale: Get.find<SettingsManager>().locale,
       theme: ThemeData(),
       initialRoute: Get.find<AccountManager>().isEmpty ? RN.home : RN.home,
     );
