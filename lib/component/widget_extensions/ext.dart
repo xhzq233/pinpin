@@ -9,12 +9,12 @@ import 'package:boxy/boxy.dart';
 extension WidgetExtensions on Widget {
   static void emptyCallback() {}
 
-  Widget blur([double sigma = 10]) => overlay(ClipRect(
+  Widget blur([double sigma = 10]) => ClipRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
-          child: const SizedBox(),
+          child: this,
         ),
-      ));
+      );
 
   Widget onTap(void Function() function) => GestureDetector(
         onTap: function,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/bottom_tab_bar/bottom_tab_bar.dart';
 import 'package:pinpin/component/header/home_sliver_header.dart';
 import 'package:pinpin/component/list_view/refreshable_list.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
@@ -27,7 +28,10 @@ class _HomePageState extends State<HomePage> {
       ),
       sourceList: source,
       itemBuilder: (BuildContext context, PinPin item, int index) =>
-          PPCommonTextButton(onPressed: () {}, title: item.title).paddingSymmetric(vertical: 20),
+          PPCommonTextButton(onPressed: () {}, title: item.title)
+              .paddingSymmetric(vertical: 20)
+              .decorated(BoxDecoration(color: Colors.red))
+              .sized(height: 400),
     ),
     const Text('data').centralized(),
   ];
@@ -56,9 +60,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var bottomBar = Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    var bottomBar = PPBottomTabBar(
       children: [
         _buildTabItem(0),
         const Icon(
@@ -83,33 +85,16 @@ class _HomePageState extends State<HomePage> {
             .paddingOnly(top: 5),
         _buildTabItem(1),
       ],
-    )
-        .decorated(
-          const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                spreadRadius: 7,
-                blurRadius: 10,
-                offset: Offset(-3, -6),
-              )
-            ],
-          ),
-        )
-        .sized(height: 88);
-
-    bottomBar = Align(
-      alignment: Alignment.bottomCenter,
-      child: bottomBar,
     );
 
     return Scaffold(
       body: IndexedStack(
         index: tabBarIndex,
         children: tabPages,
-      ).overlay(bottomBar),
+      ).overlay(Align(
+        alignment: Alignment.bottomCenter,
+        child: bottomBar,
+      )),
     );
   }
 }

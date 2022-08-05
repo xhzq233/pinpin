@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/i18n/i18n_translations.dart';
@@ -16,6 +19,9 @@ void main() async {
 
 Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isAndroid) {
+    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+  }
   await Get.putAsync(() => AccountManager().init());
   Get.put(PPHttp.init(
       deviceName: 'XHZQ',
