@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'hold_active_button.dart';
 
 class PPImageButton extends StatelessWidget {
-  const PPImageButton({Key? key, required this.onPressed, required this.active, required this.inactive, this.size = 28})
+  const PPImageButton({Key? key, required this.onPressed, required this.active, required this.inactive, this.size = 30})
       : super(key: key);
   final ButtonOnPressed onPressed;
   final String inactive;

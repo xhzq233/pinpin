@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/home_sliver_header.dart';
 import 'package:pinpin/component/list_view/refreshable_list.dart';
+import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/model/load_more/pinpin.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
@@ -24,12 +26,8 @@ class _HomePageState extends State<HomePage> {
         delegate: PinPinHomeSliverHeaderDelegate(),
       ),
       sourceList: source,
-      itemBuilder: (BuildContext context, PinPin item, int index) => Text(
-        item.title,
-        style: Get.textTheme.headline1,
-      )
-          .decorated(const BoxDecoration(color: Colors.red, borderRadius: BorderRadius.all(Radius.circular(50))))
-          .paddingSymmetric(vertical: 20),
+      itemBuilder: (BuildContext context, PinPin item, int index) =>
+          PPCommonTextButton(onPressed: () {}, title: item.title).paddingSymmetric(vertical: 20),
     ),
     const Text('data').centralized(),
   ];

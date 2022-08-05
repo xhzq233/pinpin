@@ -9,9 +9,6 @@ import 'package:boxy/boxy.dart';
 extension WidgetExtensions on Widget {
   static void emptyCallback() {}
 
-  static const maskWhite = Color(0xBFEEEEEE);
-  static const maskBlack = Colors.black54;
-
   Widget blur([double sigma = 10]) => overlay(ClipRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
