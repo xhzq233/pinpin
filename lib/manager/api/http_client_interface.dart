@@ -86,4 +86,6 @@ abstract class HttpClientInterface {
       return null;
     }
   }
+
+  Dio get dio => _dio;
 }
