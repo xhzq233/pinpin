@@ -1,8 +1,6 @@
 /// pinpin - app_theme
 /// Created by xhz on 2022/8/3
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -37,8 +35,8 @@ class AppTheme {
 
   static const shadow = BoxShadow(
     offset: Offset(0, 4),
-    blurRadius: 25,
-    color: Colors.black26,
+    blurRadius: 10,
+    color: Color.fromRGBO(0, 0, 0, 0.04),
   );
 
   static const Color banned = Color(0xFFCCCCCC);

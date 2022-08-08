@@ -6,11 +6,13 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/home_sliver_header.dart';
 import 'package:pinpin/component/header/refresh_header.dart';
+import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/list_view/load_more_list.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/tab_bar/tab_bar.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
+import 'package:pinpin/page/pp_detail/view.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'controller.dart';
 
@@ -18,45 +20,62 @@ class PPHomeMainView extends GetView<PPHomeMainController> {
   const PPHomeMainView({Key? key}) : super(key: key);
 
   Widget _itemBuilder(BuildContext context, PinPin item, int index) {
-    return PPCommonTextButton(onPressed: () {}, title: item.title).paddingAll(20);
+    return Hero(
+        tag: 'pp_${item.pinpinId}',
+        child: PPHomeCardView(
+          pp: item,
+        )).onTap(() {
+      Get.to(PPDetailPage(pp: item));
+    }).paddingSymmetric(vertical: 5);
   }
 
   @override
-  Widget build(BuildContext context) => DefaultTabController(
-      length: 2,
-      child: PullToRefreshNotification(
-          onRefresh: () async => await controller.source.refresh(true),
-          maxDragOffset: 100,
-          child: NestedScrollView(
-              body: TabBarView(
-                children: [
-                  LoadMoreListView(sourceList: controller.source, itemBuilder: _itemBuilder),
-                  LoadMoreListView(sourceList: controller.source, itemBuilder: _itemBuilder)
-                ],
-              ),
-              headerSliverBuilder: (_, __) => [
-                    const SliverPersistentHeader(
-                      pinned: true,
-                      delegate: PinPinHomeSliverHeaderDelegate(),
-                    ),
-                    const SliverToBoxAdapter(
-                        child: TabBarWidget(
-                      indicatorMinWidth: 15,
-                      padding: EdgeInsets.only(right: 150, top: 10),
-                      indicator: RRecTabIndicator(
-                        radius: 4,
-                      ),
-                      tabs: [
-                        Text(
-                          'Entertainment',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        Text(
-                          'Study',
-                          style: TextStyle(color: Colors.black),
-                        ),
+  Widget build(BuildContext context) => Scaffold(
+        body: DefaultTabController(
+            length: 2,
+            child: PullToRefreshNotification(
+                onRefresh: () async => await controller.source.refresh(true),
+                maxDragOffset: 100,
+                child: NestedScrollView(
+                    body: TabBarView(
+                      children: [
+                        LoadMoreListView(
+                            sourceList: controller.source,
+                            padding: const EdgeInsets.symmetric(horizontal: 19.0),
+                            itemBuilder: _itemBuilder),
+                        LoadMoreListView(sourceList: controller.source, itemBuilder: _itemBuilder)
                       ],
-                    )),
-                    PullToRefreshContainer((info) => PullToRefreshHeader(info: info)),
-                  ])));
+                    ),
+                    headerSliverBuilder: (_, __) => [
+                          const SliverPersistentHeader(
+                            pinned: true,
+                            delegate: PinPinHomeSliverHeaderDelegate(),
+                          ),
+                          const SliverToBoxAdapter(
+                              child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: TabBarWidget(
+                              isScrollable: true,
+                              indicatorMinWidth: 15,
+                              padding: EdgeInsets.only(right: 150, top: 10),
+                              indicator: RRecTabIndicator(
+                                radius: 4,
+                              ),
+                              tabs: [
+                                Text(
+                                  'Entertainment',
+                                  style: TextStyle(color: Colors.black),
+                                  maxLines: 1,
+                                ),
+                                Text(
+                                  'Study',
+                                  style: TextStyle(color: Colors.black),
+                                  maxLines: 1,
+                                ),
+                              ],
+                            ),
+                          )),
+                          PullToRefreshContainer((info) => PullToRefreshHeader(info: info)),
+                        ]))),
+      );
 }
