@@ -1,7 +1,9 @@
 /// pinpin - hold_active_button
 /// Created by xhz on 05/08/2022
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pinpin/util/logger.dart';
 
 typedef ButtonOnPressed = void Function();
 typedef ButtonContentBuilder = Widget Function(HAButtonState);
@@ -18,47 +20,93 @@ class HoldActiveButton extends StatefulWidget {
   State<HoldActiveButton> createState() => _HoldActiveButtonState();
 }
 
-class _HoldActiveButtonState extends State<HoldActiveButton> {
+class _HoldActiveButtonState extends State<HoldActiveButton> with SingleTickerProviderStateMixin {
   bool get isEnabled => widget.onPressed != null;
+
+  late HAButtonState oldState = state;
+  static const Duration kFadeOutDuration = Duration(milliseconds: 120);
+  static const Duration kFadeInDuration = Duration(milliseconds: 180);
+
+  HAButtonState get state =>
+      isEnabled ? (pressed ? HAButtonState.active : HAButtonState.inactive) : HAButtonState.banned;
+
+  late final AnimationController _animationController;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      value: 0.0,
+      vsync: this,
+    );
+    _opacityAnimation =
+        _animationController.drive(CurveTween(curve: Curves.decelerate)).drive(Tween(begin: 1.0, end: 0.4));
+    _animationController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _animate() {
+    if (_animationController.isAnimating) {
+      return;
+    }
+    final bool wasHeldDown = pressed;
+    final TickerFuture ticker = pressed
+        ? _animationController.animateTo(1.0, duration: kFadeOutDuration, curve: Curves.easeInOutCubicEmphasized)
+        : _animationController.animateTo(0.0, duration: kFadeInDuration, curve: Curves.easeOutCubic);
+    ticker.then<void>((void value) {
+      if (mounted && wasHeldDown != pressed) {
+        _animate();
+      }
+    });
+  }
+
+  Widget _buildChild() {
+    Widget child = Opacity(
+      opacity: _opacityAnimation.value,
+      child: widget.builder(state),
+    );
+    // return FadeTransition(
+    //   opacity: _opacityAnimation,
+    //   child: widget.builder(state),
+    // );
+    return child;
+  }
 
   @override
   Widget build(BuildContext context) {
+    AnimatedSwitcher;
     return GestureDetector(
-      onTapDown: (detail) {
-        hasTapUp = false;
-        if (isEnabled && !pressed) {
+      onTapDown: (_) {
+        if (!pressed) {
           pressed = true;
-          setState(() {});
+          _animate();
         }
       },
-      onTapUp: (details) {
-        if (isEnabled) {
-          widget.onPressed!();
+      onTapUp: (_) {
+        if (pressed) {
+          pressed = false;
+          _animate();
         }
-        hasTapUp = true;
-        _resetIfTapUp();
       },
       onTapCancel: () {
-        hasTapUp = true;
-        _resetIfTapUp();
+        if (pressed) {
+          pressed = false;
+          _animate();
+        }
       },
-      child:
-          widget.builder(isEnabled ? (pressed ? HAButtonState.active : HAButtonState.inactive) : HAButtonState.banned),
+      onTap: widget.onPressed,
+      child: _buildChild(),
     );
   }
 
   bool pressed = false;
-
-  //used to stay pressed if no tap up
-  void _resetIfTapUp() async {
-    if (hasTapUp == true) {
-      await Future.delayed(const Duration(milliseconds: 84)); //five frame
-      setState(() {
-        pressed = false;
-        hasTapUp = false;
-      });
-    }
-  }
-
-  bool hasTapUp = false;
 }

@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/i18n/i18n_translations.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:pinpin/manager/api/http_client.dart';
 import 'package:pinpin/manager/db_manager/pinpin_db.dart';

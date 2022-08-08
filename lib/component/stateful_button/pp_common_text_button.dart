@@ -67,9 +67,9 @@ class PPCommonTextButton extends StatelessWidget {
         if (size == PPCommonTextButtonSize.normal) {
           boxDecoration = boxDecoration.copyWith(borderRadius: const BorderRadius.all(Radius.circular(20)));
         }
-        return text.decorated(boxDecoration).sized(width: size.width, height: size.height);
+        return text.decorated(boxDecoration);
       },
       onPressed: onPressed,
-    );
+    ).sized(width: size.width, height: size.height);
   }
 }
