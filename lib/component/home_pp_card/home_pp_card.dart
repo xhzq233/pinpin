@@ -1,6 +1,8 @@
 /// pinpin - home_pp_card
 /// Created by xhz on 06/08/2022
 
+import 'package:boxy/boxy.dart';
+import 'package:boxy/flex.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
@@ -101,37 +103,31 @@ class PPHomeCardView extends StatelessWidget {
       height: 10,
     );
 
-    return LimitedBox(
-      maxHeight: 216,
-      child: Container(
-        constraints: BoxConstraints.tight(Size(double.infinity, 216)),
-        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 18),
-        decoration: const BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [AppTheme.shadow]),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                title,
-                PPImageButton(onPressed: () {}, active: AppAssets.star_active, inactive: AppAssets.star)
-              ],
-            ),
-            verticalSpacing,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [demandingQty, horizontalSpacing, label],
-            ),
-            verticalSpacing,
-            content,
-            verticalSpacing,
-            Row(
-              children: [person, horizontalSpacing, onlineWidget, const Spacer(), timeline],
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 18),
+      decoration: const BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [AppTheme.shadow]),
+      child: BoxyColumn(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [title, PPImageButton(onPressed: () {}, active: AppAssets.star_active, inactive: AppAssets.star)],
+          ),
+          verticalSpacing,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [demandingQty, horizontalSpacing, label],
+          ),
+          verticalSpacing,
+          content,
+          verticalSpacing,
+          Row(
+            children: [person, horizontalSpacing, onlineWidget, const Spacer(), timeline],
+          ),
+        ],
       ),
     );
   }
