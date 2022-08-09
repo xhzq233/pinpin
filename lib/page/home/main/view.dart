@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/home_sliver_header.dart';
 import 'package:pinpin/component/header/refresh_header.dart';
@@ -24,9 +25,7 @@ class PPHomeMainView extends GetView<PPHomeMainController> {
         tag: 'pp_${item.pinpinId}',
         child: PPHomeCardView(
           pp: item,
-        )).onTap(() {
-      Get.to(PPDetailPage(pp: item));
-    }).paddingSymmetric(vertical: 5);
+        )).onTap(() => Get.toNamed(RN.pp_detail, arguments: item)).paddingSymmetric(vertical: 5);
   }
 
   @override
@@ -56,8 +55,8 @@ class PPHomeMainView extends GetView<PPHomeMainController> {
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: TabBarWidget(
                               isScrollable: true,
-                              indicatorMinWidth: 15,
-                              padding: EdgeInsets.only(right: 150, top: 10),
+                              indicatorMinWidth: 24,
+                              padding: EdgeInsets.only(right: 130, top: 10),
                               indicator: RRecTabIndicator(
                                 radius: 4,
                               ),

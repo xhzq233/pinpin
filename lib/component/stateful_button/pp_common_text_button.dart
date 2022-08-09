@@ -60,7 +60,7 @@ class PPCommonTextButton extends StatelessWidget {
             break;
         }
         if (style == PPCommonTextButtonStyle.outline) {
-          boxDecoration = basic.copyWith(border: Border.all(color: color), color: Colors.white);
+          boxDecoration = basic.copyWith(border: Border.all(color: color,width: 1.7), color: Colors.white);
         } else {
           boxDecoration = basic.copyWith(color: color);
         }

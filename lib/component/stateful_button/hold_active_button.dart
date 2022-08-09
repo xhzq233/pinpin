@@ -55,25 +55,25 @@ class _HoldActiveButtonState extends State<HoldActiveButton> with SingleTickerPr
   }
 
   void _animate() {
-    if (_animationController.isAnimating) {
-      return;
-    }
-    final bool wasHeldDown = pressed;
-    final TickerFuture ticker = pressed
-        ? _animationController.animateTo(1.0, duration: kFadeOutDuration, curve: Curves.easeInOutCubicEmphasized)
-        : _animationController.animateTo(0.0, duration: kFadeInDuration, curve: Curves.easeOutCubic);
-    ticker.then<void>((void value) {
-      if (mounted && wasHeldDown != pressed) {
-        _animate();
-      }
+    setState(() {
+
     });
+    // if (_animationController.isAnimating) {
+    //   return;
+    // }
+    // final bool wasHeldDown = pressed;
+    // final TickerFuture ticker = pressed
+    //     ? _animationController.animateTo(1.0, duration: kFadeOutDuration, curve: Curves.easeInOutCubicEmphasized)
+    //     : _animationController.animateTo(0.0, duration: kFadeInDuration, curve: Curves.easeOutCubic);
+    // ticker.then<void>((void value) {
+    //   if (mounted && wasHeldDown != pressed) {
+    //     _animate();
+    //   }
+    // });
   }
 
   Widget _buildChild() {
-    Widget child = Opacity(
-      opacity: _opacityAnimation.value,
-      child: widget.builder(state),
-    );
+    Widget child = widget.builder(state);
     // return FadeTransition(
     //   opacity: _opacityAnimation,
     //   child: widget.builder(state),
@@ -83,28 +83,30 @@ class _HoldActiveButtonState extends State<HoldActiveButton> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    AnimatedSwitcher;
-    return GestureDetector(
-      onTapDown: (_) {
-        if (!pressed) {
-          pressed = true;
-          _animate();
-        }
-      },
-      onTapUp: (_) {
-        if (pressed) {
-          pressed = false;
-          _animate();
-        }
-      },
-      onTapCancel: () {
-        if (pressed) {
-          pressed = false;
-          _animate();
-        }
-      },
-      onTap: widget.onPressed,
-      child: _buildChild(),
+    return RepaintBoundary(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTapDown: (_) {
+          if (!pressed) {
+            pressed = true;
+            _animate();
+          }
+        },
+        onTapUp: (_) {
+          if (pressed) {
+            pressed = false;
+            _animate();
+          }
+        },
+        onTapCancel: () async {
+          if (pressed) {
+            pressed = false;
+            _animate();
+          }
+        },
+        onTap: widget.onPressed,
+        child: _buildChild(),
+      ),
     );
   }
 

@@ -261,7 +261,7 @@ class _IndicatorPainter extends CustomPainter {
     final EdgeInsets insets = indicatorPadding.resolve(_currentTextDirection);
 
     /// 改动，算出指示器的最大宽度
-    double maxLen = (tabRight - tabLeft + insets.horizontal) * 2;
+    double maxLen = (tabRight - tabLeft + insets.horizontal) * 1.6;
 
     double res = scale == 0 ? minWidth : maxLen * (scale < 0.5 ? scale : 1 - scale);
 
@@ -442,7 +442,6 @@ class TabBarWidget extends StatefulWidget implements PreferredSizeWidget {
     this.isScrollable = false,
     this.padding,
     this.indicatorColor,
-    this.automaticIndicatorColorAdjustment = true,
     this.indicatorWeight = 2.0,
     this.indicatorPadding = EdgeInsets.zero,
     this.indicator,
@@ -533,13 +532,6 @@ class TabBarWidget extends StatefulWidget implements PreferredSizeWidget {
   /// [TabBarIndicatorSize.label], then the tab's bounds are only as wide as
   /// the tab widget itself.
   final Decoration? indicator;
-
-  /// Whether this tab bar should automatically adjust the [indicatorColor].
-  ///
-  /// If [automaticIndicatorColorAdjustment] is true,
-  /// then the [indicatorColor] will be automatically adjusted to [Colors.white]
-  /// when the [indicatorColor] is same as [Material.color] of the [Material] parent widget.
-  final bool automaticIndicatorColorAdjustment;
 
   /// Defines how the selected tab indicator's size is computed.
   ///
@@ -694,6 +686,8 @@ class _TabBarWidgetState extends State<TabBarWidget> {
     // If indicatorSize is TabIndicatorSize.label, _tabKeys[i] is used to find
     // the width of tab widget i. See _IndicatorPainter.indicatorRect().
     _tabKeys = widget.tabs.map((Widget tab) => GlobalKey()).toList();
+    // 改动 init
+    _tabRefresher = List.filled(widget.tabs.length, null, growable: false);
   }
 
   Decoration get _indicator {
@@ -702,10 +696,6 @@ class _TabBarWidgetState extends State<TabBarWidget> {
     if (tabBarTheme.indicator != null) return tabBarTheme.indicator!;
 
     Color color = widget.indicatorColor ?? Theme.of(context).indicatorColor;
-
-    if (widget.automaticIndicatorColorAdjustment && color.value == Material.of(context)?.color?.value) {
-      color = Colors.white;
-    }
 
     return UnderlineTabIndicator(
       borderSide: BorderSide(
@@ -783,7 +773,8 @@ class _TabBarWidgetState extends State<TabBarWidget> {
         widget.indicator != oldWidget.indicator) {
       _initIndicatorPainter(adjustedPadding, tabBarTheme);
     }
-
+    // 改动 update Refresher
+    _tabRefresher = List.filled(widget.tabs.length, null, growable: false);
     if (widget.tabs.length > oldWidget.tabs.length) {
       final int delta = widget.tabs.length - oldWidget.tabs.length;
       _tabKeys.addAll(List<GlobalKey>.generate(delta, (int n) => GlobalKey()));
@@ -858,6 +849,10 @@ class _TabBarWidgetState extends State<TabBarWidget> {
 
   void _handleTabControllerAnimationTick() {
     assert(mounted);
+    // 改动 根据animation刷新
+    for (var element in _tabRefresher) {
+      element?.call();
+    }
     if (!_controller!.indexIsChanging && widget.isScrollable) {
       // Sync the TabBar's scroll position with the TabBarView's PageView.
       _currentIndex = _controller!.index;
@@ -896,6 +891,9 @@ class _TabBarWidgetState extends State<TabBarWidget> {
       child: child,
     );
   }
+
+  // 改动
+  late List<void Function()?> _tabRefresher;
 
   @override
   Widget build(BuildContext context) {
@@ -978,6 +976,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
     // the same share of the tab bar's overall width.
     final int tabCount = widget.tabs.length;
     for (int index = 0; index < tabCount; index += 1) {
+      final child = wrappedTabs[index];
       wrappedTabs[index] = InkWell(
         mouseCursor: widget.mouseCursor ?? SystemMouseCursors.click,
         onTap: () {
@@ -987,7 +986,17 @@ class _TabBarWidgetState extends State<TabBarWidget> {
         overlayColor: widget.overlayColor,
         child: Padding(
           padding: EdgeInsets.only(bottom: widget.indicatorWeight),
-          child: wrappedTabs[index],
+          child: Builder(
+            builder: (ctx) {
+              _tabRefresher[index] ??= () {
+                (ctx as Element).markNeedsBuild();
+              };
+              return Transform.scale(
+                scale: 1.2 - 0.2 * math.min(1.0, ((_controller?.animation?.value ?? 0.0) - index).abs()),
+                child: child,
+              );
+            },
+          ),
         ),
       );
       if (!widget.isScrollable) {

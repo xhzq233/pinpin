@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/i18n/i18n_translations.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
@@ -20,6 +21,7 @@ void main() async {
 
 Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
+  debugRepaintRainbowEnabled = true;
   if (Platform.isAndroid) {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
   }
@@ -48,6 +50,7 @@ class PPApp extends StatelessWidget {
       locale: Get.find<SettingsManager>().locale,
       theme: ThemeData(),
       initialRoute: Get.find<AccountManager>().isEmpty ? RN.home : RN.home,
+      unknownRoute: Routes.unknown,
     );
   }
 }

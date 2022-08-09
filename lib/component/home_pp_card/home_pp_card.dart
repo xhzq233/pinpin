@@ -103,31 +103,43 @@ class PPHomeCardView extends StatelessWidget {
       height: 10,
     );
 
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 18),
-      decoration: const BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [AppTheme.shadow]),
-      child: BoxyColumn(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [title, PPImageButton(onPressed: () {}, active: AppAssets.star_active, inactive: AppAssets.star)],
-          ),
-          verticalSpacing,
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [demandingQty, horizontalSpacing, label],
-          ),
-          verticalSpacing,
-          content,
-          verticalSpacing,
-          Row(
-            children: [person, horizontalSpacing, onlineWidget, const Spacer(), timeline],
-          ),
-        ],
+    return Material(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 18),
+        decoration: const BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [AppTheme.shadow]),
+        child: BoxyColumn(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                title,
+                Image.asset(
+                  pp.isFollowed ? AppAssets.star_active : AppAssets.star,
+                  height: 32,
+                  fit: BoxFit.fitHeight,
+                ).onTap(() {
+                  pp.isFollowed = !pp.isFollowed;
+                  (context as Element).markNeedsBuild();
+                })
+              ],
+            ),
+            verticalSpacing,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [demandingQty, horizontalSpacing, label],
+            ),
+            verticalSpacing,
+            content,
+            verticalSpacing,
+            Row(
+              children: [person, horizontalSpacing, onlineWidget, const Spacer(), timeline],
+            ),
+          ],
+        ),
       ),
     );
   }
