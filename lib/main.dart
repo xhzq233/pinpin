@@ -21,7 +21,7 @@ void main() async {
 
 Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
-  debugRepaintRainbowEnabled = true;
+  // debugRepaintRainbowEnabled = true;
   if (Platform.isAndroid) {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
   }

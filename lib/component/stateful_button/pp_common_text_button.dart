@@ -44,32 +44,34 @@ class PPCommonTextButton extends StatelessWidget {
       ),
     );
 
-    return HoldActiveButton(
-      builder: (HAButtonState state) {
-        BoxDecoration boxDecoration;
-        final Color color;
-        switch (state) {
-          case HAButtonState.active:
-            color = AppTheme.secondary4;
-            break;
-          case HAButtonState.inactive:
-            color = AppTheme.primary;
-            break;
-          case HAButtonState.banned:
-            color = AppTheme.banned;
-            break;
-        }
-        if (style == PPCommonTextButtonStyle.outline) {
-          boxDecoration = basic.copyWith(border: Border.all(color: color,width: 1.7), color: Colors.white);
-        } else {
-          boxDecoration = basic.copyWith(color: color);
-        }
-        if (size == PPCommonTextButtonSize.normal) {
-          boxDecoration = boxDecoration.copyWith(borderRadius: const BorderRadius.all(Radius.circular(20)));
-        }
-        return text.decorated(boxDecoration);
-      },
-      onPressed: onPressed,
-    ).sized(width: size.width, height: size.height);
+    return Center(
+      child: HoldActiveButton(
+        builder: (HAButtonState state) {
+          BoxDecoration boxDecoration;
+          final Color color;
+          switch (state) {
+            case HAButtonState.active:
+              color = AppTheme.secondary4;
+              break;
+            case HAButtonState.inactive:
+              color = AppTheme.primary;
+              break;
+            case HAButtonState.banned:
+              color = AppTheme.banned;
+              break;
+          }
+          if (style == PPCommonTextButtonStyle.outline) {
+            boxDecoration = basic.copyWith(border: Border.all(color: color, width: 1.7), color: Colors.white);
+          } else {
+            boxDecoration = basic.copyWith(color: color);
+          }
+          if (size == PPCommonTextButtonSize.normal) {
+            boxDecoration = boxDecoration.copyWith(borderRadius: const BorderRadius.all(Radius.circular(20)));
+          }
+          return text.decorated(boxDecoration);
+        },
+        onPressed: onPressed,
+      ).sized(width: size.width, height: size.height),
+    );
   }
 }

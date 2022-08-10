@@ -18,7 +18,6 @@ extension WidgetExtensions on Widget {
       );
 
   Widget onTap(void Function() function) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
         onTap: function,
         child: this,
       );

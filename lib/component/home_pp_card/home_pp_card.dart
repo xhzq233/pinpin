@@ -108,7 +108,7 @@ class PPHomeCardView extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 18),
         decoration: const BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [AppTheme.shadow]),
-        child: BoxyColumn(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -117,14 +117,15 @@ class PPHomeCardView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 title,
-                Image.asset(
-                  pp.isFollowed ? AppAssets.star_active : AppAssets.star,
-                  height: 32,
-                  fit: BoxFit.fitHeight,
-                ).onTap(() {
-                  pp.isFollowed = !pp.isFollowed;
-                  (context as Element).markNeedsBuild();
-                })
+                Builder(
+                    builder: (ctx) => Image.asset(
+                          pp.isFollowed ? AppAssets.star_active : AppAssets.star,
+                          height: 32,
+                          fit: BoxFit.fitHeight,
+                        ).onTap(() {
+                          pp.isFollowed = !pp.isFollowed;
+                          (ctx as Element).markNeedsBuild();
+                        }))
               ],
             ),
             verticalSpacing,
