@@ -24,7 +24,8 @@ class PPBottomTabBar extends StatelessWidget {
                 spreadRadius: 7,
                 blurRadius: 10,
                 offset: Offset(-3, -6),
-              )
+              ),
+              AppTheme.whiteShadow
             ],
           ),
         ).sized(height: 88, width: double.infinity),

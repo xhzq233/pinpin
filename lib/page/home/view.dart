@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
-import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/bottom_tab_bar/bottom_tab_bar.dart';
-import 'package:pinpin/component/header/home_sliver_header.dart';
-import 'package:pinpin/component/list_view/refreshable_list.dart';
-import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
-import 'package:pinpin/model/load_more/pinpin.dart';
-import 'package:pinpin/model/pinpin/pin_pin.dart';
+import 'package:pinpin/page/home/main/controller.dart';
+import 'package:pinpin/page/home/main/view.dart';
+import 'package:pinpin/page/home/person/controller.dart';
+import 'package:pinpin/page/home/person/view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -19,22 +17,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int tabBarIndex = 0;
-  final source = PinPinLoadMoreSource();
-  late final tabPages = [
-    RefreshableSliverList(
-      sliverHeader: const SliverPersistentHeader(
-        pinned: true,
-        delegate: PinPinHomeSliverHeaderDelegate(),
-      ),
-      sourceList: source,
-      itemBuilder: (BuildContext context, PinPin item, int index) =>
-          PPCommonTextButton(onPressed: () {}, title: item.title)
-              .paddingSymmetric(vertical: 20)
-              .decorated(BoxDecoration(color: Colors.red))
-              .sized(height: 400),
-    ),
-    const Text('data').centralized(),
-  ];
+
+  @override
+  void initState() {
+    super.initState();
+    Get.put(PPHomeMainController());
+    Get.put(PPHomePersonController());
+  }
 
   static const active_items = [
     AppAssets.home_active,
@@ -60,24 +49,24 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var bottomBar = PPBottomTabBar(
+    final bottomBar = PPBottomTabBar(
       children: [
         _buildTabItem(0),
-        const Icon(
-          Icons.add,
-          color: Colors.white,
+        const DecoratedBox(
+          decoration:
+              BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)), color: Colors.blueAccent, boxShadow: [
+            BoxShadow(
+              color: Color(0x5882B1FF),
+              spreadRadius: 6,
+              blurRadius: 10,
+              offset: Offset(1, 5),
+            )
+          ]),
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
         )
-            .decorated(const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                color: Colors.blueAccent,
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x5882B1FF),
-                    spreadRadius: 6,
-                    blurRadius: 10,
-                    offset: Offset(1, 5),
-                  )
-                ]))
             .sized(
               height: 50,
               width: 54,
@@ -90,7 +79,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: IndexedStack(
         index: tabBarIndex,
-        children: tabPages,
+        children: const [
+          PPHomeMainView(),
+          PPHomePersonView(),
+        ],
       ).overlay(Align(
         alignment: Alignment.bottomCenter,
         child: bottomBar,

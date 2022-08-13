@@ -5,6 +5,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:boxy/boxy.dart';
+import 'package:pinpin/util/clipper.dart';
 
 extension WidgetExtensions on Widget {
   static void emptyCallback() {}
@@ -61,6 +62,14 @@ extension WidgetExtensions on Widget {
 
   Widget clipped([BorderRadius? borderRadius]) => ClipRRect(
         borderRadius: borderRadius,
+        child: this,
+      );
+
+  Widget clip([
+    CustomClipper<Path> clipper = const CapsuleClipper(),
+  ]) =>
+      ClipPath(
+        clipper: clipper,
         child: this,
       );
 }
