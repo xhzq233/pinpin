@@ -7,9 +7,12 @@ import 'package:pinpin/manager/api/api.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/manager/api/http_client_interface.dart';
 import 'package:pinpin/model/pinpin/pinpin_list_data.dart';
-import 'package:pinpin/model/msg_response.dart';
+
+import '../../model/response/common_response.dart';
+
 
 class PPHttp extends HttpClientInterface with PPNetWorkInterface {
+
   PPHttp.init({required super.deviceName, required super.accountGetter, required super.accountUpdater}) : super.init();
 
 
@@ -40,7 +43,7 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
       });
 
   @override
-  Future<String?> getUploadFileToken() {
+  Future<CommonResponse?> getUploadFileToken() {
     // TODO: implement getUploadFileToken
     throw UnimplementedError();
   }
@@ -54,17 +57,23 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
 
   /// manage **/
   @override
-  Future<MsgResponse?> sendVerifyCode(String email, bool isResetPassword) {
-    dio.options.contentType= ContentType.parse("application/form-data") as String?;
+  Future<CommonResponse?> sendVerifyCode(String email, bool isResetPassword) {
     var formData = {'Email': email, 'IsResetPassword': isResetPassword};
-    return request(Api.sendVerifyCode, MsgResponse.fromJson, data: formData);
+    var contentType= ContentType.parse("application/form-data") as String?;
+    var options = Options(contentType: contentType);
+    var req = request(Api.sendVerifyCode, CommonResponse.fromJson, data: formData,options: options);
+
+    return req;
   }
 
 
   @override
-  Future<MsgResponse?> activateAccount() {
+  Future<CommonResponse?> activateAccount() {
     // TODO: implement activateAccount
     throw UnimplementedError();
   }
+
+
+
 }
 

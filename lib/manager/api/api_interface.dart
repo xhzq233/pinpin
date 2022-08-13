@@ -3,7 +3,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:pinpin/model/pinpin/pinpin_list_data.dart';
-import 'package:pinpin/model/msg_response.dart';
+
+import '../../model/response/common_response.dart';
 
 
 mixin PPNetWorkInterface {
@@ -26,12 +27,64 @@ mixin PPNetWorkInterface {
     required int startTime,
   });
 
-  Future<String?> getUploadFileToken();
+  Future<CommonResponse?> getUploadFileToken();
 
-  Future<MsgResponse?> sendVerifyCode(
+  /// manage
+  Future<CommonResponse?> sendVerifyCode(
       String email,
       bool isResetPassword
       );
 
-  Future<MsgResponse?> activateAccount();
+  Future<CommonResponse?> activateAccount();
+
+  Future<CommonResponse?> createUser();
+
+  Future<CommonResponse?> signIn();
+
+  Future<CommonResponse?> getUserInfo();
+
+  /// change
+  Future<CommonResponse?> changePassword();
+  Future<CommonResponse?> changeUsername();
+  Future<CommonResponse?> changeUserAvatar();
+  Future<CommonResponse?> changeUserDescription();
+  Future<CommonResponse?> changeProfileVisibility();
+  Future<CommonResponse?> changeUserTags();
+  Future<CommonResponse?> changeUserBackground();
+
+  /// recruit
+  Future<CommonResponse?> createPinpin();
+  Future<CommonResponse?> updatePinpin();
+  Future<CommonResponse?> updatePinpinPersonQty();
+  Future<CommonResponse?> addPinpinPersonQty();
+  Future<CommonResponse?> deletePinpin();
+  Future<CommonResponse?> getSpecifiedPinpin();
+
+  /// follow
+  Future<CommonResponse?> followPinPin();
+
+  /// reply
+  Future<CommonResponse?> createReply();
+  Future<CommonResponse?> getAllReplys();
+  Future<CommonResponse?> deleteReply();
+
+  ///thumb up
+  Future<CommonResponse?> createThumbUp();
+  Future<CommonResponse?> cancelThumpUp();
+
+  /// advice
+  Future<CommonResponse?> createReportUser();
+  Future<CommonResponse?> createReportPinPin();
+
+  /// notice
+  Future<CommonResponse?> getNotice();
+  Future<CommonResponse?> readNotice();
+
+  /// sys_notice
+  Future<CommonResponse?> createSysNotice();
+  Future<CommonResponse?> getMySysNotice();
+
+  /// myself
+  Future<CommonResponse?> getMyPinPin();
+  Future<CommonResponse?> getMyFollow();
 }

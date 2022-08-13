@@ -109,12 +109,10 @@ enum Api {
   // 第一次调为关注，再次调为取消关注，以此类推
   followPinPin('/manage/follows/createFollow'),
 
-
   /// reply
   createReply('/manage/replies/createReply'),
   getAllReplys('/manage/replies/getReplies'),
   deleteReply('/manage/replies/deleteReply'),
-
 
   /// thumb up
   createThumbUp('/manage/thumbUps/createThumbUp'),
@@ -128,10 +126,12 @@ enum Api {
   /// notice
   getNotice('/manage/notices/getNotice'),
   readNotice('/manage/notices/readNotice'),
+
   /// sys_notice
   // (不是用户创建，是运营者创建)
   createSysNotice('/manage/systemNotice/createSystemNotice'),
   getMySysNotice('/manage/systemNotice/getSystemNotice'),
+
   /// myself
   getMyPinPin('/manage/myself/getMyPinpin'),
   getMyFollow('/manage/myself/getMyFollow');

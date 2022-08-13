@@ -80,12 +80,10 @@ abstract class HttpClientInterface {
           onSendProgress: onSendProgress,
           onReceiveProgress: onReceiveProgress,
           options: options?.copyWith(method: api.method) ?? Options(method: api.method));
-      return decoder.call(response.data['data']);
+      return decoder.call(response.data);
     } catch (e) {
       Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
       return null;
     }
   }
-
-  Dio get dio => _dio;
 }

@@ -20,7 +20,8 @@ void main() async {
 Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid) {
-    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    // debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
   }
   await Get.putAsync(() => AccountManager().init());
   Get.put(PPHttp.init(

@@ -8,10 +8,10 @@ part of 'pinpin_list_data.dart';
 
 PinPinListData _$PinPinListDataFromJson(Map<String, dynamic> json) =>
     PinPinListData(
-      data: (json['Res'] as List<dynamic>)
+      data: (json['data']['Res'] as List<dynamic>)
           .map((e) => PinPin.fromJson(e as Map<String, dynamic>))
           .toList(),
-      latestTime: json['Latest'] as int,
+      latestTime: json['data']['Latest'] as int,
     );
 
 Map<String, dynamic> _$PinPinListDataToJson(PinPinListData instance) =>
