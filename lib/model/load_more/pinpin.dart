@@ -19,6 +19,17 @@ class PinPinLoadMoreSource extends RefreshableListAdapter<PinPin, int> {
         cancelToken: cancelToken,
       )
           .then((value) {
+        add(PinPin(
+            pinpinId: 0,
+            type: 0,
+            label: 0,
+            title: 'title',
+            deadline: DateTime.now(),
+            demandingNum: 8,
+            nowNum: 3,
+            ownerEmail: 'ownerEmail',
+            updatedAt: 0,
+            isFollowed: false));
         nextDataPointer = value?.next;
         return value?.data;
       });

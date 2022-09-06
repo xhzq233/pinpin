@@ -72,6 +72,10 @@ extension WidgetExtensions on Widget {
         clipper: clipper,
         child: this,
       );
+
+  Widget unconstrained() => UnconstrainedBox(
+        child: this,
+      );
 }
 
 class AdaptiveOverlayDelegate extends BoxyDelegate {
