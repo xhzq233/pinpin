@@ -2,9 +2,9 @@ import 'package:get/get.dart';
 
 import 'logic.dart';
 
-class LoginBinding extends Bindings {
+class WelcomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => LoginLogic());
+    Get.lazyPut(() => WelcomeLogic());
   }
 }
