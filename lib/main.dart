@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/i18n/i18n_translations.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
@@ -50,7 +49,7 @@ class PPApp extends StatelessWidget {
       getPages: Routes.routes,
       locale: Get.find<SettingsManager>().locale,
       theme: ThemeData(),
-      initialRoute: Get.find<AccountManager>().isEmpty ? RN.home : RN.home,
+      initialRoute: Get.find<AccountManager>().isEmpty ? RN.welcome : RN.home,
       unknownRoute: Routes.unknown,
     );
   }
