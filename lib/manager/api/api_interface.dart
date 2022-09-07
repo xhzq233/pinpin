@@ -184,6 +184,10 @@ mixin PPNetWorkInterface {
     required String content
   });
 
+  Future<MsgResponse?> create({
+    required String content,
+  });
+
   /// notice
   Future<List<Notice>> getNotice();
 

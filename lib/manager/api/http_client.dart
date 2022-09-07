@@ -468,5 +468,11 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
     return requestForMsg(Api.cancelThumpUp,MsgResponse.fromJson, data:formData);
   }
 
+  @override
+  Future<MsgResponse?> create({required String content}) {
+    FormData formData = FormData.fromMap({"Content": content});
+    return requestForMsg(Api.create,MsgResponse.fromJson, data:formData);
+  }
+
 }
 

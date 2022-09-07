@@ -7,7 +7,6 @@ import 'package:pinpin/main.dart';
 import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:pinpin/manager/api/api.dart';
 import 'package:pinpin/manager/api/http_client.dart';
-import 'package:pinpin/manager/api/test.dart';
 import 'package:pinpin/model/notice/notice.dart';
 import 'package:pinpin/model/pinpin/history_pin_pin.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
@@ -184,16 +183,6 @@ void main() {
       msg = await http.createThumbUp(replyId: 10);
       print(msg);
     });
-    test("thumbUps3", () async{
-      MsgResponse msg;
-      msg = await Test().deleteThumbUps(replyId: 12);
-      print(msg);
-    });
-    test("thumbUps", () async{
-      MsgResponse msg;
-      msg = await Test().postThumbUps(replyId: 12);
-      print(msg);
-    });
     test("thumbUps4", () async{
       MsgResponse? msg;
       msg = await http.cancelThumpUp(replyId: 10);
@@ -210,6 +199,11 @@ void main() {
     test("reportPinPin", () async{
       MsgResponse? msg;
       msg = await http.createReportPinPin(pinPinId: 4, content: "测试举报");
+      print(msg);
+    });
+    test("create",()async{
+      MsgResponse? msg;
+      msg = await http.create(content: "测试举报");
       print(msg);
     });
 

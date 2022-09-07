@@ -1,4 +1,4 @@
 
 class Constant{
-  static const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IlUyMDIwMTM3NzciLCJ0aW1lU3RhbXAiOjE2NTkwODQ2NzV9.SNCJt3vapU3pU7duola817Q2scC9q_zWZolSVX_0e8w';
+  static const token = 'xxxxxxx';
 }

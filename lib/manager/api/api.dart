@@ -37,7 +37,7 @@ enum Api {
   // Password           string `form:"Password"binding:"required"`   不可为空
   signIn('/manage/signIn'),
   // Email                  string `form:"Email" binding:"required"`    不可为空  学号
-  getUserInfo('$head/manage/getUserInfo'),
+  getUserInfo('/manage/getUserInfo'),
 
 
   /// change
@@ -118,10 +118,10 @@ enum Api {
   createThumbUp('/manage/thumbUps/createThumbUp'),
   cancelThumpUp('/manage/thumbUps/deleteThumbUp'),
 
-  /// advice
+  /// advice reports
   createReportUser('/manage/reports/createReportUser'),
   // Content         string `form:"Content" binding:"required"`  建议内容
-  createReportPinPin('/manage/advice/createReportPinpin'),
+  createReportPinPin('/manage/reports/createReportPinpin'),
   create('/manage/advice/create'),
 
   /// notice
@@ -222,6 +222,8 @@ enum Api {
         return _get;
       case Api.getMyFollow:
         return _get;
+      case Api.create:
+        return _post;
     }
     return name;
   }
