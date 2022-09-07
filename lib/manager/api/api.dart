@@ -105,8 +105,38 @@ enum Api {
   // changeProfileVisibility('$_head/manage/change/changeShowHistory'),
   // changeProfileVisibility('$_head/manage/change/changeShowHistory'),
   // changeProfileVisibility('$_head/manage/change/changeShowHistory'),
+  /// follow
+  // 第一次调为关注，再次调为取消关注，以此类推
+  followPinPin('/manage/follows/createFollow'),
 
-  ;
+  /// reply
+  createReply('/manage/replies/createReply'),
+  getAllReplys('/manage/replies/getReplies'),
+  deleteReply('/manage/replies/deleteReply'),
+
+  /// thumb up
+  createThumbUp('/manage/thumbUps/createThumbUp'),
+  cancelThumpUp('/manage/thumbUps/deleteThumbUp'),
+
+  /// advice reports
+  createReportUser('/manage/reports/createReportUser'),
+  // Content         string `form:"Content" binding:"required"`  建议内容
+  createReportPinPin('/manage/reports/createReportPinpin'),
+  create('/manage/advice/create'),
+
+  /// notice
+  getNotice('/manage/notices/getNotice'),
+  readNotice('/manage/notices/readNotice'),
+
+  /// sys_notice
+  // (不是用户创建，是运营者创建)
+  createSysNotice('/manage/systemNotice/createSystemNotice'),
+  getMySysNotice('/manage/systemNotice/getSystemNotice'),
+
+  /// myself
+  getMyPinPin('/manage/myself/getMyPinpin'),
+  getMyFollow('/manage/myself/getMyFollow');
+
   const Api(this.val);
 
   static const head = 'https://pinpin.pivotstudio.cn/api';
@@ -123,70 +153,78 @@ enum Api {
       case Api.getPinPinData:
         return _get;
       case Api.searchPinPinData:
-        // TODO: Handle this case.
-        break;
+        return _get;
       case Api.getValidPinPInData:
-        // TODO: Handle this case.
-        break;
+        return _get;
       case Api.getUploadFileToken:
-        // TODO: Handle this case.
-        break;
+        return _get;
       case Api.sendVerifyCode:
-        // TODO: Handle this case.
-        break;
+        return _post;
       case Api.activateAccount:
-        // TODO: Handle this case.
-        break;
+        return _post;
       case Api.createUser:
-        // TODO: Handle this case.
-        break;
+        return _post;
       case Api.signIn:
-        // TODO: Handle this case.
-        break;
+        return _post;
       case Api.getUserInfo:
-        // TODO: Handle this case.
-        break;
+        return _get;
       case Api.changePassword:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.changeUsername:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.changeUserAvatar:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.changeUserDescription:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.changeProfileVisibility:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.changeUserTags:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.changeUserBackground:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.createPinpin:
-        // TODO: Handle this case.
-        break;
+        return _post;
       case Api.updatePinpin:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.updatePinpinPersonQty:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.addPinpinPersonQty:
-        // TODO: Handle this case.
-        break;
+        return _put;
       case Api.deletePinpin:
-        // TODO: Handle this case.
-        break;
+        return _delete;
       case Api.getSpecifiedPinpin:
-        // TODO: Handle this case.
-        break;
+        return _get;
+      case Api.followPinPin:
+        return _post;
+      case Api.createReply:
+        return _post;
+      case Api.getAllReplys:
+        return _get;
+      case Api.deleteReply:
+        return _delete;
+      case Api.createThumbUp:
+        return _post;
+      case Api.cancelThumpUp:
+        return _delete;
+      case Api.createReportUser:
+        return _post;
+      case Api.createReportPinPin:
+        return _post;
+      case Api.getNotice:
+        return _get;
+      case Api.readNotice:
+        return _post;
+      case Api.createSysNotice:
+        return _post;
+      case Api.getMySysNotice:
+        return _get;
+      case Api.getMyPinPin:
+        return _get;
+      case Api.getMyFollow:
+        return _get;
+      case Api.create:
+        return _post;
     }
-
     return name;
   }
 }

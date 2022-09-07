@@ -43,7 +43,26 @@ class PinPin {
   //     "IsFollowed": false
   // }
 
-  factory PinPin.fromJson(Map<String, dynamic> json) => PinPin(
+  // {
+  // "CreatedAt": 1659085440,
+  // "Deadline": "2022-07-26T16:57:35.107Z",
+  // "DemandingDescription": "",
+  // "DemandingNum": 100,
+  // "Description": "暂时没有",
+  // "IsDeleted": false,
+  // "IsFollow": false,
+  // "Label": 1,
+  // "NowNum": 10,
+  // "Owner_email": "U202013777",
+  // "PinpinId": 4,
+  // "ReplyNum": 6,
+  // "TeamIntroduction": "",
+  // "Title": "来去",
+  // "Type": 1,
+  // "UpdatedAt": 1662524826
+  // }
+
+  factory PinPin.fromJson(dynamic json) => PinPin(
         pinpinId: json['PinpinId'],
         type: json['Type'],
         label: json['Label'],
@@ -51,9 +70,9 @@ class PinPin {
         deadline: DateTime.parse(json['Deadline']),
         demandingNum: json['DemandingNum'],
         nowNum: json['NowNum'],
-        ownerEmail: json['OwnerEmail'],
+        ownerEmail: json['Owner_email'] as String,
         updatedAt: json['UpdatedAt'],
-        isFollowed: json['IsFollowed'],
+        isFollowed: json['IsFollow'],
       );
 
   Map<String, dynamic> toJson() => {

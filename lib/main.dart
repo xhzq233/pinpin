@@ -19,10 +19,11 @@ void main() async {
 }
 
 Future<void> _init() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized(); //app运行前，先和engine层通信(指注册好绘画手势的监听器等)
   // debugRepaintRainbowEnabled = true;
   if (Platform.isAndroid) {
-    debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+    debugDefaultTargetPlatformOverride = TargetPlatform.android;
+    // debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
   }
   await Get.putAsync(() => AccountManager().init());
   Get.put(PPHttp.init(
@@ -32,6 +33,7 @@ Future<void> _init() async {
   await Get.putAsync(() => SettingsManager().init());
   await Get.putAsync(() => PPDBManager().init());
 }
+
 
 class PPApp extends StatelessWidget {
   const PPApp({Key? key}) : super(key: key);

@@ -19,6 +19,11 @@ class PinPinListData {
     required this.latestTime,
   });
 
+  @override
+  String toString() {
+    return 'PinPinListData{data: $data, latestTime: $latestTime}';
+  }
+
   factory PinPinListData.fromJson(dynamic json) {
     return _$PinPinListDataFromJson(json);
   }
