@@ -4,6 +4,8 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  AppTheme._();
+
   static const headline1 = TextStyle(fontSize: 24, fontWeight: FontWeight.w500, fontFamily: '.SF UI Display');
   static const headline2 = TextStyle(fontSize: 20, fontWeight: FontWeight.w600, fontFamily: '.SF UI Display');
   static const headline3 = TextStyle(fontSize: 18, fontWeight: FontWeight.w400, fontFamily: '.SF UI Display');
@@ -24,6 +26,15 @@ class AppTheme {
   static const secondary3 = Color(0xFF53A3FF);
   static const secondary2 = Color(0xFF34E4AA);
   static const secondary1 = Color(0xFFFF6767);
+
+  static const gray100 = Color(0xFFFFFFFF);
+  static const gray95 = Color(0xFFF3F3F3);
+  static const gray80 = Color(0xFFCCCCCC);
+  static const gray50 = Color(0xFF7E7E7E);
+  static const gray30 = Color(0xFF4b4b4b);
+  static const gray20 = Color(0xFF343434);
+  static const gray0 = Color(0xFF000000);
+  static const gray = Color(0xFF001D3E);
 
   static const maskWhite = Color.fromRGBO(255, 255, 255, 0.8);
 

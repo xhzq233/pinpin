@@ -36,24 +36,14 @@ class PPCommonTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = Align(
-      alignment: Alignment.center,
-      child: Text(
-        title,
-        style: AppTheme.headline5,
-      ),
-    );
-
     return Center(
       child: HoldActiveButton(
         builder: (HAButtonState state) {
           BoxDecoration boxDecoration;
           final Color color;
+          final Color textColor;
           switch (state) {
             case HAButtonState.active:
-              color = AppTheme.secondary4;
-              break;
-            case HAButtonState.inactive:
               color = AppTheme.primary;
               break;
             case HAButtonState.banned:
@@ -62,12 +52,22 @@ class PPCommonTextButton extends StatelessWidget {
           }
           if (style == PPCommonTextButtonStyle.outline) {
             boxDecoration = basic.copyWith(border: Border.all(color: color, width: 1.7), color: Colors.white);
+            textColor = AppTheme.primary;
           } else {
             boxDecoration = basic.copyWith(color: color);
+            textColor = Colors.white;
           }
           if (size == PPCommonTextButtonSize.normal) {
             boxDecoration = boxDecoration.copyWith(borderRadius: const BorderRadius.all(Radius.circular(20)));
           }
+          final text = Align(
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: AppTheme.headline5.copyWith(color: textColor),
+            ),
+          );
+
           return text.decorated(boxDecoration);
         },
         onPressed: onPressed,

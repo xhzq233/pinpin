@@ -1,72 +1,70 @@
-import 'package:boxy/flex.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:pinpin/component/header/navigation_bar.dart';
+import 'package:pinpin/component/text_field/pp_text_field.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
-
-import '../../../app/assets/name.dart';
-import '../../../app/theme/app_theme.dart';
-import '../../../component/stateful_button/pp_common_text_button.dart';
 import 'logic.dart';
 
-class LoginPage extends GetView<LoginLogic> {
+class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<LoginLogic>();
     return Scaffold(
-      // color: Colors.white,
-      appBar: AppBar(
-        title: Text(''),
-      ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            BoxyColumn(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  "登陆1037拼拼",
-                  style: AppTheme.headline2,
-                ).centralized().paddingOnly(top: 20, bottom: 40),
-                PPCommonTextButton(
-                  title: '输入学号',
-                  onPressed: () {},
-                  style: PPCommonTextButtonStyle.outline,
-                ).paddingAll(10),
-                PPCommonTextButton(
-                  title: '输入密码',
-                  onPressed: () {},
-                  style: PPCommonTextButtonStyle.outline,
-                ).paddingAll(10),
-                Text(
-                  "*学号格式错误，请重新输入",
-                  style:
-                  AppTheme.headline9.copyWith(color: AppTheme.secondary1),
-                ).paddingSymmetric(horizontal: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "忘记密码",
-                      style: AppTheme.headline6.copyWith(color: Colors.blue),
-                    ),
-                    Text(
-                      "已经注册？",
-                      style: AppTheme.headline6.copyWith(color: Colors.blue),
-                    ),
-                  ],
-                ).paddingAll(12),
-                const PPCommonTextButton(
-                  title: '登陆',
-                ).paddingAll(10),
-              ],
-            ).paddingSymmetric(horizontal: 20),
-          ],
-        ),
-      ),
-    );
+        resizeToAvoidBottomInset: false,
+        appBar: const PPNavigationBar(),
+        body: AutoUnFocusWrap(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 32),
+                child: Center(
+                  child: Text(
+                    "登陆1037拼拼",
+                    style: AppTheme.headline2,
+                  ),
+                ),
+              ),
+              PPTextField(
+                hintText: '输入学号',
+                controller: controller.idTC,
+                textFieldStyle: PPTextFieldStyle.outline,
+              ),
+              Obx(() => PPTextField(
+                    hintText: '输入密码',
+                    onPressVisible: controller.onPressVisible,
+                    isPasswordVisible: controller.isPasswordVisible.value,
+                    controller: controller.passwdTC,
+                    textFieldStyle: PPTextFieldStyle.obscure,
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "忘记密码",
+                    style: AppTheme.headline6.copyWith(color: Colors.blue),
+                  ).onTap(controller.forgetPasswd),
+                  Text(
+                    "还未注册？",
+                    style: AppTheme.headline6.copyWith(color: Colors.blue),
+                  ).onTap(controller.toRegisterPage),
+                ],
+              ),
+              PPCommonTextButton(
+                title: '登陆',
+                onPressed: controller.isLoginEnabled ? controller.onPressLogin : null,
+              ),
+              const Flexible(
+                  child: SizedBox(
+                height: 400,
+              ))
+            ],
+          ).paddingSymmetric(horizontal: 30),
+        ));
   }
 }
