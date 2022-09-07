@@ -3,11 +3,17 @@
 
 import 'package:dio/dio.dart';
 import 'package:pinpin/model/pinpin/pinpin_list_data.dart';
+import 'package:pinpin/model/reply/reply_list_data.dart';
+import 'package:pinpin/model/user_info/user_info.dart';
 
-import '../../model/response/common_response.dart';
-
+import '../../model/notice/notice.dart';
+import '../../model/pinpin/history_pin_pin.dart';
+import '../../model/pinpin/pin_pin.dart';
+import '../../model/response/msg_response.dart';
 
 mixin PPNetWorkInterface {
+
+  /// welcome
   Future<PinPinListData?> getPinPinData({
     required int type,
     required int label, // tag
@@ -27,64 +33,173 @@ mixin PPNetWorkInterface {
     required int startTime,
   });
 
-  Future<CommonResponse?> getUploadFileToken();
+  // Future<MsgResponse?> getUploadFileToken();
 
   /// manage
-  Future<CommonResponse?> sendVerifyCode(
-      String email,
-      bool isResetPassword
-      );
+  Future<MsgResponse?> sendVerifyCode({
+    required String email, //限制10位
+    required bool isResetPassword
+  });
 
-  Future<CommonResponse?> activateAccount();
+  Future<MsgResponse?> activateAccount({
+    required String email,
+    required String verifyCode //限制不为空
+});
 
-  Future<CommonResponse?> createUser();
+  Future<MsgResponse?> createUser({
+    required String email,
+    required String username,
+    required String password,
+    required String img // url
+});
 
-  Future<CommonResponse?> signIn();
+  Future<MsgResponse?> signIn({
+    required String email,
+    required String password
+});
 
-  Future<CommonResponse?> getUserInfo();
+  Future<UserInfo?> getUserInfo({
+    required String email
+  });
 
   /// change
-  Future<CommonResponse?> changePassword();
-  Future<CommonResponse?> changeUsername();
-  Future<CommonResponse?> changeUserAvatar();
-  Future<CommonResponse?> changeUserDescription();
-  Future<CommonResponse?> changeProfileVisibility();
-  Future<CommonResponse?> changeUserTags();
-  Future<CommonResponse?> changeUserBackground();
+  Future<MsgResponse?> changePassword({
+    required String email,
+    required String verifyCode,
+    required String newPassword
+});
+
+  Future<UserInfo?> changeUsername({
+    required String email,
+    required String username,
+});
+
+  Future<UserInfo?> changeUserAvatar({
+    required String email,
+    required String newImg,
+});
+
+  Future<UserInfo?> changeUserDescription({
+    required String email,
+    required String masterIntroduction
+});
+
+  Future<UserInfo?> changeProfileVisibility({
+    required String email,
+    required String showPinPin //默认为true
+});
+
+  Future<UserInfo?> changeUserTags({
+    required String email,
+    required String myTags
+});
+
+  Future<UserInfo?> changeUserBackground({
+    required String email,
+    required String background
+});
 
   /// recruit
-  Future<CommonResponse?> createPinpin();
-  Future<CommonResponse?> updatePinpin();
-  Future<CommonResponse?> updatePinpinPersonQty();
-  Future<CommonResponse?> addPinpinPersonQty();
-  Future<CommonResponse?> deletePinpin();
-  Future<CommonResponse?> getSpecifiedPinpin();
+  Future<MsgResponse?> createPinpin({
+    required String title,
+    required int label,
+    required int type,
+    required String deadline,
+    String? description,
+    required int demandingNum,
+    required int nowNum,
+    String? demandingDescription,
+    String? teamIntroduction
+  });
 
-  /// follow
-  Future<CommonResponse?> followPinPin();
+  Future<MsgResponse?> updatePinpin({
+    required int pinPinId,
+    required String title,
+    required int label,
+    required int type,
+    required String deadline,
+    String? description,
+    required int demandingNum,
+    required int nowNum,
+    String? demandingDescription,
+    String? teamIntroduction
+  });
+
+  Future<MsgResponse?> updatePinpinPersonQty({
+    required int pinPinId,
+    required int demandingNum,
+    required int nowNum,
+  });
+
+  Future<MsgResponse?> addPinpinPersonQty({
+    required int pinPinId,
+  });
+
+  Future<MsgResponse?> deletePinpin({
+    required int pinPinId
+  });
+
+  Future<HistoryPinPin?> getSpecifiedPinpin({
+    required int pinPinId
+  });
+
+  /// follow  一次关注，一次取消
+  Future<MsgResponse?> followPinPin({
+    required int pinPinId
+  });
 
   /// reply
-  Future<CommonResponse?> createReply();
-  Future<CommonResponse?> getAllReplys();
-  Future<CommonResponse?> deleteReply();
+  Future<MsgResponse?> createReply({
+    required String content,
+    required int pinPinId,
+    int? replyTo //后台默认为0
+  });
+
+  Future<ReplyListData?> getAllReplys({
+    required int pinPinId,
+  });
+
+  Future<MsgResponse?> deleteReply({
+    required int pinPinId,
+    required int replyId
+  });
 
   ///thumb up
-  Future<CommonResponse?> createThumbUp();
-  Future<CommonResponse?> cancelThumpUp();
+  Future<MsgResponse?> createThumbUp({
+    required int replyId
+  });
+
+  Future<MsgResponse?> cancelThumpUp({
+    required int replyId
+  });
 
   /// advice
-  Future<CommonResponse?> createReportUser();
-  Future<CommonResponse?> createReportPinPin();
+  Future<MsgResponse?> createReportUser({
+    required String email,
+    required String content
+  });
+
+  Future<MsgResponse?> createReportPinPin({
+    required int pinPinId,
+    required String content
+  });
 
   /// notice
-  Future<CommonResponse?> getNotice();
-  Future<CommonResponse?> readNotice();
+  Future<List<Notice>> getNotice();
+
+  Future<MsgResponse?> readNotice({required int id});
 
   /// sys_notice
-  Future<CommonResponse?> createSysNotice();
-  Future<CommonResponse?> getMySysNotice();
+  Future<MsgResponse?> createSysNotice({
+    required String title,
+    required String content,
+    required String email
+  });
+
+  Future<List<Notice>> getMySysNotice();
 
   /// myself
-  Future<CommonResponse?> getMyPinPin();
-  Future<CommonResponse?> getMyFollow();
+  Future<List<PinPin>> getMyPinPin();
+
+  Future<List<PinPin>> getMyFollow();
 }

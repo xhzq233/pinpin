@@ -6,19 +6,19 @@ part of 'user_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => UserInfo(
-      background: json['data']['Background'] as String,
-      history: (json['data']['History'] as List<dynamic>)
-          .map((e) => PinPin.fromJson(e as Map<String, dynamic>))
+UserInfo _$UserInfoFromJson(dynamic json) => UserInfo(
+      background: json['Background'] as String?,
+      history: (json['History'] as List<dynamic>)
+          .map((e) => HistoryPinPin.fromJson(e as Map<String, dynamic>))
           .toList(),
-      image: json['data']['Image'] as String,
-      masterIntroduction: json['data']['MasterIntroduction'] as String,
-      myTags:
-          (json['data']['MyTags'] as List<dynamic>).map((e) => e as String).toList(),
-      username: json['data']['Username'] as String,
+      image: json['Image'] as String,
+      masterIntroduction: json['MasterIntroduction'] as String?,
+      myTags: null,
+          // (json['MyTags'] as List<dynamic>).map((e) => e as String).toList(),
+      username: json['Username'] as String,
     )
-      ..token = json['data']['token'] as String?
-      ..id = json['data']['id'] as int;
+      ..token = json['token'] as String?
+      ..id = json['id'] as int?;
 
 Map<String, dynamic> _$UserInfoToJson(UserInfo instance) => <String, dynamic>{
       'Background': instance.background,

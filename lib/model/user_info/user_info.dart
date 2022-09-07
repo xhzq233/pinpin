@@ -1,25 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:pinpin/model/pinpin/pin_pin.dart';
+import '../pinpin/history_pin_pin.dart';
 
 part 'user_info.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class UserInfo {
 	@JsonKey(name: 'Background') 
-	String background;
+	String? background;
 	@JsonKey(name: 'History') 
-	List<PinPin> history;
+	List<HistoryPinPin> history;
 	@JsonKey(name: 'Image') 
 	String image;
 	@JsonKey(name: 'MasterIntroduction') 
-	String masterIntroduction;
+	String? masterIntroduction;
 	@JsonKey(name: 'MyTags') 
-	List<String> myTags;
+	List<String>? myTags;
 	@JsonKey(name: 'Username') 
-	String username;
+	String? username;
 	String? token;
-	int id = 0;
+	int? id = 0;
 
 	UserInfo({
 		required this.background,
@@ -35,7 +35,7 @@ class UserInfo {
 		return 'UserInfo(background: $background, history: $history, image: $image, masterIntroduction: $masterIntroduction, myTags: $myTags, username: $username)';
 	}
 
-	factory UserInfo.fromJson(Map<String, dynamic> json) {
+	factory UserInfo.fromJson(dynamic json) {
 		return _$UserInfoFromJson(json);
 	}
 
@@ -43,7 +43,7 @@ class UserInfo {
 
 	UserInfo copyWith({
 		String? background,
-		List<PinPin>? history,
+		List<HistoryPinPin>? history,
 		String? image,
 		String? masterIntroduction,
 		List<String>? myTags,

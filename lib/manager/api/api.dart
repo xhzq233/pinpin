@@ -37,7 +37,7 @@ enum Api {
   // Password           string `form:"Password"binding:"required"`   不可为空
   signIn('/manage/signIn'),
   // Email                  string `form:"Email" binding:"required"`    不可为空  学号
-  getUserInfo('/manage/getUserInfo'),
+  getUserInfo('$head/manage/getUserInfo'),
 
 
   /// change
@@ -121,7 +121,8 @@ enum Api {
   /// advice
   createReportUser('/manage/reports/createReportUser'),
   // Content         string `form:"Content" binding:"required"`  建议内容
-  createReportPinPin('/manage/advice/create'),
+  createReportPinPin('/manage/advice/createReportPinpin'),
+  create('/manage/advice/create'),
 
   /// notice
   getNotice('/manage/notices/getNotice'),
