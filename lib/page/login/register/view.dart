@@ -1,11 +1,8 @@
-import 'package:boxy/flex.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:pinpin/component/header/navigation_bar.dart';
+import 'package:pinpin/component/text_field/pp_text_field.dart';
 import 'package:pinpin/page/login/register/logic.dart';
-
-import '../../../app/assets/name.dart';
 import '../../../app/theme/app_theme.dart';
 import '../../../component/stateful_button/pp_common_text_button.dart';
 
@@ -15,53 +12,50 @@ class RegisterPage extends GetView<RegisterLogic> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // color: Colors.white,
-      appBar: AppBar(
-        title: Text(''),
-      ),
-      body: SafeArea(
+      resizeToAvoidBottomInset: false,
+      appBar: const PPNavigationBar(),
+      body: AutoUnFocusWrap(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BoxyColumn(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 32),
+              child: Center(
+                child: Text(
                   "注册1037拼拼",
                   style: AppTheme.headline2,
-                ).centralized().paddingOnly(top: 20, bottom: 40),
-                PPCommonTextButton(
-                  title: '输入学号',
-                  onPressed: () {},
-                  style: PPCommonTextButtonStyle.outline,
-                ).paddingAll(10),
-                const PPCommonTextButton(
-                  title: '下一步',
-                ).paddingAll(10),
+                ),
+              ),
+            ),
+            PPTextField(
+              hintText: '输入学号',
+              textFieldStyle: PPTextFieldStyle.outline,
+            ),
+            const PPCommonTextButton(
+              title: '下一步',
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 Text(
-                  "*学号格式错误，请重新输入",
-                  style:
-                  AppTheme.headline9.copyWith(color: AppTheme.secondary1),
-                ).paddingSymmetric(horizontal: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "学号被占用？点击申诉",
-                      style: AppTheme.headline6.copyWith(color: Colors.blue),
-                    ),
-                    Text(
-                      "已经注册？",
-                      style: AppTheme.headline6.copyWith(color: Colors.blue),
-                    ),
-                  ],
-                ).paddingAll(12),
+                  "学号被占用？点击申诉",
+                  style: AppTheme.headline6.copyWith(color: Colors.blue),
+                ),
                 Text(
-                  "1037拼拼会向您的华科校园邮箱发送邮件验证校园身份，您可稍后再进行验证。",
-                  style: AppTheme.headline9.copyWith(color: AppTheme.banned),
-                ).paddingSymmetric(horizontal: 12),
+                  "已经注册？",
+                  style: AppTheme.headline6.copyWith(color: Colors.blue),
+                ),
               ],
-            ).paddingSymmetric(horizontal: 20),
+            ),
+            Text(
+              "1037拼拼会向您的华科校园邮箱发送邮件验证校园身份，您可稍后再进行验证。",
+              style: AppTheme.headline9.copyWith(color: AppTheme.banned),
+            ),
+            const Flexible(
+              child: SizedBox(
+                height: 340,
+              ),
+            ),
             RichText(
               text: TextSpan(
                 children: [
@@ -83,9 +77,9 @@ class RegisterPage extends GetView<RegisterLogic> {
                   ),
                 ],
               ),
-            ).paddingAll(12),
+            ),
           ],
-        ),
+        ).paddingSymmetric(horizontal: 30),
       ),
     );
   }

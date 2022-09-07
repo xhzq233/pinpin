@@ -25,7 +25,10 @@ class PPHomeMainView extends GetView<PPHomeMainController> {
   Widget _itemBuilder(BuildContext context, PinPin item, int index) {
     return PPSwitcher(
       rxIndex: 0.obs,
-      titles: const ['闭嘴','雪豹',],
+      titles: const [
+        '闭嘴',
+        '雪豹',
+      ],
       height: 60,
       width: 200,
     );
@@ -37,7 +40,12 @@ class PPHomeMainView extends GetView<PPHomeMainController> {
   }
 
   Widget _itemBuilder2(BuildContext context, PinPin item, int index) {
-    return PPOutLineTextField(hintText: 'Input your student ID',suffixText: '@hust.edu.cn',);
+    return PPTextField(
+      hintText: 'Input your student ID',
+      suffixText: '@hust.edu.cn',
+      controller: TextEditingController(),
+      textFieldStyle: PPTextFieldStyle.outline,
+    );
   }
 
   @override
@@ -58,12 +66,12 @@ class PPHomeMainView extends GetView<PPHomeMainController> {
                 ],
               ),
               headerSliverBuilder: (_, __) => [
-                const SliverPersistentHeader(
-                  pinned: true,
-                  delegate: PinPinHomeSliverHeaderDelegate(),
-                ),
-                const SliverToBoxAdapter(
-                    child: Padding(
+                    const SliverPersistentHeader(
+                      pinned: true,
+                      delegate: PinPinHomeSliverHeaderDelegate(),
+                    ),
+                    const SliverToBoxAdapter(
+                        child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: TabBarWidget(
                         isScrollable: true,
@@ -86,6 +94,6 @@ class PPHomeMainView extends GetView<PPHomeMainController> {
                         ],
                       ),
                     )),
-                PullToRefreshContainer((info) => PullToRefreshHeader(info: info)),
-              ])));
+                    PullToRefreshContainer((info) => PullToRefreshHeader(info: info)),
+                  ])));
 }

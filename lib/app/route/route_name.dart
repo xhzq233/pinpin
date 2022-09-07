@@ -6,11 +6,14 @@ class RN {
 
   static const home = "/home";
   static const welcome = "/welcome";
-  static const login = "/login/login";
+  static const login = "/login";
+
+  static const register = "$login/register";
+  static const password = "$login/passwd";
+  static const newPassword = "$login/passwd_forget";
+  static const verify = "$login/verify";
+
   static const notFound = '/notFound';
-  static const register = "/login/register";
-  static const password = "/login/password/setting";
-  static const newPassword = "/login/password/forget";
-  static const verify = "/login/verify";
+
   static const pp_detail = '/pinpin_detail';
 }
