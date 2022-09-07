@@ -1,66 +1,45 @@
-import 'package:boxy/flex.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:pinpin/app/assets/name.dart';
+import 'package:pinpin/component/text_field/pp_text_field.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:pinpin/page/login/login_base_page.dart';
 
-import '../../../../app/theme/app_theme.dart';
-import '../../../../component/stateful_button/pp_common_text_button.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'logic.dart';
 
-class PasswordPage extends GetView<PasswordLogic> {
-  const PasswordPage({Key? key}) : super(key: key);
+class PasswordSetPage extends GetView<PasswordSetLogic> {
+  const PasswordSetPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // color: Colors.white,
-      appBar: AppBar(
-        title: Text(''),
-      ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            BoxyColumn(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text("设置密码", style: AppTheme.headline2)
-                    .centralized()
-                    .paddingOnly(top: 20, bottom: 40),
-                PPCommonTextButton(
-                  title: '输入密码',
-                  onPressed: () {},
-                  style: PPCommonTextButtonStyle.outline,
-                ).paddingAll(10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Image.asset(
-                      AppAssets.passwd_hide,
-                      scale: 2,
-                    ).paddingSymmetric(horizontal: 2),
-                    Text(
-                      "隐藏密码",
-                      style:
-                      AppTheme.headline9.copyWith(color: AppTheme.banned),
-                    )
-                  ],
-                ).paddingSymmetric(horizontal: 10),
-                const PPCommonTextButton(
-                  title: '加入',
-                ).paddingAll(10),
-                Text(
-                  "*密码格式不合规范，需6-16个字符",
-                  style:
-                  AppTheme.headline9.copyWith(color: AppTheme.secondary1),
-                ).paddingSymmetric(horizontal: 15),
-              ],
-            ).paddingSymmetric(horizontal: 20),
-          ],
-        ),
+    return BaseLoginPage(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text("设置密码", style: AppTheme.headline2).centralized().paddingOnly(top: 20, bottom: 40),
+          Obx(() => PPTextField(
+            hintText: '输入密码',
+            onPressVisible: controller.onPressVisible,
+            isPasswordVisible: controller.isPasswordVisible.value,
+            controller: controller.passwdTC,
+            textFieldStyle: PPTextFieldStyle.obscure,
+          )),
+          const PPCommonTextButton(
+            title: '加入',
+          ),
+          Text(
+            "*密码格式不合规范，需6-16个字符",
+            style: AppTheme.headline9.copyWith(color: AppTheme.secondary1),
+          ),
+          const Flexible(
+            child: SizedBox(
+              height: 400,
+            ),
+          ),
+        ],
       ),
     );
   }

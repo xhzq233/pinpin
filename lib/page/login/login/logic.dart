@@ -11,11 +11,11 @@ class LoginLogic extends GetxController {
   bool get isLoginEnabled => true;
 
   void toRegisterPage() {
-    Get.offNamed(RN.register);
+    Get.toNamed(RN.register);
   }
 
   void forgetPasswd() {
-    Get.toNamed(RN.newPassword);
+    Get.toNamed(RN.notFound);
   }
 
   void onPressLogin() {
