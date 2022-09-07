@@ -17,7 +17,6 @@ typedef Decoder<T> = T Function(dynamic);
 abstract class HttpClientInterface {
   late final Dio _dio = createDio();
   static const _authHeaderName = 'Authorization';
-  Options? _options;
 
   Dio createDio() {
     var dio = Dio(
@@ -64,9 +63,7 @@ abstract class HttpClientInterface {
     required this.deviceName,
     required this.accountGetter,
     required this.accountUpdater,
-  }){
-    _options = Options();
-  }
+  });
 
   Future<T?> request<T>(Api api,
       Decoder<T> decoder, {
@@ -79,8 +76,6 @@ abstract class HttpClientInterface {
       }) async {
     Response? response;
     try {
-      _options?.method = api.method;
-      print(api.method);
       _dio.options.headers[_authHeaderName] = Constant.token;
       response = await _dio.request(api.val,
           data: data,
@@ -88,17 +83,13 @@ abstract class HttpClientInterface {
           cancelToken: cancelToken,
           onSendProgress: onSendProgress,
           onReceiveProgress: onReceiveProgress,
-          options: _options);
+          options: options?.copyWith(method: api.method) ?? Options(method: api.method));
       return decoder.call(response.data['data']);
     } catch (e) {
       Logger.e(
           'HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
       return null;
     }
-    // _dio.options.headers[_authHeaderName] = Constant.token;
-    // _options?.method = api.method;
-    // response = await _dio.request(api.val, queryParameters: queryParameters, options: _options);
-    // return decoder.call(response.data['data']);
   }
 
 
@@ -114,15 +105,13 @@ abstract class HttpClientInterface {
     Response? response;
     try {
       _dio.options.headers[_authHeaderName] = Constant.token;
-      _options?.method = api.method;
-      print(api.method);
       response = await _dio.request(api.val,
           data: data,
           queryParameters: queryParameters,
           cancelToken: cancelToken,
           onSendProgress: onSendProgress,
           onReceiveProgress: onReceiveProgress,
-          options: _options);
+          options: options?.copyWith(method: api.method) ?? Options(method: api.method));
       return decoder.call(response.data['info']);
     } catch (e) {
       Logger.e(
@@ -130,6 +119,7 @@ abstract class HttpClientInterface {
       return null;
     }
   }
+
 
   Future<T?> requestForMsg<T>(Api api,
       Decoder<T> decoder, {
@@ -142,16 +132,14 @@ abstract class HttpClientInterface {
       }) async {
     Response? response;
     try {
-      _options?.method = api.method;
       _dio.options.headers[_authHeaderName] = Constant.token;
-
       response = await _dio.request(api.val,
           data: data,
           queryParameters: queryParameters,
           cancelToken: cancelToken,
           onSendProgress: onSendProgress,
           onReceiveProgress: onReceiveProgress,
-          options: _options);
+          options: options?.copyWith(method: api.method) ?? Options(method: api.method));
       return decoder.call(response.data);
     } catch (e) {
       Logger.e(
@@ -172,16 +160,14 @@ abstract class HttpClientInterface {
       }) async {
     Response? response;
     try {
-      _options?.method = api.method;
       _dio.options.headers[_authHeaderName] = Constant.token;
-
       response = await _dio.request(api.val,
           data: data,
           queryParameters: queryParameters,
           cancelToken: cancelToken,
           onSendProgress: onSendProgress,
           onReceiveProgress: onReceiveProgress,
-          options: _options);
+          options: options?.copyWith(method: api.method) ?? Options(method: api.method));
       var body = response.data['data'] as List<dynamic>; //？
       return body.map((e) => decoder.call(e)).toList();
     } catch (e) {
