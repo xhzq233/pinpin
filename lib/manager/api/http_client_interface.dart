@@ -28,29 +28,29 @@ abstract class HttpClientInterface {
           responseType: ResponseType.json,
         ));
 
-    // dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-    //   Loading.show();
-    //   final token = accountGetter.call()?.token;
-    //   if (null != token) {
-    //     options.headers[_authHeaderName] = token;
-    //   }
-    //   log('REQUEST[${options.method}] => PATH: ${options.path}');
-    //   return handler.next(options); //continue
-    // }, onResponse: (response, handler) {
-    //   Loading.hide();
-    //   log('RESPONSE[${response.statusCode}] => DATA: ${response.data} ');
-    //   return handler.next(response); // continue
-    // }, onError: (DioError e, handler) {
-    //   Loading.hide();
-    //   if (e.response == null) {
-    //     toast('Network unavailable');
-    //   } else {
-    //     final String? msg = e.response?.data['msg'];
-    //     toast(msg ?? 'Request Failed');
-    //     log(msg ?? 'Request Failed');
-    //   }
-    //   handler.reject(e);
-    // }));
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
+      Loading.show();
+      final token = accountGetter.call()?.token;
+      if (null != token) {
+        options.headers[_authHeaderName] = token;
+      }
+      log('REQUEST[${options.method}] => PATH: ${options.path}');
+      return handler.next(options); //continue
+    }, onResponse: (response, handler) {
+      Loading.hide();
+      log('RESPONSE[${response.statusCode}] => DATA: ${response.data} ');
+      return handler.next(response); // continue
+    }, onError: (DioError e, handler) {
+      Loading.hide();
+      if (e.response == null) {
+        toast('Network unavailable');
+      } else {
+        final String? msg = e.response?.data['msg'];
+        toast(msg ?? 'Request Failed');
+        log(msg ?? 'Request Failed');
+      }
+      handler.reject(e);
+    }));
 
     return dio;
   }
