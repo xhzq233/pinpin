@@ -29,10 +29,14 @@ class RegisterPage extends StatelessWidget {
         PPTextField(
           hintText: '输入学号',
           textFieldStyle: PPTextFieldStyle.outline,
+          suffixText: '@hust.edu.cn',
+          onChanged: controller.onTextChanged,
         ),
-        PPCommonTextButton(
-          title: '下一步',
-          onPressed: controller.next,
+        Obx(
+          () => PPCommonTextButton(
+            title: '下一步',
+            onPressed: controller.isBtnEnabled.value ? controller.next : null,
+          ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +81,7 @@ class RegisterPage extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        ).paddingOnly(bottom: 20),
       ],
     ));
   }

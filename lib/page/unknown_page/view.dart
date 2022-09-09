@@ -8,17 +8,16 @@ class UnknownRoutePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: PPNavigationBar(title: "Not Found",),
-      body:  Center(
+    return Scaffold(
+      appBar: const PPNavigationBar(
+        title: "Not Found",
+      ),
+      body: Center(
         child: FractionallySizedBox(
           heightFactor: 0.4,
           widthFactor: 0.4,
           child: FittedBox(
-            child: Text(
-              'not found',
-              textAlign: TextAlign.center,
-            ),
+            child: Image.network('https://www.sinacloud.com/static/home/image/not_found.png'),
           ),
         ),
       ),

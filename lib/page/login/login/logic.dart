@@ -1,14 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
+import 'package:pinpin/util/validator.dart';
 
 class LoginLogic extends GetxController {
   final idTC = TextEditingController();
   final passwdTC = TextEditingController();
 
-  RxBool isPasswordVisible = false.obs;
+  final List<Validator> validators = [
+    Validators.studentID,
+    Validators.passwd,
+  ];
 
-  bool get isLoginEnabled => true;
+  RxBool isLoginEnabled = false.obs;
+
+  void onTextChanged(String _) {
+    isLoginEnabled.value = validators[0].call(idTC.text) == null && validators[1].call(passwdTC.text) == null;
+  }
 
   void toRegisterPage() {
     Get.toNamed(RN.register);
@@ -20,9 +28,5 @@ class LoginLogic extends GetxController {
 
   void onPressLogin() {
     Get.offAllNamed(RN.home);
-  }
-
-  void onPressVisible() {
-    isPasswordVisible.value = !isPasswordVisible.value;
   }
 }

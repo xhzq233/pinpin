@@ -29,15 +29,18 @@ class LoginPage extends StatelessWidget {
         PPTextField(
           hintText: '输入学号',
           controller: controller.idTC,
+          suffixText: '@hust.edu.cn',
+          validator: controller.validators[0],
           textFieldStyle: PPTextFieldStyle.outline,
+          onChanged: controller.onTextChanged,
         ),
-        Obx(() => PPTextField(
-              hintText: '输入密码',
-              onPressVisible: controller.onPressVisible,
-              isPasswordVisible: controller.isPasswordVisible.value,
-              controller: controller.passwdTC,
-              textFieldStyle: PPTextFieldStyle.obscure,
-            )),
+        PPTextField(
+          hintText: '输入密码',
+          controller: controller.passwdTC,
+          textFieldStyle: PPTextFieldStyle.obscure,
+          validator: controller.validators[1],
+          onChanged: controller.onTextChanged,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -51,9 +54,11 @@ class LoginPage extends StatelessWidget {
             ).onTap(controller.toRegisterPage),
           ],
         ),
-        PPCommonTextButton(
-          title: '登陆',
-          onPressed: controller.isLoginEnabled ? controller.onPressLogin : null,
+        Obx(
+          () => PPCommonTextButton(
+            title: '登陆',
+            onPressed: controller.isLoginEnabled.value ? controller.onPressLogin : null,
+          ),
         ),
         const Flexible(
             child: SizedBox(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinpin/util/validator.dart';
 
 class PasswordSetLogic extends GetxController {
-  RxBool isPasswordVisible = false.obs;
-  final passwdTC = TextEditingController();
+  RxBool isBtnEnabled = false.obs;
 
-  bool get isLoginEnabled => true;
+  Validator validator = Validators.passwd;
 
-  void onPressVisible() {
-    isPasswordVisible.value = !isPasswordVisible.value;
+  void onTextChanged(String str) {
+    isBtnEnabled.value = validator.call(str) == null;
   }
 }

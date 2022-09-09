@@ -26,19 +26,21 @@ extension WidgetExtensions on Widget {
         child: this,
       );
 
+  // overlaying a widget whose constraints bigger than the background widget
   Widget overlay(Widget content) => CustomBoxy(
         delegate: AdaptiveOverlayDelegate(),
         children: [
-          BoxyId(id: #overlaid, child: this),
-          BoxyId(id: #overlay, child: content),
+          this,
+          content,
         ],
       );
 
+  // place a widget with constraints bigger than the overlay widget to background
   Widget background(Widget content) => CustomBoxy(
         delegate: AdaptiveBackgroundDelegate(),
         children: [
-          BoxyId(id: #background, child: content),
-          BoxyId(id: #foreground, child: this),
+          content,
+          this,
         ],
       );
 
@@ -81,8 +83,9 @@ extension WidgetExtensions on Widget {
 class AdaptiveOverlayDelegate extends BoxyDelegate {
   @override
   Size layout() {
-    final overlay = getChild(#overlay);
-    final background = getChild(#overlaid);
+
+    final overlay = children[1];
+    final background = children[0];
 
     final backgroundSize = background.layout(constraints);
     final overlayConstraints = constraints.copyWith(minHeight: backgroundSize.height, minWidth: backgroundSize.width);
@@ -95,8 +98,8 @@ class AdaptiveOverlayDelegate extends BoxyDelegate {
 class AdaptiveBackgroundDelegate extends BoxyDelegate {
   @override
   Size layout() {
-    final foreground = getChild(#foreground);
-    final background = getChild(#background);
+    final foreground = children[1];
+    final background = children[0];
     final foregroundSize = foreground.layout(constraints);
     final backgroundConstraints =
         constraints.copyWith(minHeight: foregroundSize.height, minWidth: foregroundSize.width);

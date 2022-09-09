@@ -6,17 +6,72 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  static const headline1 = TextStyle(fontSize: 24, fontWeight: FontWeight.w500, fontFamily: '.SF UI Display');
-  static const headline2 = TextStyle(fontSize: 20, fontWeight: FontWeight.w600, fontFamily: '.SF UI Display');
-  static const headline3 = TextStyle(fontSize: 18, fontWeight: FontWeight.w400, fontFamily: '.SF UI Display');
-  static const headline4 = TextStyle(fontSize: 16, fontWeight: FontWeight.w500, fontFamily: '.SF UI Display');
-  static const headline5 = TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: '.SF UI Display');
-  static const headline6 = TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: '.SF UI Display');
-  static const headline7 = TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: '.SF UI Display');
-  static const headline8 = TextStyle(fontSize: 13, fontWeight: FontWeight.w400, fontFamily: '.SF UI Display');
-  static const headline9 = TextStyle(fontSize: 12, fontWeight: FontWeight.w300, fontFamily: '.SF UI Display');
-  static const headline10 = TextStyle(fontSize: 11, fontWeight: FontWeight.w500, fontFamily: '.SF UI Display');
-  static const headline11 = TextStyle(fontSize: 11, fontWeight: FontWeight.w400, fontFamily: '.SF UI Display');
+  static const headline1 = TextStyle(
+      fontSize: 24,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+      fontFamily: '.SF UI Display');
+  static const headline2 = TextStyle(
+      fontSize: 20,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
+      fontFamily: '.SF UI Display');
+  static const headline3 = TextStyle(
+      fontSize: 18,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontFamily: '.SF UI Display');
+  static const headline4 = TextStyle(
+      fontSize: 16,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+      fontFamily: '.SF UI Display');
+  static const headline5 = TextStyle(
+      fontSize: 15,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontFamily: '.SF UI Display');
+  static const headline6 = TextStyle(
+      fontSize: 14,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+      fontFamily: '.SF UI Display');
+  static const headline7 = TextStyle(
+      fontSize: 14,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontFamily: '.SF UI Display');
+  static const headline8 = TextStyle(
+      fontSize: 13,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontFamily: '.SF UI Display');
+  static const headline9 = TextStyle(
+      fontSize: 12,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w300,
+      fontFamily: '.SF UI Display');
+  static const headline10 = TextStyle(
+      fontSize: 11,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+      fontFamily: '.SF UI Display');
+  static const headline11 = TextStyle(
+      fontSize: 11,
+      decoration: TextDecoration.none,
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontFamily: '.SF UI Display');
 
   static const primary = Color(0xFF0076FC);
   static const primary2 = Color(0xFFFEA734);
@@ -217,4 +272,18 @@ class AppTheme {
         color: Colors.white,
         decoration: TextDecoration.none),
   );
+
+  static final lightTheme = ThemeData(
+      colorScheme: const ColorScheme(
+          brightness: Brightness.light,
+          primary: primary,
+          onPrimary: primary2,
+          secondary: secondary1,
+          onSecondary: secondary2,
+          error: secondary1,
+          onError: secondary2,
+          background: Colors.white,
+          onBackground: Colors.black,
+          surface: gray80,
+          onSurface: Colors.black));
 }
