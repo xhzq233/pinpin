@@ -9,8 +9,7 @@ class RN {
   static const login = "/login";
 
   static const register = "$login/register";
-  static const password = "$login/passwd";
-  static const newPassword = "$login/passwd_forget";
+  static const passwd_set = "$login/passwd";
   static const verify = "$login/verify";
 
   static const notFound = '/notFound';

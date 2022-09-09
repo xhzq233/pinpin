@@ -225,6 +225,5 @@ enum Api {
       case Api.create:
         return _post;
     }
-    return name;
   }
 }

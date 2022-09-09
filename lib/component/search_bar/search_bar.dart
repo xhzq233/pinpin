@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 
@@ -26,7 +25,6 @@ class PPHomeSearchBar extends StatelessWidget {
             alignment: const Alignment(0.9, 0.0),
             child: PPImageButton(
               active: AppAssets.search_onclick,
-              inactive: AppAssets.search,
               onPressed: () {},
             )));
   }

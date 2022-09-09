@@ -10,8 +10,6 @@ import 'package:pinpin/manager/api/api.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 import 'package:pinpin/util/logger.dart';
 
-import '../../model/Constant.dart';
-
 typedef Decoder<T> = T Function(dynamic);
 
 abstract class HttpClientInterface {
@@ -76,7 +74,7 @@ abstract class HttpClientInterface {
       }) async {
     Response? response;
     try {
-      _dio.options.headers[_authHeaderName] = Constant.token;
+      _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
       response = await _dio.request(api.val,
           data: data,
           queryParameters: queryParameters,
@@ -104,7 +102,7 @@ abstract class HttpClientInterface {
       }) async {
     Response? response;
     try {
-      _dio.options.headers[_authHeaderName] = Constant.token;
+      _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
       response = await _dio.request(api.val,
           data: data,
           queryParameters: queryParameters,
@@ -132,7 +130,7 @@ abstract class HttpClientInterface {
       }) async {
     Response? response;
     try {
-      _dio.options.headers[_authHeaderName] = Constant.token;
+      _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
       response = await _dio.request(api.val,
           data: data,
           queryParameters: queryParameters,
@@ -160,7 +158,7 @@ abstract class HttpClientInterface {
       }) async {
     Response? response;
     try {
-      _dio.options.headers[_authHeaderName] = Constant.token;
+      _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
       response = await _dio.request(api.val,
           data: data,
           queryParameters: queryParameters,

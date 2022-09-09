@@ -4,9 +4,9 @@ import 'package:get/get_instance/src/bindings_interface.dart';
 
 import 'logic.dart';
 
-class PasswordBinding extends Bindings {
+class PasswordSetBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => PasswordLogic());
+    Get.lazyPut(() => PasswordSetLogic());
   }
 }

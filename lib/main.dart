@@ -49,7 +49,7 @@ class PPApp extends StatelessWidget {
       fallbackLocale: SettingsManager.defaultLocale,
       getPages: Routes.routes,
       locale: Get.find<SettingsManager>().locale,
-      theme: ThemeData(),
+      theme: AppTheme.lightTheme,
       initialRoute: Get.find<AccountManager>().isEmpty ? RN.welcome : RN.home,
       unknownRoute: Routes.unknown,
     );

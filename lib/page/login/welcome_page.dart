@@ -1,7 +1,6 @@
 import 'package:boxy/flex.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pinpin/app/i18n/i18n_names.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
@@ -12,8 +11,7 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        child: Stack(
+    return Stack(
       children: [
         DecoratedBox(
             decoration: const BoxDecoration(color: Colors.white),
@@ -47,7 +45,7 @@ class WelcomePage extends StatelessWidget {
             -0.9,
             0.80,
           ),
-          child: BoxyColumn(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               PPCommonTextButton(
@@ -55,16 +53,21 @@ class WelcomePage extends StatelessWidget {
                 onPressed: () {
                   Get.toNamed(RN.login);
                 },
-              ).paddingAll(10),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               PPCommonTextButton(
                 title: '我先逛逛',
                 style: PPCommonTextButtonStyle.outline,
-                onPressed: () {},
-              ).paddingAll(10),
+                onPressed: () {
+                  Get.toNamed('RN.login');
+                },
+              ),
             ],
-          ).paddingSymmetric(horizontal: 20),
+          ),
         )
       ],
-    ));
+    );
   }
 }

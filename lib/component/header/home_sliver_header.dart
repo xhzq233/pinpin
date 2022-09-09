@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/component/search_bar/search_bar.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
-import '../stateful_button/stateful_button.dart';
 import '/app/i18n/i18n_names.dart';
 
 class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
