@@ -7,24 +7,24 @@ part of 'notice.dart';
 // **************************************************************************
 
 Notice _$NoticeFromJson(Map<String, dynamic> json) => Notice()
-  ..ID = json['ID'] as num
-  ..CreatedAt = json['CreatedAt'] as String
-  ..UpdatedAt = json['UpdatedAt'] as String
-  ..DeletedAt = json['DeletedAt'] as String?
-  ..Title = json['Title'] as String?
-  ..Content = json['Content'] as String?
-  ..Email = json['Email'] as String?
-  ..Timestamp = json['Timestamp'] as num?
-  ..IsRead = json['IsRead'] as bool;
+  ..id = json['ID'] ?? 0
+  ..createdAt = json['CreatedAt'] ?? ""
+  ..updatedAt = json['UpdatedAt'] ?? ""
+  ..deletedAt = json['DeletedAt'] ?? ""
+  ..title = json['Title'] ?? ""
+  ..content = json['Content'] ?? ""
+  ..email = json['Email'] ?? ""
+  ..timeStamp = json['Timestamp'] ?? 0
+  ..isRead = json['IsRead'] ?? false;
 
 Map<String, dynamic> _$NoticeToJson(Notice instance) => <String, dynamic>{
-      'ID': instance.ID,
-      'CreatedAt': instance.CreatedAt,
-      'UpdatedAt': instance.UpdatedAt,
-      'DeletedAt': instance.DeletedAt,
-      'Title': instance.Title,
-      'Content': instance.Content,
-      'Email': instance.Email,
-      'Timestamp': instance.Timestamp,
-      'IsRead': instance.IsRead,
+      'ID': instance.id,
+      'CreatedAt': instance.createdAt,
+      'UpdatedAt': instance.updatedAt,
+      'DeletedAt': instance.deletedAt,
+      'Title': instance.title,
+      'Content': instance.content,
+      'Email': instance.email,
+      'Timestamp': instance.timeStamp,
+      'IsRead': instance.isRead,
     };

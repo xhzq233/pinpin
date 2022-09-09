@@ -5,21 +5,29 @@ part 'notice.g.dart';
 @JsonSerializable()
 class Notice {
   Notice();
-
-  late num ID;
-  late String CreatedAt;
-  late String UpdatedAt;
-  late String? DeletedAt;
-  late String? Title;
-  late String? Content;
-  late String? Email;
-  late num? Timestamp;
-  late bool IsRead;
+  @JsonKey(name: 'ID')
+  late num id;
+  @JsonKey(name: 'CreatedAt')
+  late String createdAt;
+  @JsonKey(name: 'UpdatedAt')
+  late String updatedAt;
+  @JsonKey(name: 'DeletedAt')
+  late String deletedAt;
+  @JsonKey(name: 'Title')
+  late String title;
+  @JsonKey(name: 'Content')
+  late String content;
+  @JsonKey(name: 'Email')
+  late String email;
+  @JsonKey(name: 'Timestamp')
+  late num timeStamp;
+  @JsonKey(name: 'IsRead')
+  late bool isRead;
 
 
   @override
   String toString() {
-    return 'Notice{ID: $ID, CreatedAt: $CreatedAt, UpdatedAt: $UpdatedAt, DeletedAt: $DeletedAt, Title: $Title, Content: $Content, Email: $Email, Timestamp: $Timestamp, IsRead: $IsRead}';
+    return 'Notice{id: $id, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, content: $content, email: $email, timeStamp: $timeStamp, isRead: $isRead}';
   }
 
   factory Notice.fromJson(dynamic json) => _$NoticeFromJson(json);
