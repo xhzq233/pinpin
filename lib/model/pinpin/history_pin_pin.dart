@@ -12,10 +12,10 @@ class HistoryPinPin {
   String ownerEmail;
   int updatedAt;
   int createdAt;
-  bool? isDeleted;
-  String? demandingDescription;
-  String?teamIntroduction;
-  String? description;
+  bool isDeleted;
+  String demandingDescription;
+  String teamIntroduction;
+  String description;
 
 
 

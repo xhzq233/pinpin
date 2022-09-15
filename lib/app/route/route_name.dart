@@ -7,6 +7,7 @@ class RN {
   static const home = "/home";
   static const welcome = "/welcome";
   static const login = "/login";
+  static const search = "/search";
 
   static const register = "$login/register";
   static const passwd_set = "$login/passwd";

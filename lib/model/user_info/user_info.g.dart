@@ -7,15 +7,15 @@ part of 'user_info.dart';
 // **************************************************************************
 
 UserInfo _$UserInfoFromJson(dynamic json) => UserInfo(
-      background: json['Background'] as String?,
+      background: json['Background'] ?? "",
       history: (json['History'] as List<dynamic>)
           .map((e) => HistoryPinPin.fromJson(e as Map<String, dynamic>))
           .toList(),
       image: json['Image'] as String,
-      masterIntroduction: json['MasterIntroduction'] as String?,
-      myTags: null,
-          // (json['MyTags'] as List<dynamic>).map((e) => e as String).toList(),
-      username: json['Username'] as String,
+      masterIntroduction: json['MasterIntroduction'] ?? "",
+      myTags:
+          (json['MyTags'] as List<dynamic>).map((e) => e as String).toList() ?? [],
+      username: json['Username'] ?? "",
     )
       ..token = json['token'] as String?
       ..id = json['id'] as int?;

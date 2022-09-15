@@ -7,24 +7,24 @@ part of 'reply.dart';
 // **************************************************************************
 
 Reply _$ReplyFromJson(Map<String, dynamic> json) => Reply()
-  ..Content = json['Content'] as String
-  ..Created_at = json['Created_at'] as String
-  ..Email = json['Email'] as String
-  ..ID = json['ID'] as num
-  ..IsDeleted = json['IsDeleted'] as bool
-  ..IsThumbUp = json['IsThumbUp'] as bool
-  ..PinpinId = json['PinpinId'] as num
-  ..ReplyTo = json['ReplyTo'] as num
-  ..ThumbUpNum = json['ThumbUpNum'] as num;
+  ..content = json['Content'] ?? ""
+  ..createdAt = json['Created_at'] ?? ""
+  ..email = json['Email']  ?? ""
+  ..id = json['ID'] as num
+  ..isDeleted = json['IsDeleted'] as bool
+  ..isThumbUp = json['IsThumbUp'] as bool
+  ..pinPinId = json['PinpinId'] as num
+  ..replyTo = json['ReplyTo'] as num
+  ..thumbUpNum = json['ThumbUpNum'] as num;
 
 Map<String, dynamic> _$ReplyToJson(Reply instance) => <String, dynamic>{
-      'Content': instance.Content,
-      'Created_at': instance.Created_at,
-      'Email': instance.Email,
-      'ID': instance.ID,
-      'IsDeleted': instance.IsDeleted,
-      'IsThumbUp': instance.IsThumbUp,
-      'PinpinId': instance.PinpinId,
-      'ReplyTo': instance.ReplyTo,
-      'ThumbUpNum': instance.ThumbUpNum,
+      'Content': instance.content,
+      'Created_at': instance.createdAt,
+      'Email': instance.email,
+      'ID': instance.id,
+      'IsDeleted': instance.isDeleted,
+      'IsThumbUp': instance.isDeleted,
+      'PinpinId': instance.pinPinId,
+      'ReplyTo': instance.replyTo,
+      'ThumbUpNum': instance.thumbUpNum,
     };
