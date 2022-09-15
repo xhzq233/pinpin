@@ -14,6 +14,8 @@ import '../../page/login/login/view.dart';
 import '../../page/login/password/setting/view.dart';
 import '../../page/login/register/view.dart';
 import '../../page/login/verify/view.dart';
+import '../../page/search/binding.dart';
+import '../../page/search/view.dart';
 import 'route_name.dart';
 
 class Routes {
@@ -35,6 +37,7 @@ class Routes {
     GetPage(name: RN.passwd_set, page: () => const PasswordSetPage(),binding: PasswordSetBinding()),
     GetPage(name: RN.verify, page: () => const VerifyPage(),binding: VerifyBinding()),
     GetPage(name: RN.pp_detail, page: () => const PPDetailPage(), binding: PPDetailBinding()),
+    GetPage(name: RN.search, page: () => const SearchPage(), binding: SearchBinding())
   ];
   static final unknown = GetPage(name: RN.notFound, page: () => const UnknownRoutePage());
 }

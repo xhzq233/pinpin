@@ -7,17 +7,17 @@ part 'user_info.g.dart';
 @JsonSerializable(explicitToJson: true)
 class UserInfo {
 	@JsonKey(name: 'Background') 
-	String? background;
+	String background;
 	@JsonKey(name: 'History') 
 	List<HistoryPinPin> history;
 	@JsonKey(name: 'Image') 
 	String image;
 	@JsonKey(name: 'MasterIntroduction') 
-	String? masterIntroduction;
+	String masterIntroduction;
 	@JsonKey(name: 'MyTags') 
-	List<String>? myTags;
+	List<String> myTags;
 	@JsonKey(name: 'Username') 
-	String? username;
+	String username;
 	String? token;
 	int? id = 0;
 

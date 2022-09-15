@@ -1,10 +1,13 @@
 /// pinpin - search_bar
 /// Created by xhz on 2022/8/4
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
+
+import '../../app/route/route_name.dart';
 
 class PPHomeSearchBar extends StatelessWidget {
   const PPHomeSearchBar({Key? key}) : super(key: key);
@@ -26,6 +29,8 @@ class PPHomeSearchBar extends StatelessWidget {
             child: PPImageButton(
               active: AppAssets.search_onclick,
               onPressed: () {},
-            )));
+            ))).onTap(() {
+              Get.toNamed(RN.search);
+    });
   }
 }
