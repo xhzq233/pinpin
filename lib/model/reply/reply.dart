@@ -6,20 +6,29 @@ part 'reply.g.dart';
 class Reply {
   Reply();
 
-  late String Content;
-  late String Created_at;
-  late String Email;
-  late num ID;
-  late bool IsDeleted;
-  late bool IsThumbUp;
-  late num PinpinId;
-  late num ReplyTo;
-  late num ThumbUpNum;
+  @JsonKey(name: "Content")
+  late String content;
+  @JsonKey(name: "Created_at")
+  late String createdAt;
+  @JsonKey(name: "Email")
+  late String email;
+  @JsonKey(name: "ID")
+  late num id;
+  @JsonKey(name: "IsDeleted")
+  late bool isDeleted;
+  @JsonKey(name: "IsThumbUp")
+  late bool isThumbUp;
+  @JsonKey(name: "PinpinId")
+  late num pinPinId;
+  @JsonKey(name: "ReplyTo")
+  late num replyTo;
+  @JsonKey(name: "ThumbUpNum")
+  late num thumbUpNum;
 
 
   @override
   String toString() {
-    return 'Reply{Content: $Content, Created_at: $Created_at, Email: $Email, ID: $ID, IsDeleted: $IsDeleted, IsThumbUp: $IsThumbUp, PinpinId: $PinpinId, ReplyTo: $ReplyTo, ThumbUpNum: $ThumbUpNum}';
+    return 'Reply{content: $content, createdAt: $createdAt, email: $email, id: $id, isDeleted: $isDeleted, isThumbUp: $isThumbUp, pinPinId: $pinPinId, replyTo: $replyTo, thumbUpNum: $thumbUpNum}';
   }
 
   factory Reply.fromJson(Map<String,dynamic> json) => _$ReplyFromJson(json);
