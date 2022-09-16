@@ -83,7 +83,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
             ),
             Align(
               alignment: _computeSearchBarAlignment(height),
-              child: const PPHomeSearchBar().sized(
+              child: const Hero(tag: PPHomeSearchBar.heroTag, child: PPHomeSearchBar()).sized(
                   width: diff * searchBarWidthRange + searchBarMinWidth,
                   height: diff * searchBarHeightRange + searchBarMinHeight),
             ),

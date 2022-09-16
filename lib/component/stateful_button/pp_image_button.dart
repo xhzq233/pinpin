@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'hold_active_button.dart';
 
 class PPImageButton extends StatelessWidget {
-  PPImageButton({super.key, required this.onPressed, required String active, double size = 30, double padding = 10}) {
+  PPImageButton({super.key, required this.onPressed, required String active, double? size = 30, double padding = 10}) {
     _active = Image.asset(
       active,
       height: size,

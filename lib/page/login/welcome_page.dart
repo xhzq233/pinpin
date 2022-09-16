@@ -61,7 +61,7 @@ class WelcomePage extends StatelessWidget {
                 title: '我先逛逛',
                 style: PPCommonTextButtonStyle.outline,
                 onPressed: () {
-                  Get.toNamed('RN.login');
+                  Get.toNamed(RN.home);
                 },
               ),
             ],

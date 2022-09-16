@@ -48,6 +48,7 @@ class PPTextField extends StatefulWidget {
     this.style,
     this.hintText,
     this.suffixText,
+    this.suffixIcon,
     required this.textFieldStyle,
   });
 
@@ -62,6 +63,7 @@ class PPTextField extends StatefulWidget {
   final TextStyle? style;
   final String? hintText;
   final String? suffixText;
+  final Widget? suffixIcon;
   final Validator? validator;
   final PPTextFieldStyle textFieldStyle;
 
@@ -76,7 +78,7 @@ class _PPTextFieldState extends State<PPTextField> {
   final RxString rxErrorText = RxString('');
 
   final Rx<BoxDecoration> rxMFBoxDecoration =
-      Rx(const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15))));
+  Rx(const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15))));
 
   @override
   void initState() {
@@ -108,7 +110,7 @@ class _PPTextFieldState extends State<PPTextField> {
                 vertical: BorderSide(color: AppTheme.primary, width: 2)));
       } else {
         rxMFBoxDecoration.value =
-            const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15)));
+        const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15)));
       }
     }
 
@@ -155,7 +157,8 @@ class _PPTextFieldState extends State<PPTextField> {
     );
   }
 
-  Widget _obscureSuffix() => Icon(
+  Widget _obscureSuffix() =>
+      Icon(
         isPasswordVisible ? Icons.visibility_off : Icons.visibility,
         size: 24,
       ).onTap(() {
@@ -164,7 +167,18 @@ class _PPTextFieldState extends State<PPTextField> {
         });
       });
 
-  Widget _suffixText() => ConstrainedBox(
+  Widget? _outlineSuffix() {
+    if (null != widget.suffixIcon) {
+      return widget.suffixIcon;
+    }
+    if (null != widget.suffixText) {
+      return _suffixText();
+    }
+    return null;
+  }
+
+  Widget _suffixText() =>
+      ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: double.infinity, maxWidth: 96),
         child: Padding(
           padding: const EdgeInsets.only(right: 8),
@@ -201,7 +215,8 @@ class _PPTextFieldState extends State<PPTextField> {
           buildCounter: widget.maxLength == null ? null : counterBuilder,
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
         ),
-      ).background(Obx(() => AnimatedContainer(
+      ).background(Obx(() =>
+          AnimatedContainer(
             duration: duration,
             decoration: rxMFBoxDecoration.value,
           )));
@@ -223,7 +238,7 @@ class _PPTextFieldState extends State<PPTextField> {
           onSubmitted: widget.onSubmitted,
           maxLines: 1,
           style: widget.style,
-          decoration: decoration.copyWith(suffixIcon: widget.suffixText == null ? null : _suffixText()),
+          decoration: decoration.copyWith(suffixIcon: _outlineSuffix()),
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
         );
       } else {
@@ -257,7 +272,8 @@ class _PPTextFieldState extends State<PPTextField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           tf,
-          Obx(() => Visibility(
+          Obx(() =>
+              Visibility(
                 visible: rxErrorText.isNotEmpty,
                 child: Text(
                   rxErrorText.value,

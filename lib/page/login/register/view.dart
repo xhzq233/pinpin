@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinpin/component/count_down/count_down_widget.dart';
 import 'package:pinpin/component/text_field/pp_text_field.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/page/login/login_base_page.dart';
@@ -30,6 +31,14 @@ class RegisterPage extends StatelessWidget {
           hintText: '输入学号',
           textFieldStyle: PPTextFieldStyle.outline,
           suffixText: '@hust.edu.cn',
+          onChanged: controller.onTextChanged,
+        ),
+        PPTextField(
+          hintText: '输入验证码',
+          textFieldStyle: PPTextFieldStyle.outline,
+          suffixIcon: CountDownWidget(max: 60, onChanged: (available) => {
+
+          }),
           onChanged: controller.onTextChanged,
         ),
         Obx(

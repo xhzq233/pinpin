@@ -1,5 +1,6 @@
 /// pinpin - search_bar
 /// Created by xhz on 2022/8/4
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
@@ -11,26 +12,39 @@ import '../../app/route/route_name.dart';
 
 class PPHomeSearchBar extends StatelessWidget {
   const PPHomeSearchBar({Key? key}) : super(key: key);
+  static const heroTag = 'home_search_bar';
 
   @override
   Widget build(BuildContext context) {
-    return const DecoratedBox(
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        const DecoratedBox(
             decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.all(Radius.circular(25)),
-      boxShadow: [AppTheme.shadow],
-    ))
-        .overlay(const Align(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          boxShadow: [AppTheme.shadow],
+        )),
+        const Align(
           alignment: Alignment(-0.9, 0.0),
-          child: Text('All'),
-        ))
-        .overlay(Align(
+          child: Material(
+            child: Text('All'),
+          ),
+        ),
+        Align(
             alignment: const Alignment(0.9, 0.0),
-            child: PPImageButton(
-              active: AppAssets.search_onclick,
-              onPressed: () {},
-            ))).onTap(() {
-              Get.toNamed(RN.search);
-    });
+            child: FractionallySizedBox(
+              heightFactor: 0.9,
+              child: PPImageButton(
+                active: AppAssets.search,
+                size: null,
+                padding: 4,
+                onPressed: () {
+                  Get.toNamed(RN.search);
+                },
+              ),
+            )),
+      ],
+    );
   }
 }
