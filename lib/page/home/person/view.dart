@@ -2,6 +2,7 @@
 /// Created by xhz on 07/08/2022
 
 import 'package:flutter/material.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/page/home/person/controller.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,37 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
 
   @override
   Widget build(BuildContext context) {
-    String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    List<String> items = ["我的主页", "我的收藏", "我发布的", "使用指南", "建议与反馈", "退出登录"];
+    int i = 0;
+
+    // right back icon
+    final back = Image.asset(
+      AppAssets.arrow_right,
+      height: 45,
+      fit: BoxFit.fitHeight,
+    );
+
+    Widget getItem(String title) {
+      return Container(
+          decoration: const BoxDecoration(
+            color: Color(0xffffff),
+              //圆角半径
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              //边框线宽、颜色
+          ),
+          constraints: const BoxConstraints.tightFor(width: 354, height: 50),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SizedBox(
+                height: 21,
+                child: Text(title),
+              ).marginOnly(top: 10, bottom: 10),
+              Expanded(flex: 1, child: Container()),
+              back
+            ],
+          ));
+    }
 
     return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -36,19 +67,24 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
         body: Scrollbar(
           // 显示进度条
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(18.0),
             child: Center(
               child: Column(
-                //动态创建一个List<Widget>
-                children: str
-                    .split("")
-                    //每一个字母都用一个Text显示,字体为原来的两倍
-                    .map((c) => Text(
-                          c,
-                          textScaleFactor: 2.0,
-                        ))
-                    .toList(),
-              ),
+                  //动态创建一个List<Widget>
+                  children: [
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    getItem(items[i++]).marginOnly(bottom: 18).onTap(() {
+                      // route to profile
+                      print("hello");
+                    }),
+                    getItem(items[i++]),
+                    getItem(items[i++]).marginOnly(bottom: 18),
+                    getItem(items[i++]),
+                    getItem(items[i++]).marginOnly(bottom: 40),
+                    getItem(items[i++]),
+                  ]),
             ),
           ),
         ));
@@ -60,15 +96,17 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
 
   // 构建 header
   Widget buildHeader() {
-
+    // signature content
     final content = Text(
       "啊对对对对",
-      style: Get.textTheme.headline5,
+      style: AppTheme.headline8,
+      textAlign: TextAlign.left,
     );
 
+    // username
     final username = Text(
       "用户名",
-      style: Get.textTheme.headline5,
+      style: Get.textTheme.headline6,
     );
 
     final mailbox = Image.asset(
@@ -77,6 +115,21 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
       fit: BoxFit.fitHeight,
     ).paddingAll(7);
 
+    // img
+    final img = Container(
+      height: 58,
+      width: 58,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          image: const DecorationImage(
+              image: AssetImage(AppAssets.person), fit: BoxFit.cover),
+          border: Border.all(
+            color: Colors.blueAccent,
+            width: 2,
+          )),
+    );
+
+    // profile box
     final profile = Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -84,10 +137,14 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
       ),
       constraints: const BoxConstraints.tightFor(width: 354, height: 122),
       alignment: const Alignment(0, 0.7),
-      child: content,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [content],
+      )
+          .marginSymmetric(horizontal: 24, vertical: 10)
+          .paddingSymmetric(horizontal: 10, vertical: 2),
     );
-
-
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -110,15 +167,17 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
               alignment: const Alignment(0, 3),
               child: profile,
             ),
-
             Align(
-              alignment: const Alignment(0, 3),
+              alignment: const Alignment(0, 0.8),
               child: username,
             ),
-
             Align(
               alignment: const Alignment(0.82, -0.55),
               child: mailbox,
+            ),
+            Align(
+              alignment: const Alignment(0, 0.2),
+              child: img,
             ),
           ],
         ).sized(height: height, width: width);
