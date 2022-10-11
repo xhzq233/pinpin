@@ -2,6 +2,7 @@
 /// Created by xhz on 07/08/2022
 
 import 'package:flutter/material.dart';
+import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/page/home/person/controller.dart';
@@ -19,7 +20,6 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
   @override
   Widget build(BuildContext context) {
     List<String> items = ["我的主页", "我的收藏", "我发布的", "使用指南", "建议与反馈", "退出登录"];
-    int i = 0;
 
     // right back icon
     final back = Image.asset(
@@ -28,14 +28,18 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
       fit: BoxFit.fitHeight,
     );
 
-    Widget getItem(String title) {
+    Widget getItem(String title, void Function() function, bool hasBottom) {
       return Container(
-          decoration: const BoxDecoration(
-            color: Color(0xffffff),
-              //圆角半径
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              //边框线宽、颜色
-          ),
+          decoration: BoxDecoration(
+              color: Color(0xffffff),
+              borderRadius: hasBottom
+                  ? null
+                  : const BorderRadius.all(Radius.circular(20.0)),
+              border: !hasBottom
+                  ? null
+                  : const Border(
+                      bottom: BorderSide(color: Colors.black12, width: 0.5),
+                    )),
           constraints: const BoxConstraints.tightFor(width: 354, height: 50),
           child: Row(
             mainAxisSize: MainAxisSize.max,
@@ -47,57 +51,56 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
               Expanded(flex: 1, child: Container()),
               back
             ],
-          ));
+          )).onTap(function);
     }
 
-    return NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: SliverHeaderDelegate(
-                //有最大和最小高度
-                maxHeight: 170,
-                minHeight: 170,
-                child: buildHeader(),
-              ),
-            )
-          ];
-        },
-        body: Scrollbar(
-          // 显示进度条
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(18.0),
-            child: Center(
-              child: Column(
-                  //动态创建一个List<Widget>
-                  children: [
+    return CustomScrollView(
+      physics: const NeverScrollableScrollPhysics(),
+      slivers: [
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: SliverHeaderDelegate(
+            //有最大和最小高度
+            maxHeight: 170,
+            minHeight: 170,
+            child: buildHeader(),
+          ),
+        ),
+
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              Container(
+                padding: const EdgeInsets.all(18.0),
+                child: Center(
+                  child: Column(children: [
                     const SizedBox(
                       height: 40,
                     ),
-                    getItem(items[i++]).marginOnly(bottom: 18).onTap(() {
-                      // route to profile
-                      print("hello");
-                    }),
-                    getItem(items[i++]),
-                    getItem(items[i++]).marginOnly(bottom: 18),
-                    getItem(items[i++]),
-                    getItem(items[i++]).marginOnly(bottom: 40),
-                    getItem(items[i++]),
+                    getItem("我的主页", () {Get.toNamed(RN.profile);}, false).marginOnly(bottom: 18),
+                    getItem("我的收藏", () {}, true),
+                    getItem("我发布的", () {}, false).marginOnly(bottom: 18),
+                    getItem("使用指南", () {}, true),
+                    getItem("建议与反馈", () {}, false).marginOnly(bottom: 40),
+                    getItem("退出登录", () {}, false).marginOnly(bottom: 20),
                   ]),
-            ),
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ],
+    );
   }
 
   double _computeRadius(double height) {
     return 0.3703703704 * (height - 170) + 40;
-  } //
+  }
 
   // 构建 header
   Widget buildHeader() {
     // signature content
-    final content = Text(
+    const content = Text(
       "啊对对对对",
       style: AppTheme.headline8,
       textAlign: TextAlign.left,
@@ -152,6 +155,7 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
         final width = constraints.maxWidth;
 
         final radius = Radius.circular(_computeRadius(height));
+
         final background = DecoratedBox(
           decoration: BoxDecoration(
               borderRadius:
