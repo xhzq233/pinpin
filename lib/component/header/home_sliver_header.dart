@@ -52,11 +52,14 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
       fit: BoxFit.fitHeight,
     ).paddingAll(7);
 
+    // print(shrinkOffset);
+
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         final height = constraints.maxHeight;
         final width = constraints.maxWidth;
 
+        // print(height);
         final radius = Radius.circular(_computeRadius(height));
         final background = DecoratedBox(
           decoration: BoxDecoration(
@@ -64,6 +67,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
         ).sized(height: min(height, backgroundMaxHeight), width: width);
 
         final diff = Curves.easeInOutSine.transform((height - appBarMinHeight) / appBarHeightRange);
+        print(diff);
         // 1 -> 0
         return Stack(
           alignment: Alignment.topCenter,
