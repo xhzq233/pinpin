@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,6 +45,11 @@ class PPApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: I18n.title.tr,
       translations: I18nTranslations(),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       supportedLocales: SettingsManager.supportedLocales,
       fallbackLocale: SettingsManager.defaultLocale,
       getPages: Routes.routes,
