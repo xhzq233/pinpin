@@ -57,4 +57,5 @@ class AppAssets {
   static const trash_active = 'assets/trash_active.png';
   static const trash_inactive = 'assets/trash_inactive.png';
   static const unlock = 'assets/unlock.png';
+  static const profile = 'assets/profile.jpg';
 }
