@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/component/search_bar/search_bar.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import '/app/i18n/i18n_names.dart';
 
 class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
@@ -33,68 +34,61 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     return max(0.0, 1.0 - (appBarMaxHeight - height) / 50);
   }
 
-  // Alignment(0, 1) -> Alignment(-0.33, 0.66)
-  Alignment _computeSearchBarAlignment(double height) {
-    final diff = (height - appBarMaxHeight) / appBarHeightRange * 0.4;
-    return Alignment(diff, 1.0 + diff);
-  }
-
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final height = max(appBarMinHeight, appBarMaxHeight - shrinkOffset);
+
     final title = Text(
       I18n.title.tr,
       style: Get.textTheme.headline5,
     );
 
-    final mailbox = Image.asset(
-      AppAssets.msg_white,
-      height: 27,
-      fit: BoxFit.fitHeight,
-    ).paddingAll(7);
-
-    // print(shrinkOffset);
-
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final height = constraints.maxHeight;
-        final width = constraints.maxWidth;
-
-        // print(height);
-        final radius = Radius.circular(_computeRadius(height));
-        final background = DecoratedBox(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius), color: Colors.blueAccent),
-        ).sized(height: min(height, backgroundMaxHeight), width: width);
-
-        final diff = Curves.easeInOutSine.transform((height - appBarMinHeight) / appBarHeightRange);
-        print(diff);
-        // 1 -> 0
-        return Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            background,
-            Align(
-              alignment: const Alignment(-0.8, 0),
-              child: Opacity(
-                opacity: _computeOpacity(height),
-                child: title,
-              ),
-            ),
-            Align(
-              alignment: Alignment((1.0 - diff) * 0.04 + 0.86, 0.66 * (1.0 - diff)),
-              //0.8->0.92,  0->0.6
-              child: mailbox,
-            ),
-            Align(
-              alignment: _computeSearchBarAlignment(height),
-              child: const Hero(tag: PPHomeSearchBar.heroTag, child: PPHomeSearchBar()).sized(
-                  width: diff * searchBarWidthRange + searchBarMinWidth,
-                  height: diff * searchBarHeightRange + searchBarMinHeight),
-            ),
-          ],
-        ).sized(height: height, width: width);
-      },
+    const imagePadding = 9.0;
+    final mailbox = PPImageButton(
+      onPressed: () {},
+      active: AppAssets.msg_white,
+      size: searchBarMinHeight - imagePadding,
+      padding: imagePadding / 2, //to make img centralized
     );
+
+    const width = double.infinity;
+
+    final radius = Radius.circular(_computeRadius(height));
+    final background = DecoratedBox(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius), color: Colors.blueAccent),
+    ).sized(height: min(height, backgroundMaxHeight), width: width);
+
+    // 1 -> 0
+    final diff = (height - appBarMinHeight) / appBarHeightRange;
+
+    final curved = Curves.easeOutCubic.transform(diff);// slower when near the ending
+
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        background,
+        Align(
+          alignment: const Alignment(-0.8, 0),
+          child: Opacity(
+            opacity: _computeOpacity(height),
+            child: title,
+          ),
+        ),
+        Align(
+          alignment: Alignment((1.0 - diff) * 0.06 + 0.86, 0.66 * (1.0 - curved)),
+          //(0.86, 0)->(0.9, 0.2)->(0.92, 0.66),
+          child: mailbox,
+        ),
+        Align(
+          //Alignment(0, 1) -> Alignment(-0.33, 0.66)
+          alignment: Alignment((1.0 - diff) * (-0.33), 0.66 + 0.33 * diff),
+          child: const Hero(tag: PPHomeSearchBar.heroTag, child: PPHomeSearchBar()).sized(
+              width: diff * searchBarWidthRange + searchBarMinWidth,
+              height: diff * searchBarHeightRange + searchBarMinHeight),
+        ),
+      ],
+    ).sized(height: height, width: width);
   }
 
   @override

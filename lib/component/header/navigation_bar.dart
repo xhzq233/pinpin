@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 
+const PPNavigationBarHeight = 40.0;
+
 class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   const PPNavigationBar({super.key, this.title, this.trailing = const SizedBox(), this.backAction = defaultBackAction});
 
@@ -70,5 +72,5 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size(double.infinity, 40);
+  Size get preferredSize => const Size(double.infinity, PPNavigationBarHeight);
 }

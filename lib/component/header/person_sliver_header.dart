@@ -101,7 +101,6 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
         final width = constraints.maxWidth;
 
         final diff = Curves.easeInOutSine.transform((height - appBarMinHeight) / appBarHeightRange);
-        print(height);
 
         return Stack(
           children: [

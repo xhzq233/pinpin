@@ -2,24 +2,44 @@
 /// Created by xhz on 07/08/2022
 
 import 'package:flutter/material.dart';
-import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/stateful_button/hold_active_button.dart';
+import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/page/home/person/controller.dart';
 import 'package:get/get.dart';
+import 'dart:math';
+import 'package:pinpin/app/assets/name.dart';
+import 'package:pinpin/component/header/sliver_header_delegate.dart';
 
-import '../../../app/assets/name.dart';
-import '../../../component/header/header.dart';
-import '../../../component/header/home_sliver_header.dart';
-import '../../../component/header/person_sliver_header.dart';
-import '../../../component/header/sliver_header_delegate.dart';
+extension _Bg on Widget {
+  Widget _bg() => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: this,
+        ).background(const DecoratedBox(
+          decoration: BoxDecoration(
+              color: AppTheme.gray100,
+              boxShadow: [AppTheme.shadow],
+              borderRadius: BorderRadius.all(Radius.circular(12))),
+        )),
+      );
+}
 
-class PPHomePersonView extends GetView<PPHomePersonController> {
+class PPHomePersonView extends StatelessWidget {
   const PPHomePersonView({Key? key}) : super(key: key);
+  static const maxHeight = profileProtruding + backgroundMaxHeight;
+  static const minHeight = 64.0;
+  static const profileProtruding = 56.0;
+  static const profileHeight = 112.0;
+  static const profileWidth = 345.0;
+  static const backgroundMaxHeight = 128.0;
+  static const avatarSize = 56.0;
 
   @override
   Widget build(BuildContext context) {
-    List<String> items = ["我的主页", "我的收藏", "我发布的", "使用指南", "建议与反馈", "退出登录"];
+    final controller = Get.find<PPHomePersonController>();
 
     // right back icon
     final back = Image.asset(
@@ -28,164 +48,168 @@ class PPHomePersonView extends GetView<PPHomePersonController> {
       fit: BoxFit.fitHeight,
     );
 
-    Widget getItem(String title, void Function() function, bool hasBottom) {
-      return Container(
-          decoration: BoxDecoration(
-              color: Color(0xffffff),
-              borderRadius: hasBottom
-                  ? null
-                  : const BorderRadius.all(Radius.circular(20.0)),
-              border: !hasBottom
-                  ? null
-                  : const Border(
-                      bottom: BorderSide(color: Colors.black12, width: 0.5),
-                    )),
-          constraints: const BoxConstraints.tightFor(width: 354, height: 50),
-          child: Row(
+    Widget getItem(String title, void Function() function) {
+      return HoldActiveButton(
+        onPressed: function,
+        builder: (_) {
+          return Row(
             mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: 21,
-                child: Text(title),
-              ).marginOnly(top: 10, bottom: 10),
-              Expanded(flex: 1, child: Container()),
+              Text(
+                title,
+                style: AppTheme.headline5,
+              ),
               back
             ],
-          )).onTap(function);
+          ).paddingSymmetric(vertical: 3);
+        },
+      );
     }
 
-    return CustomScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      slivers: [
-        SliverPersistentHeader(
-          pinned: true,
-          delegate: SliverHeaderDelegate(
-            //有最大和最小高度
-            maxHeight: 170,
-            minHeight: 170,
-            child: buildHeader(),
-          ),
+    final headers = [
+      SliverPersistentHeader(
+        pinned: true,
+        delegate: SliverHeaderDelegate(
+          //有最大和最小高度
+          maxHeight: maxHeight,
+          minHeight: minHeight,
+          builder: _buildHeader,
         ),
+      ),
+    ];
 
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              Container(
-                padding: const EdgeInsets.all(18.0),
-                child: Center(
-                  child: Column(children: [
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    getItem("我的主页", () {Get.toNamed(RN.profile);}, false).marginOnly(bottom: 18),
-                    getItem("我的收藏", () {}, true),
-                    getItem("我发布的", () {}, false).marginOnly(bottom: 18),
-                    getItem("使用指南", () {}, true),
-                    getItem("建议与反馈", () {}, false).marginOnly(bottom: 40),
-                    getItem("退出登录", () {}, false).marginOnly(bottom: 20),
-                  ]),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+    return NestedScrollView(
+      body: ListView(
+        children: [
+          getItem("我的主页", controller.toProfilePage)._bg(),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [getItem("我的收藏", controller.toXX), const Divider(height: 2), getItem("我发布的", controller.toXX)],
+          )._bg(),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [getItem("使用指南", controller.toXX), const Divider(height: 2), getItem("建议与反馈", controller.toXX)],
+          )._bg(),
+          getItem("退出登录", controller.toXX)._bg(),
+        ],
+      ).paddingSymmetric(horizontal: 16, vertical: 16),
+      headerSliverBuilder: (_, __) => headers,
     );
-  }
-
-  double _computeRadius(double height) {
-    return 0.3703703704 * (height - 170) + 40;
   }
 
   // 构建 header
-  Widget buildHeader() {
+  Widget _buildHeader(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final controller = Get.find<PPHomePersonController>();
+
+    final height = max(minHeight, maxHeight - shrinkOffset);
+
+    // 1 -> 0
+    final diff = (height - minHeight) / (maxHeight - minHeight);
+
     // signature content
-    const content = Text(
-      "啊对对对对",
+    const personSignature = Text(
+      "啊对对对",
       style: AppTheme.headline8,
       textAlign: TextAlign.left,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
     );
 
     // username
-    final username = Text(
+    const username = Text(
       "用户名",
-      style: Get.textTheme.headline6,
+      style: AppTheme.headline6,
     );
 
-    final mailbox = Image.asset(
-      AppAssets.msg_white,
-      height: 27,
-      fit: BoxFit.fitHeight,
-    ).paddingAll(7);
+    final mailbox = PPImageButton(
+      onPressed: () {},
+      active: AppAssets.msg_white,
+      size: 25,
+      padding: 5,
+    );
 
     // img
-    final img = Container(
-      height: 58,
-      width: 58,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: const DecorationImage(
-              image: AssetImage(AppAssets.person), fit: BoxFit.cover),
-          border: Border.all(
-            color: Colors.blueAccent,
-            width: 2,
-          )),
-    );
+    final avatar = DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(width: 1.6, strokeAlign: StrokeAlign.inside, color: AppTheme.primary),
+          borderRadius: const BorderRadius.all(Radius.circular(28)),
+        ),
+        child: PPImageButton.fromImage(
+          Image.network(
+            'https://xhzq.xyz/images/doge.png',
+            width: avatarSize,
+            height: avatarSize,
+            fit: BoxFit.scaleDown,
+          ),
+          onPressed: controller.pressEditAvatar,
+          padding: 1,
+        ));
 
     // profile box
-    final profile = Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        color: Colors.white,
+    final profile = Opacity(
+      opacity: max(diff * 1.7 - 0.7, 0),
+      child: const DecoratedBox(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)), color: Colors.white, boxShadow: [AppTheme.shadow]),
+        child: FractionallySizedBox(
+          widthFactor: 0.85,
+          heightFactor: 0.5,
+          child: Align(
+            alignment: Alignment(-0.9, 0.9),
+            child: personSignature,
+          ),
+        ),
       ),
-      constraints: const BoxConstraints.tightFor(width: 354, height: 122),
-      alignment: const Alignment(0, 0.7),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [content],
-      )
-          .marginSymmetric(horizontal: 24, vertical: 10)
-          .paddingSymmetric(horizontal: 10, vertical: 2),
     );
 
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final height = constraints.maxHeight;
-        final width = constraints.maxWidth;
+    final radius = Radius.circular(diff * 20 + 20);
 
-        final radius = Radius.circular(_computeRadius(height));
+    final background = DecoratedBox(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius), color: Colors.blueAccent),
+    ).sized(height: min(height, backgroundMaxHeight), width: double.infinity);
 
-        final background = DecoratedBox(
-          decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.only(bottomLeft: radius, bottomRight: radius),
-              color: Colors.blueAccent),
-        ).sized(height: height, width: width);
-
-        return Stack(
-          alignment: Alignment.topCenter,
+    final Widget title = Opacity(
+      opacity: diff,
+      child: FittedBox(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            background,
-            Align(
-              alignment: const Alignment(0, 3),
-              child: profile,
-            ),
-            Align(
-              alignment: const Alignment(0, 0.8),
-              child: username,
-            ),
-            Align(
-              alignment: const Alignment(0.82, -0.55),
-              child: mailbox,
-            ),
-            Align(
-              alignment: const Alignment(0, 0.2),
-              child: img,
-            ),
+            avatar,
+            username,
           ],
-        ).sized(height: height, width: width);
-      },
+        ),
+      ),
     );
+
+    final profileH = diff * (profileHeight - profileProtruding) + profileProtruding;
+
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        background,
+        Align(
+          alignment: const Alignment(0, 1),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: profile.sized(width: profileWidth, height: profileH),
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: title,
+              )
+            ],
+          ).sized(width: profileWidth, height: avatarSize / 2 + profileH),
+        ),
+        Align(
+          alignment: Alignment(0.82, diff * -0.5), //-0,5 -> 0
+          child: mailbox,
+        ),
+      ],
+    ).sized(height: height, width: double.infinity);
   }
 }

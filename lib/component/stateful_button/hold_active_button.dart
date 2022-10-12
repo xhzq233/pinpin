@@ -74,77 +74,34 @@ class _HoldActiveButtonState extends State<HoldActiveButton> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTapDown: (_) {
-          if (!pressed) {
-            pressed = true;
-            _animate();
-          }
-        },
-        onTapUp: (_) {
-          if (pressed) {
-            pressed = false;
-            _animate();
-          }
-        },
-        onTapCancel: () async {
-          if (pressed) {
-            pressed = false;
-            _animate();
-          }
-        },
-        onTap: widget.onPressed,
-        child: _buildChild(),
+      child: MouseRegion(
+        cursor: MaterialStateMouseCursor.clickable,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: (_) {
+            if (!pressed) {
+              pressed = true;
+              _animate();
+            }
+          },
+          onTapUp: (_) {
+            if (pressed) {
+              pressed = false;
+              _animate();
+            }
+          },
+          onTapCancel: () async {
+            if (pressed) {
+              pressed = false;
+              _animate();
+            }
+          },
+          onTap: widget.onPressed,
+          child: _buildChild(),
+        ),
       ),
     );
   }
 
   bool pressed = false;
 }
-
-// class _HoldActiveButtonState extends State<HoldActiveButton> {
-//   bool get isEnabled => widget.onPressed != null;
-//
-//   HAButtonState get state =>
-//       isEnabled ? (pressed ? HAButtonState.active : HAButtonState.inactive) : HAButtonState.banned;
-//
-//   void _animate() {
-//     setState(() {});
-//   }
-//
-//   Widget _buildChild() {
-//     return widget.builder(state);
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return RepaintBoundary(
-//       child: GestureDetector(
-//         behavior: HitTestBehavior.opaque,
-//         onTapDown: (_) {
-//           if (!pressed) {
-//             pressed = true;
-//             _animate();
-//           }
-//         },
-//         onTapUp: (_) {
-//           if (pressed) {
-//             pressed = false;
-//             _animate();
-//           }
-//         },
-//         onTapCancel: () async {
-//           if (pressed) {
-//             pressed = false;
-//             _animate();
-//           }
-//         },
-//         onTap: widget.onPressed,
-//         child: _buildChild(),
-//       ),
-//     );
-//   }
-//
-//   bool pressed = false;
-// }
