@@ -17,33 +17,29 @@ abstract class HttpClientInterface {
   static const _authHeaderName = 'Authorization';
 
   Dio createDio() {
-    var dio = Dio(
-        BaseOptions(
-          baseUrl: Api.head,
-          receiveTimeout: 15000,
-          connectTimeout: 15000,
-          sendTimeout: 15000,
-          responseType: ResponseType.json,
-        ));
+    var dio = Dio(BaseOptions(
+      baseUrl: Api.head,
+      receiveTimeout: 15000,
+      connectTimeout: 15000,
+      sendTimeout: 15000,
+      responseType: ResponseType.json,
+    ));
 
     dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      Loading.show();
       final token = accountGetter.call()?.token;
       if (null != token) {
         options.headers[_authHeaderName] = token;
       }
-      log('REQUEST[${options.method}] => PATH: ${options.path}');
+      log('REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path}');
       return handler.next(options); //continue
     }, onResponse: (response, handler) {
-      Loading.hide();
       log('RESPONSE[${response.statusCode}] => DATA: ${response.data} ');
       return handler.next(response); // continue
     }, onError: (DioError e, handler) {
-      Loading.hide();
       if (e.response == null) {
         toast('Network unavailable');
       } else {
-        final String? msg = e.response?.data['msg'];
+        final String? msg = e.response?.data.toString();
         toast(msg ?? 'Request Failed');
         log(msg ?? 'Request Failed');
       }
@@ -63,15 +59,16 @@ abstract class HttpClientInterface {
     required this.accountUpdater,
   });
 
-  Future<T?> request<T>(Api api,
-      Decoder<T> decoder, {
-        data,
-        Map<String, dynamic>? queryParameters,
-        CancelToken? cancelToken,
-        Options? options,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+  Future<T?> request<T>(
+    Api api,
+    Decoder<T> decoder, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    CancelToken? cancelToken,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     Response? response;
     try {
       _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
@@ -84,22 +81,21 @@ abstract class HttpClientInterface {
           options: options?.copyWith(method: api.method) ?? Options(method: api.method));
       return decoder.call(response.data['data']);
     } catch (e) {
-      Logger.e(
-          'HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
+      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
       return null;
     }
   }
 
-
-  Future<T?> requestForUserInfo<T>(Api api,
-      Decoder<T> decoder, {
-        data,
-        Map<String, dynamic>? queryParameters,
-        CancelToken? cancelToken,
-        Options? options,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+  Future<T?> requestForUserInfo<T>(
+    Api api,
+    Decoder<T> decoder, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    CancelToken? cancelToken,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     Response? response;
     try {
       _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
@@ -112,22 +108,21 @@ abstract class HttpClientInterface {
           options: options?.copyWith(method: api.method) ?? Options(method: api.method));
       return decoder.call(response.data['info']);
     } catch (e) {
-      Logger.e(
-          'HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
+      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
       return null;
     }
   }
 
-
-  Future<T?> requestForMsg<T>(Api api,
-      Decoder<T> decoder, {
-        data,
-        Map<String, dynamic>? queryParameters,
-        CancelToken? cancelToken,
-        Options? options,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+  Future<T?> requestForMsg<T>(
+    Api api,
+    Decoder<T> decoder, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    CancelToken? cancelToken,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     Response? response;
     try {
       _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
@@ -140,22 +135,21 @@ abstract class HttpClientInterface {
           options: options?.copyWith(method: api.method) ?? Options(method: api.method));
       return decoder.call(response.data);
     } catch (e) {
-      Logger.e(
-          'HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
+      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
       return null;
     }
   }
 
-
-  Future<List<T>> requestList<T>(Api api,
-      Decoder<T> decoder, {
-        data,
-        Map<String, dynamic>? queryParameters,
-        CancelToken? cancelToken,
-        Options? options,
-        ProgressCallback? onSendProgress,
-        ProgressCallback? onReceiveProgress,
-      }) async {
+  Future<List<T>> requestList<T>(
+    Api api,
+    Decoder<T> decoder, {
+    data,
+    Map<String, dynamic>? queryParameters,
+    CancelToken? cancelToken,
+    Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     Response? response;
     try {
       _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
@@ -169,8 +163,7 @@ abstract class HttpClientInterface {
       var body = response.data['data'] as List<dynamic>; //？
       return body.map((e) => decoder.call(e)).toList();
     } catch (e) {
-      Logger.e(
-          'HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
+      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
       return [];
     }
   }

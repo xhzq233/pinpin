@@ -1,5 +1,7 @@
 /// pinpin - logger
 /// Created by xhz on 29/07/2022
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 
 class Logger {
@@ -8,9 +10,9 @@ class Logger {
   }
 
   static void d(
-      String message,
-      ) {
-    _output('[DEBUG]', message, _AnsiColor.none());
+    String message,
+  ) {
+    _output('[DEBUG]', message, null);
   }
 
   static void i(dynamic message) {
@@ -29,12 +31,24 @@ class Logger {
     _output('[WTF]', message, _AnsiColor.fg(199));
   }
 
-  static void _output(String label, dynamic content, _AnsiColor color, [dynamic error]) {
+  static void _output(String label, dynamic content, _AnsiColor? color, [dynamic error]) {
+    void print(String str) {
+      stdout.write('$str\n');
+    }
+
     if (kDebugMode) {
-      print(color('$label ${_formatStackTrace(StackTrace.current)}'));
-      print(color(content.toString()));
-      if (error != null) {
-        print(color(error.toString()));
+      if (null != color) {
+        print(color('$label ${_formatStackTrace(StackTrace.current)}'));
+        print(color(content.toString()));
+        if (error != null) {
+          print(color(error.toString()));
+        }
+      } else {
+        print('$label ${_formatStackTrace(StackTrace.current)}');
+        print(content);
+        if (error != null) {
+          print(error);
+        }
       }
     }
   }
@@ -47,27 +61,17 @@ class Logger {
 
 class _AnsiColor {
   /// ANSI Control Sequence Introducer，向终端发出新设置的信号。
-  static const ansiEsc = '\x1B[';
+  static const ansiEsc = '\x1b[';
 
-  /// 将当前 SGR 的所有颜色和选项重置为终端默认值。
+  /// reset
   static const ansiDefault = '${ansiEsc}0m';
 
   final int? fg;
   final int? bg;
-  final bool color;
 
-  _AnsiColor.none()
-      : fg = null,
-        bg = null,
-        color = false;
+  _AnsiColor.fg(this.fg) : bg = null;
 
-  _AnsiColor.fg(this.fg)
-      : bg = null,
-        color = true;
-
-  _AnsiColor.bg(this.bg)
-      : fg = null,
-        color = true;
+  _AnsiColor.bg(this.bg) : fg = null;
 
   @override
   String toString() {
@@ -81,11 +85,12 @@ class _AnsiColor {
   }
 
   String call(String msg) {
-    if (color) {
-      return '${this}$msg$ansiDefault';
-    } else {
-      return msg;
-    }
+    // if (stdout.supportsAnsiEscapes) {
+    return '${this}$msg$ansiDefault';
+    // } else {
+    //   log('********** Stdout not support AnsiEscapes **********');
+    //   return msg;
+    // }
   }
 
   _AnsiColor toFg() => _AnsiColor.fg(bg);
@@ -93,8 +98,8 @@ class _AnsiColor {
   _AnsiColor toBg() => _AnsiColor.bg(fg);
 
   /// 在不改变背景的情况下默认终端的前景色。
-  String get resetForeground => color ? '${ansiEsc}39m' : '';
+  String get resetForeground => '${ansiEsc}39m';
 
   /// 在不改变前景的情况下默认终端的背景颜色。
-  String get resetBackground => color ? '${ansiEsc}49m' : '';
+  String get resetBackground => '${ansiEsc}49m';
 }
