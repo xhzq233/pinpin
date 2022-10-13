@@ -12,13 +12,14 @@ class BaseLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: const PPNavigationBar(),
-        body: AutoUnFocusWrap(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
-            child: body,
-          ),
-        ));
+      resizeToAvoidBottomInset: false,
+      appBar: const PPNavigationBar(),
+      body: AutoUnFocusWrap(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: body,
+        ),
+      ),
+    );
   }
 }

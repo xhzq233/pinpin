@@ -36,9 +36,7 @@ class RegisterPage extends StatelessWidget {
         PPTextField(
           hintText: '输入验证码',
           textFieldStyle: PPTextFieldStyle.outline,
-          suffixIcon: CountDownWidget(max: 60, onChanged: (available) => {
-
-          }),
+          suffixIcon: CountDownWidget(max: 60, onChanged: (available) => {}),
           onChanged: controller.onTextChanged,
         ),
         Obx(

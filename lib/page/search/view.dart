@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/home_sliver_header.dart';
+import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 
 import '../../app/assets/name.dart';
@@ -22,11 +24,26 @@ class SearchPage extends StatelessWidget {
             height: PinPinHomeSliverHeaderDelegate.searchBarMinHeight + 5,
             child: Row(
               children: [
-                const Expanded(flex: 5, child: Hero(tag: PPHomeSearchBar.heroTag, child: PPHomeSearchBar())),
                 Expanded(
-                    child: const Text("取消").onTap(() {
-                  Get.back();
-                }).centralized())
+                  flex: 5,
+                  child: Hero(
+                    tag: PPHomeSearchBar.heroTag,
+                    child: PPHomeSearchBar(
+                      onClick: () {},
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: HoldActiveButton(
+                      onPressed: () => Get.back(),
+                      builder: (_) => const Text(
+                        "取消",
+                        style: AppTheme.headline5,
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

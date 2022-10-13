@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/header/home_sliver_header.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
@@ -30,11 +31,11 @@ extension _Bg on Widget {
 class PPHomePersonView extends StatelessWidget {
   const PPHomePersonView({Key? key}) : super(key: key);
   static const maxHeight = profileProtruding + backgroundMaxHeight;
-  static const minHeight = 64.0 + 40; //40 is statusBar
+  static const minHeight = PinPinHomeSliverHeaderDelegate.appBarMinHeight;
   static const profileProtruding = 56.0;
   static const profileHeight = 112.0;
   static const profileWidth = 345.0;
-  static const backgroundMaxHeight = 160.0;
+  static const backgroundMaxHeight = PinPinHomeSliverHeaderDelegate.backgroundMaxHeight;
   static const avatarSize = 56.0;
 
   @override
@@ -209,7 +210,7 @@ class PPHomePersonView extends StatelessWidget {
           ).sized(width: profileWidth, height: avatarSize / 2 + profileH),
         ),
         Align(
-          alignment: Alignment(0.82, 0.5 - diff), //-0,5 -> 0.5
+          alignment: Alignment(0.86, 0.5 - 0.8 * diff), //(-.3)->(0.5),
           child: mailbox,
         ),
       ],
