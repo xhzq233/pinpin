@@ -30,11 +30,11 @@ extension _Bg on Widget {
 class PPHomePersonView extends StatelessWidget {
   const PPHomePersonView({Key? key}) : super(key: key);
   static const maxHeight = profileProtruding + backgroundMaxHeight;
-  static const minHeight = 64.0;
+  static const minHeight = 64.0 + 40; //40 is statusBar
   static const profileProtruding = 56.0;
   static const profileHeight = 112.0;
   static const profileWidth = 345.0;
-  static const backgroundMaxHeight = 128.0;
+  static const backgroundMaxHeight = 160.0;
   static const avatarSize = 56.0;
 
   @override
@@ -81,6 +81,7 @@ class PPHomePersonView extends StatelessWidget {
 
     return NestedScrollView(
       body: ListView(
+        padding: EdgeInsets.zero,
         children: [
           getItem("我的主页", controller.toProfilePage)._bg(),
           Column(
@@ -93,7 +94,9 @@ class PPHomePersonView extends StatelessWidget {
           )._bg(),
           getItem("退出登录", controller.toXX)._bg(),
         ],
-      ).paddingSymmetric(horizontal: 16, vertical: 16),
+      ).paddingSymmetric(
+        horizontal: 16,
+      ),
       headerSliverBuilder: (_, __) => headers,
     );
   }
@@ -206,7 +209,7 @@ class PPHomePersonView extends StatelessWidget {
           ).sized(width: profileWidth, height: avatarSize / 2 + profileH),
         ),
         Align(
-          alignment: Alignment(0.82, diff * -0.5), //-0,5 -> 0
+          alignment: Alignment(0.82, 0.5 - diff), //-0,5 -> 0.5
           child: mailbox,
         ),
       ],

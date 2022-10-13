@@ -91,6 +91,8 @@ class AppTheme {
   static const gray0 = Color(0xFF000000);
   static const gray = Color(0xFF001D3E);
 
+  static const lightBackground = Color(0xfff6f6f6);
+
   static const maskWhite = Color.fromRGBO(255, 255, 255, 0.8);
 
   static const whiteShadow = BoxShadow(
@@ -274,6 +276,7 @@ class AppTheme {
   );
 
   static final lightTheme = ThemeData(
+      scaffoldBackgroundColor: lightBackground,
       colorScheme: const ColorScheme(
           brightness: Brightness.light,
           primary: primary,

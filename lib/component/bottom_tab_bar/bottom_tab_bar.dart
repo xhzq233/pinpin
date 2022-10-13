@@ -20,12 +20,11 @@ class PPBottomTabBar extends StatelessWidget {
             borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
             boxShadow: [
               BoxShadow(
-                color: Colors.black12,
+                color: Color(0xffEAEAEA),
                 spreadRadius: 7,
-                blurRadius: 10,
-                offset: Offset(-3, -6),
+                blurRadius: 25,
+                offset: Offset(0, 4),
               ),
-              AppTheme.whiteShadow
             ],
           ),
         ).sized(height: 88, width: double.infinity),
@@ -33,7 +32,7 @@ class PPBottomTabBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: children)
-            .blur(20),
+            .blur(10),
       ],
     )
         .clipped(

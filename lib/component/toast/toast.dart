@@ -4,11 +4,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/widget_extensions/ext.dart';
 
 import '../../manager/platform/platform_api.dart';
 import '../../util/pair.dart';
 
-toast(String str, {int delay = 4}) {
+void toast(String str, {int delay = 3}) {
   if (str.isEmpty) return;
 
   if (Platform.isAndroid) {
@@ -18,17 +20,21 @@ toast(String str, {int delay = 4}) {
 
   OverlayEntry overlayEntry = OverlayEntry(
       builder: (_) => Align(
-        alignment: const Alignment(0, 0.69),
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-            child: Text(
-              str,
-              // style: const TextStyle(color: Global.cbOnBackground),
+            alignment: const Alignment(0, 0.69),
+            child: DecoratedBox(
+              decoration: const BoxDecoration(
+                  color: AppTheme.gray100,
+                  boxShadow: [AppTheme.shadow],
+                  borderRadius: BorderRadius.all(Radius.circular(24))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                child: Text(
+                  str,
+                  style: AppTheme.headline6.copyWith(inherit: false),
+                ),
+              ),
             ),
-          ),
-        ),
-      ));
+          ));
   _ToastQueue.push(Pair(delay, overlayEntry));
 }
 

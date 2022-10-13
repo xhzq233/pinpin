@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:pinpin/component/header/home_sliver_header.dart';
+import 'package:pinpin/app/assets/name.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/person_sliver_header.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
+import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 
-import '../../app/assets/name.dart';
-import '../../app/theme/app_theme.dart';
-import '../../component/header/sliver_header_delegate.dart';
-import '../../component/search_bar/search_bar.dart';
-import '../../component/stateful_button/pp_image_button.dart';
-import '../../util/clipper.dart';
 import 'controller.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -50,6 +47,7 @@ class ProfilePage extends StatelessWidget {
     const text = Text(
       "多好玩会晚点海王awful啊文本色废弃物画的图还挺好都挺好挺好好更好地发放我发哇哇哇大发发阿尔法啊发的，而非爱儿阿苏是的污。",
       style: AppTheme.headline9,
+      maxLines: null,
       textAlign: TextAlign.left,
     );
 
@@ -75,12 +73,9 @@ class ProfilePage extends StatelessWidget {
       fit: BoxFit.fitHeight,
     );
 
-    final box =
-        Row(mainAxisSize: MainAxisSize.max, children: [checkAll, rightArrow]);
-
     final lock = Image.asset(
       AppAssets.lock,
-      height: 20,
+      height: 14.5,
       fit: BoxFit.fitHeight,
     );
 
@@ -89,6 +84,13 @@ class ProfilePage extends StatelessWidget {
       style: AppTheme.headline10,
       textAlign: TextAlign.left,
     );
+
+    final myPosts = Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [launchers, const Spacer(), checkAll, rightArrow],
+    );
+
+    const myLabels = ['白羊座', '二次元', 'intp', '巴拉拉', 'lgbt', 'lgbtq', '巴拉拉'];
 
     return Scaffold(
         body: NestedScrollView(
@@ -99,102 +101,82 @@ class ProfilePage extends StatelessWidget {
             delegate: PinPinPersonSliverHeaderDelegate(),
           ),
           SliverToBoxAdapter(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [personDesc],
-                ),
-                Container(
-                    width: 354,
-                    height: 70,
-                    padding: const EdgeInsets.all(10),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  personDesc,
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        color: Colors.white,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        child: text,
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: labels,
+                  ),
+                  DecoratedBox(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: Colors.white,
                     ),
-                    child: text),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [labels],
-                ),
-                Wrap(
-                  spacing: 8.0, // 主轴(水平)方向间距
-                  runSpacing: 0.5, // 纵轴（垂直）方向间距
-                  alignment: WrapAlignment.start, //沿主轴方向居中
-                  children: <Widget>[
-                    const Chip(
-                      labelStyle:
-                          TextStyle(color: Color(0xFF0076FC), fontSize: 12),
-                      label: Text("白羊座"),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Wrap(
+                            spacing: 10, // 主轴(水平)方向间距
+                            runSpacing: 10, // 纵轴（垂直）方向间距
+                            alignment: WrapAlignment.start, //沿主轴方向居中
+                            children: myLabels
+                                .map((e) => SizedBox(
+                                      height: 21,
+                                      child: PPCustomCapsuleButton(
+                                        background: AppTheme.secondary5,
+                                        child: Text(
+                                          e,
+                                          style: AppTheme.headline9.copyWith(color: AppTheme.primary),
+                                        ),
+                                      ),
+                                    ))
+                                .toList()),
+                      ),
                     ),
-                    const Chip(
-                      labelStyle:
-                          TextStyle(color: Color(0xFF0076FC), fontSize: 12),
-                      label: Text('二次元'),
-                    ),
-                    const Chip(
-                      labelStyle:
-                          TextStyle(color: Color(0xFF0076FC), fontSize: 12),
-                      label: Text('intp'),
-                    ),
-                    const Chip(
-                      labelStyle:
-                          TextStyle(color: Color(0xFF0076FC), fontSize: 12),
-                      label: Text('巴拉拉'),
-                    ),
-                    const Chip(
-                      labelStyle:
-                          TextStyle(color: Color(0xFF0076FC), fontSize: 12),
-                      label: Text('巴拉巴拉'),
-                    ),
-                    const Chip(
-                      labelStyle:
-                          TextStyle(color: Color(0xFF0076FC), fontSize: 12),
-                      label: Text('巴拉拉巴拉拉'),
-                    ),
-                    const Chip(
-                      labelStyle:
-                          TextStyle(color: Color(0xFF0076FC), fontSize: 12),
-                      label: Text('巴拉巴拉'),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Align(
-                          alignment: Alignment.bottomLeft,
-                          child: launchers,
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: box,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [lock, all_can_see],
-                    )
-                  ],
-                ),
-              ],
-            ).paddingSymmetric(horizontal: 18),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, bottom: 0.5),
+                    child: myPosts,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [lock, all_can_see],
+                  ),
+                ],
+              ),
+            ),
           ),
         ];
       },
       body: ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           itemCount: 100,
-          physics: const ClampingScrollPhysics(),
+          prototypeItem: PPHomeCardView(
+            pp: pinpin,
+          ).paddingOnly(bottom: 8), //prototype
           itemBuilder: (context, index) {
-            return PPHomeCardView(pp: pinpin);
-          }).paddingSymmetric(horizontal: 18),
+            return PPHomeCardView(pp: pinpin).paddingOnly(bottom: 8);
+          }),
     ));
   }
 }

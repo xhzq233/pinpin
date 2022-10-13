@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:pinpin/util/clipper.dart';
 import 'hold_active_button.dart';
 
 enum PPCommonTextButtonStyle { fill, outline }
@@ -17,6 +18,39 @@ enum PPCommonTextButtonSize {
   final double width;
 
   const PPCommonTextButtonSize(this.width, this.height);
+}
+
+class PPCustomCapsuleButton extends StatelessWidget {
+  const PPCustomCapsuleButton(
+      {Key? key,
+      this.onPressed = empty,
+      required this.child,
+      this.background = AppTheme.primary,
+      this.contentPadding = const EdgeInsets.symmetric(vertical: 2, horizontal: 9)})
+      : super(key: key);
+  final Widget child;
+  final ButtonOnPressed onPressed;
+  final Color background;
+  final EdgeInsets contentPadding;
+
+  static void empty() {}
+
+  @override
+  Widget build(BuildContext context) {
+    return HoldActiveButton(
+      onPressed: onPressed,
+      builder: (_) => ClipPath(
+        clipper: const CapsuleClipper(),
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: background),
+          child: Padding(
+            padding: contentPadding,
+            child: child,
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class PPCommonTextButton extends StatelessWidget {

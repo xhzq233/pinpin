@@ -86,7 +86,7 @@ class PPHomeCardView extends StatelessWidget {
       textAlign: TextAlign.start,
     );
     final timeline = Text(
-      pp.deadline.toIso8601String(),
+      "${pp.deadline.year}-${pp.deadline.month}-${pp.deadline.day} ${pp.deadline.hour}:${pp.deadline.minute}:${pp.deadline.second}",
       style: AppTheme.headline10,
       maxLines: 1,
     );
@@ -118,14 +118,12 @@ class PPHomeCardView extends StatelessWidget {
               children: [
                 title,
                 Builder(
-                    builder: (ctx) => Image.asset(
-                          pp.isFollowed ? AppAssets.star_active : AppAssets.star,
-                          height: 32,
-                          fit: BoxFit.fitHeight,
-                        ).onTap(() {
+                    builder: (ctx) => PPImageButton(
+                        onPressed: () {
                           pp.isFollowed = !pp.isFollowed;
                           (ctx as Element).markNeedsBuild();
-                        }))
+                        },
+                        active: pp.isFollowed ? AppAssets.star_active : AppAssets.star))
               ],
             ),
             verticalSpacing,

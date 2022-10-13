@@ -11,7 +11,7 @@ class CapsuleClipper extends CustomClipper<Path> {
     final height = size.height;
     final width = size.width;
 
-    final radius = max(height, width);
+    final radius = min(height, width);
 
     return Path()
       ..addRRect(RRect.fromRectAndRadius(Rect.fromPoints(Offset.zero, Offset(width, height)), Radius.circular(radius)));

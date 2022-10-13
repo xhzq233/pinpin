@@ -3,6 +3,7 @@
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 
@@ -23,12 +24,8 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final Widget back;
     if (Get.previousRoute != "") {
-      back = PPImageButton.fromImage(
-        const Icon(
-          Icons.arrow_back_ios_new,
-          color: AppTheme.primary,
-          size: 24,
-        ),
+      back = PPImageButton(
+        active: AppAssets.arrow_left_white,
         onPressed: backAction,
         padding: 7.2,
       );

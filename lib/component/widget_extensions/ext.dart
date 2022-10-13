@@ -8,7 +8,6 @@ import 'package:boxy/boxy.dart';
 import 'package:pinpin/util/clipper.dart';
 
 extension WidgetExtensions on Widget {
-  static void emptyCallback() {}
 
   Widget blur([double sigma = 10]) => ClipRect(
         child: BackdropFilter(

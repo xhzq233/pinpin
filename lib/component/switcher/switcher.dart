@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 
 class PPSwitcher extends StatelessWidget {
@@ -54,13 +55,16 @@ class PPSwitcher extends StatelessWidget {
                       widthFactor: 0.3,
                       heightFactor: 1,
                       child: FittedBox(
-                        child: AnimatedOpacity(
-                          opacity: rxIndex.value == i ? 1.0 : 0.5,
-                          duration: _animationDuration,
-                          child: Text(titles[i]),
-                        ).onTap(() {
-                          onTap(i, rxIndex);
-                        }),
+                        child: HoldActiveButton(
+                          onPressed: () {
+                            onTap(i, rxIndex);
+                          },
+                          builder: (_) => AnimatedOpacity(
+                            opacity: rxIndex.value == i ? 1.0 : 0.5,
+                            duration: _animationDuration,
+                            child: Text(titles[i]),
+                          ),
+                        ),
                       ),
                     ))
                 ],
