@@ -14,7 +14,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   static const backgroundMaxHeight = 152.0;
   static const appBarMaxHeight = backgroundMaxHeight + searchBarProtruding;
-  static const appBarMinHeight = 98.0;
+  static const appBarMinHeight = 99.0;
   static const appBarHeightRange = appBarMaxHeight - appBarMinHeight;
   static const searchBarProtruding = 11.0;
   static const searchBarMaxWidth = 332.0;
@@ -24,20 +24,11 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   static const searchBarMinHeight = 34.0;
   static const searchBarHeightRange = searchBarMaxHeight - searchBarMinHeight;
 
-  //(152 - 98) -> (40 - 20)
-  double _computeRadius(double height) {
-    return 0.3703703704 * (height - backgroundMaxHeight) + 40;
-  }
-
-  // height from appBarMaxHeight to appBarMinHeight
-  double _computeOpacity(double height) {
-    return max(0.0, 1.0 - (appBarMaxHeight - height) / 50);
-  }
-
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final height = max(appBarMinHeight, appBarMaxHeight - shrinkOffset);
-
+    // 1 -> 0
+    final diff = (height - appBarMinHeight) / appBarHeightRange;
     final title = Text(
       I18n.title.tr,
       style: Get.textTheme.headline5,
@@ -53,16 +44,13 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
     const width = double.infinity;
 
-    final radius = Radius.circular(_computeRadius(height));
+    final radius = Radius.circular(20.0 + diff * 20);
     final background = DecoratedBox(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius), color: Colors.blueAccent),
     ).sized(height: min(height, backgroundMaxHeight), width: width);
 
-    // 1 -> 0
-    final diff = (height - appBarMinHeight) / appBarHeightRange;
-
-    final curved = Curves.easeOutCubic.transform(diff);// slower when near the ending
+    final curved = Curves.easeOutCubic.transform(diff); // slower when near the ending
 
     return Stack(
       alignment: Alignment.topCenter,
@@ -71,7 +59,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
         Align(
           alignment: const Alignment(-0.8, 0),
           child: Opacity(
-            opacity: _computeOpacity(height),
+            opacity: max(diff * 1.5 - 0.5, 0),
             child: title,
           ),
         ),

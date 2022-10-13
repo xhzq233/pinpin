@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
+import 'package:pinpin/component/widget_extensions/ext.dart';
 
 const PPNavigationBarHeight = 40.0;
 
@@ -23,9 +24,10 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final Widget back;
+    final padding = MediaQuery.of(context).padding;
     if (Get.previousRoute != "") {
       back = PPImageButton(
-        active: AppAssets.arrow_left_white,
+        active: AppAssets.arrow_left,
         onPressed: backAction,
         padding: 7.2,
       );
@@ -33,33 +35,34 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
       back = const SizedBox();
     }
 
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: FractionallySizedBox(
-        widthFactor: 1.0,
-        heightFactor: 0.5,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return Padding(
+      padding: EdgeInsets.only(top: padding.top, right: padding.right, left: padding.left),
+      child: SizedBox(
+        height: PPNavigationBarHeight,
+        child: Stack(
           children: [
-            Expanded(
-                child: SizedBox.expand(
+            Align(
+              alignment: Alignment.centerLeft,
               child: back,
-            )),
-            Expanded(
-                flex: 7,
-                child: Text(
-                  title ?? "",
-                  textAlign: TextAlign.center,
-                  style: AppTheme.headline2,
-                )),
-            Expanded(
-              child: SizedBox.expand(
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.all(7.2),
                 child: IconTheme(
-                    data: const IconThemeData(
-                      color: AppTheme.primary,
-                      size: 24,
-                    ),
-                    child: trailing),
+                  data: const IconThemeData(
+                    color: AppTheme.primary,
+                    size: 24,
+                  ),
+                  child: trailing,
+                ),
+              ),
+            ),
+            Center(
+              child: Text(
+                title ?? "",
+                textAlign: TextAlign.center,
+                style: AppTheme.headline2,
               ),
             ),
           ],
@@ -69,5 +72,5 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size(double.infinity, PPNavigationBarHeight);
+  Size get preferredSize => const Size.fromHeight(PPNavigationBarHeight);
 }

@@ -29,10 +29,10 @@ class PPBottomTabBar extends StatelessWidget {
           ),
         ).sized(height: 88, width: double.infinity),
         Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: children)
-            .blur(10),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: children,
+        ).blur(10),
       ],
     )
         .clipped(

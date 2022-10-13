@@ -88,6 +88,8 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
       "用户名",
       style: AppTheme.headline4.copyWith(color: diff >= 0.7 ? AppTheme.gray0 : AppTheme.gray100.withOpacity(1 - diff)),
     );
+    // 1 -> 0.1
+    final endLineY = 0.1 + 0.9 * diff;
 
     return Stack(
       alignment: Alignment.topCenter,
@@ -101,13 +103,13 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
         ),
         Align(
-          // (-0.9,1) -> (-0.25, 0.05)
-          alignment: Alignment(-0.25 - 0.65 * diff, 0.05 + 0.95 * diff),
+          // (-0.9,1) -> (-0.25, 0.1)
+          alignment: Alignment(-0.25 - 0.65 * diff, endLineY),
           child: img,
         ),
         Align(
-          // (-0.5,1) -> (0.15, 0.05)
-          alignment: Alignment(0.15 - 0.65 * diff, 0.05 + 0.95 * diff),
+          // (-0.5,1) -> (0.15, 0.1)
+          alignment: Alignment(0.15 - 0.65 * diff, endLineY),
           child: username,
         ),
       ],
