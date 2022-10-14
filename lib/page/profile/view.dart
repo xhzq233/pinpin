@@ -90,91 +90,92 @@ class ProfilePage extends StatelessWidget {
 
     const myLabels = ['白羊座', '二次元', 'intp', '巴拉拉', 'lgbt', 'lgbtq', '巴拉拉'];
 
-    return Scaffold(
-        body: NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return [
-          const SliverPersistentHeader(
-            pinned: true,
-            delegate: PinPinPersonSliverHeaderDelegate(),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  personDesc,
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        color: Colors.white,
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                        child: text,
-                      ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
-                    child: labels,
-                  ),
-                  DecoratedBox(
-                    decoration: const BoxDecoration(
+    final body = CustomScrollView(
+      slivers: [
+        const SliverPersistentHeader(
+          pinned: true,
+          delegate: PinPinPersonSliverHeaderDelegate(),
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                personDesc,
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: Colors.white,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: Wrap(
-                            spacing: 10, // 主轴(水平)方向间距
-                            runSpacing: 10, // 纵轴（垂直）方向间距
-                            alignment: WrapAlignment.start, //沿主轴方向居中
-                            children: myLabels
-                                .map((e) => SizedBox(
-                                      height: 21,
-                                      child: PPCustomCapsuleButton(
-                                        background: AppTheme.secondary5,
-                                        child: Text(
-                                          e,
-                                          style: AppTheme.headline9.copyWith(color: AppTheme.primary),
-                                        ),
-                                      ),
-                                    ))
-                                .toList()),
-                      ),
+                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      child: text,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, bottom: 0.5),
-                    child: myPosts,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: labels,
+                ),
+                DecoratedBox(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.white,
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [lock, all_can_see],
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Wrap(
+                          spacing: 10, // 主轴(水平)方向间距
+                          runSpacing: 10, // 纵轴（垂直）方向间距
+                          alignment: WrapAlignment.start, //沿主轴方向居中
+                          children: myLabels
+                              .map((e) => SizedBox(
+                                    height: 21,
+                                    child: PPCustomCapsuleButton(
+                                      background: AppTheme.secondary5,
+                                      child: Text(
+                                        e,
+                                        style: AppTheme.headline9.copyWith(color: AppTheme.primary),
+                                      ),
+                                    ),
+                                  ))
+                              .toList()),
+                    ),
                   ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 0.5),
+                  child: myPosts,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [lock, all_can_see],
+                ),
+              ],
             ),
           ),
-        ];
-      },
-      body: ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          itemCount: 100,
-          prototypeItem: PPHomeCardView(
-            pp: pinpin,
-          ).paddingOnly(bottom: 8), //prototype
-          itemBuilder: (context, index) {
-            return PPHomeCardView(pp: pinpin).paddingOnly(bottom: 8);
-          }),
-    ));
+        ),
+        SliverFillRemaining(
+          child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              itemCount: 100,
+              prototypeItem: PPHomeCardView(pp: pinpin).paddingOnly(bottom: 8), //prototype
+              itemBuilder: (context, index) {
+                return PPHomeCardView(pp: pinpin).paddingOnly(bottom: 8);
+              }),
+        ),
+      ],
+    );
+
+    return Scaffold(
+      body: body,
+    );
   }
 }

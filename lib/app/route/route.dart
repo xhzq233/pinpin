@@ -1,7 +1,7 @@
 /// pinpin - route
 /// Created by xhz on 27/07/2022
 import 'package:get/get.dart';
-import 'package:pinpin/page/home/view.dart';
+import 'package:pinpin/page/home/home_page.dart';
 import 'package:pinpin/page/login/login/binding.dart';
 import 'package:pinpin/page/login/password/setting/binding.dart';
 import 'package:pinpin/page/login/register/binding.dart';

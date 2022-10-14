@@ -6,9 +6,9 @@ import 'package:pinpin/component/bottom_tab_bar/bottom_tab_bar.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/page/home/main/controller.dart';
-import 'package:pinpin/page/home/main/view.dart';
+import 'package:pinpin/page/home/main/home_main.dart';
 import 'package:pinpin/page/home/person/controller.dart';
-import 'package:pinpin/page/home/person/view.dart';
+import 'package:pinpin/page/home/person/home_person.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

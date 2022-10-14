@@ -35,34 +35,39 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     final background = SizedBox(
       height: height - avatarMaxSize / 2,
       width: width,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          const ColoredBox(color: AppTheme.primary),
-          Opacity(
-            opacity: diff,
-            child: Image.asset(
-              AppAssets.profile,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Align(
-            alignment: const Alignment(0.88, 0.9),
-            child: Opacity(
+      child: ClipRect(
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            const ColoredBox(color: AppTheme.primary),
+            Opacity(
               opacity: diff,
-              child: const PPCustomCapsuleButton(
-                background: AppTheme.secondary5,
-                child: Text(
-                  '编辑',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF0076FC),
+              child: Transform.scale(
+                scale: max(0.8 + diff * 0.32, 1), //1.12 -> 1 -> 1,
+                child: Image.asset(
+                  AppAssets.profile,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Align(
+              alignment: const Alignment(0.88, 0.9),
+              child: Opacity(
+                opacity: diff,
+                child: const PPCustomCapsuleButton(
+                  background: AppTheme.secondary5,
+                  child: Text(
+                    '编辑',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF0076FC),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
 
