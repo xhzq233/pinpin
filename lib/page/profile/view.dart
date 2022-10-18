@@ -164,6 +164,7 @@ class ProfilePage extends StatelessWidget {
         ),
         SliverFillRemaining(
           child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 18),
               itemCount: 100,
               prototypeItem: PPHomeCardView(pp: pinpin).paddingOnly(bottom: 8), //prototype

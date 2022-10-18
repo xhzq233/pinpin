@@ -1,11 +1,9 @@
 /// pinpin - toast
 /// Created by xhz on 27/07/2022
 
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
 
 import '../../manager/platform/platform_api.dart';
 import '../../util/pair.dart';
@@ -13,7 +11,7 @@ import '../../util/pair.dart';
 void toast(String str, {int delay = 3}) {
   if (str.isEmpty) return;
 
-  if (Platform.isAndroid) {
+  if (GetPlatform.isAndroid) {
     PlatformApi.toast(str, isLong: delay > 4);
     return;
   }

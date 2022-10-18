@@ -31,11 +31,13 @@ class Logger {
     _output('[WTF]', message, _AnsiColor.fg(199));
   }
 
-  static void _output(String label, dynamic content, _AnsiColor? color, [dynamic error]) {
-    void print(String str) {
-      stdout.write('$str\n');
-    }
+  static final void Function(String) print = kIsWeb
+      ? debugPrint
+      : (String str) {
+          stdout.write('$str\n');
+        };
 
+  static void _output(String label, dynamic content, _AnsiColor? color, [dynamic error]) {
     if (kDebugMode) {
       if (null != color) {
         print(color('$label ${_formatStackTrace(StackTrace.current)}'));

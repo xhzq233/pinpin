@@ -25,6 +25,7 @@ class LoadMoreListView<T, S> extends StatelessWidget {
   Widget build(BuildContext context) {
     return LoadingMoreList(
       ListConfig(
+        physics: const BouncingScrollPhysics(),
         padding: padding,
         showGlowLeading: false,
         showGlowTrailing: false,

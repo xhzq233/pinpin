@@ -79,19 +79,30 @@ class PPHomePersonView extends StatelessWidget {
         ),
       ),
     ];
+    const div = Padding(
+      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+      child: SizedBox(
+        height: 1,
+        width: double.infinity,
+        child: ColoredBox(
+          color: AppTheme.gray80,
+        ),
+      ),
+    );
 
     return NestedScrollView(
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           getItem("我的主页", controller.toProfilePage)._bg(),
           Column(
             mainAxisSize: MainAxisSize.min,
-            children: [getItem("我的收藏", controller.toXX), const Divider(height: 2), getItem("我发布的", controller.toXX)],
+            children: [getItem("我的收藏", controller.toXX), div, getItem("我发布的", controller.toXX)],
           )._bg(),
           Column(
             mainAxisSize: MainAxisSize.min,
-            children: [getItem("使用指南", controller.toXX), const Divider(height: 2), getItem("建议与反馈", controller.toXX)],
+            children: [getItem("使用指南", controller.toXX), div, getItem("建议与反馈", controller.toXX)],
           )._bg(),
           getItem("退出登录", controller.toXX)._bg(),
         ],

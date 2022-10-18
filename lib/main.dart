@@ -1,6 +1,5 @@
-import 'dart:io';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/i18n/i18n_translations.dart';
@@ -21,17 +20,15 @@ void main() async {
 Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized(); //app运行前，先和engine层通信(指注册好绘画手势的监听器等)
   // debugRepaintRainbowEnabled = true;
-  if (Platform.isAndroid) {
-    debugDefaultTargetPlatformOverride = TargetPlatform.android;
-    // debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
-  }
   await Get.putAsync(() => AccountManager().init());
   Get.put(PPHttp.init(
       deviceName: 'XHZQ',
       accountGetter: () => Get.find<AccountManager>().current,
       accountUpdater: (data) => Get.find<AccountManager>().updateAccount(data)));
   await Get.putAsync(() => SettingsManager().init());
-  await Get.putAsync(() => PPDBManager().init());
+  if (!kIsWeb) {
+    await Get.putAsync(() => PPDBManager().init());
+  }
 }
 
 
