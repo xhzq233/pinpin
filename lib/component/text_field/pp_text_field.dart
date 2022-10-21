@@ -78,7 +78,7 @@ class _PPTextFieldState extends State<PPTextField> {
   final RxString rxErrorText = RxString('');
 
   final Rx<BoxDecoration> rxMFBoxDecoration =
-  Rx(const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15))));
+      Rx(const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15))));
 
   @override
   void initState() {
@@ -103,14 +103,16 @@ class _PPTextFieldState extends State<PPTextField> {
       if (focusNode.hasFocus) {
         //如果开始聚焦
         rxMFBoxDecoration.value = const BoxDecoration(
-            color: AppTheme.gray100,
-            borderRadius: BorderRadius.all(Radius.circular(15)),
-            border: Border.symmetric(
-                horizontal: BorderSide(color: AppTheme.primary, width: 2),
-                vertical: BorderSide(color: AppTheme.primary, width: 2)));
+          color: AppTheme.gray100,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          border: Border.symmetric(
+            horizontal: BorderSide(color: AppTheme.primary, width: 2),
+            vertical: BorderSide(color: AppTheme.primary, width: 2),
+          ),
+        );
       } else {
         rxMFBoxDecoration.value =
-        const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15)));
+            const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15)));
       }
     }
 
@@ -157,8 +159,7 @@ class _PPTextFieldState extends State<PPTextField> {
     );
   }
 
-  Widget _obscureSuffix() =>
-      Icon(
+  Widget _obscureSuffix() => Icon(
         isPasswordVisible ? Icons.visibility_off : Icons.visibility,
         size: 24,
       ).onTap(() {
@@ -168,26 +169,28 @@ class _PPTextFieldState extends State<PPTextField> {
       });
 
   Widget? _outlineSuffix() {
+    final Widget w;
     if (null != widget.suffixIcon) {
-      return widget.suffixIcon;
+      w = widget.suffixIcon!;
+    } else if (null != widget.suffixText) {
+      w = _suffixText();
+    } else {
+      w = const SizedBox();
     }
-    if (null != widget.suffixText) {
-      return _suffixText();
-    }
-    return null;
+
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: double.infinity, maxWidth: 96),
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: w,
+      ),
+    );
   }
 
-  Widget _suffixText() =>
-      ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: double.infinity, maxWidth: 96),
-        child: Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: FittedBox(
-            child: Text(
-              widget.suffixText!,
-              style: AppTheme.headline7,
-            ),
-          ),
+  Widget _suffixText() => FittedBox(
+        child: Text(
+          widget.suffixText!,
+          style: AppTheme.headline7,
         ),
       );
 
@@ -215,11 +218,14 @@ class _PPTextFieldState extends State<PPTextField> {
           buildCounter: widget.maxLength == null ? null : counterBuilder,
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
         ),
-      ).background(Obx(() =>
-          AnimatedContainer(
+      ).background(
+        Obx(
+          () => AnimatedContainer(
             duration: duration,
             decoration: rxMFBoxDecoration.value,
-          )));
+          ),
+        ),
+      );
     } else {
       final Widget tf;
 
@@ -272,14 +278,15 @@ class _PPTextFieldState extends State<PPTextField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           tf,
-          Obx(() =>
-              Visibility(
-                visible: rxErrorText.isNotEmpty,
-                child: Text(
-                  rxErrorText.value,
-                  style: AppTheme.headline9.copyWith(color: AppTheme.secondary1),
-                ),
-              )),
+          Obx(
+            () => Visibility(
+              visible: rxErrorText.isNotEmpty,
+              child: Text(
+                rxErrorText.value,
+                style: AppTheme.headline9.copyWith(color: AppTheme.secondary1),
+              ),
+            ),
+          ),
         ],
       ),
     );

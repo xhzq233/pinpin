@@ -19,7 +19,7 @@ class LoginLogic extends GetxController {
   }
 
   void toRegisterPage() {
-    Get.toNamed(RN.register);
+    Get.offNamed(RN.register);
   }
 
   void forgetPasswd() {

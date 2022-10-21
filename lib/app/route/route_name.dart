@@ -12,7 +12,6 @@ class RN {
 
   static const register = "$login/register";
   static const passwd_set = "$login/passwd";
-  static const verify = "$login/verify";
 
   static const notFound = '/notFound';
 

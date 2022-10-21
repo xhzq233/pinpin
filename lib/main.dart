@@ -21,16 +21,18 @@ Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized(); //app运行前，先和engine层通信(指注册好绘画手势的监听器等)
   // debugRepaintRainbowEnabled = true;
   await Get.putAsync(() => AccountManager().init());
-  Get.put(PPHttp.init(
+  Get.put(
+    PPHttp.init(
       deviceName: 'XHZQ',
       accountGetter: () => Get.find<AccountManager>().current,
-      accountUpdater: (data) => Get.find<AccountManager>().updateAccount(data)));
+      accountUpdater: (data) => Get.find<AccountManager>().updateAccount(data),
+    ),
+  );
   await Get.putAsync(() => SettingsManager().init());
   if (!kIsWeb) {
     await Get.putAsync(() => PPDBManager().init());
   }
 }
-
 
 class PPApp extends StatelessWidget {
   const PPApp({Key? key}) : super(key: key);
@@ -38,6 +40,7 @@ class PPApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      defaultTransition: Transition.cupertino,
       enableLog: true,
       debugShowCheckedModeBanner: false,
       title: I18n.title.tr,

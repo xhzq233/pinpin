@@ -1,17 +1,41 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
+import 'package:pinpin/component/count_down/count_down_widget.dart';
 import 'package:pinpin/util/validator.dart';
 
 class RegisterLogic extends GetxController {
-  Validator validator = Validators.studentID;
-  RxBool isBtnEnabled = false.obs;
+  RxBool btnEnabled = false.obs;
 
-  void onTextChanged(String str) {
-    isBtnEnabled.value = validator.call(str) == null;
+  final CountDownController countDownController = Get.put(CountDownController());
+  final idTC = TextEditingController();
+  final codeTC = TextEditingController();
+  bool idValid = false;
+  bool codeValid = false;
+
+  set enableCountDown(bool newValue) {
+    if (countDownController.banned == newValue) {
+      countDownController.banned = !newValue;
+      countDownController.update();
+    }
+  }
+
+  void onIDChanged(String str) {
+    idValid = Validators.studentID.call(str) == null;
+
+    // enableCountDown when idValid
+    enableCountDown = idValid;
+
+    btnEnabled.value = idValid && codeValid;
+  }
+
+  void onCodeChanged(String str) {
+    codeValid = Validators.verifyCode.call(str) == null;
+    btnEnabled.value = idValid && codeValid;
   }
 
   void toLogin() {
-    Get.toNamed(RN.login);
+    Get.offNamed(RN.login);
   }
 
   void appeal() {

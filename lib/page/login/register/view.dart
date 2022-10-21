@@ -15,81 +15,83 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<RegisterLogic>();
     return BaseLoginPage(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 32),
-          child: Center(
-            child: Text(
-              "注册1037拼拼",
-              style: AppTheme.headline2,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 32),
+            child: Center(
+              child: Text(
+                "注册1037拼拼",
+                style: AppTheme.headline2,
+              ),
             ),
           ),
-        ),
-        PPTextField(
-          hintText: '输入学号',
-          textFieldStyle: PPTextFieldStyle.outline,
-          suffixText: '@hust.edu.cn',
-          onChanged: controller.onTextChanged,
-        ),
-        PPTextField(
-          hintText: '输入验证码',
-          textFieldStyle: PPTextFieldStyle.outline,
-          suffixIcon: CountDownWidget(max: 60, onChanged: (available) => {}),
-          onChanged: controller.onTextChanged,
-        ),
-        Obx(
-          () => PPCommonTextButton(
-            title: '下一步',
-            onPressed: controller.isBtnEnabled.value ? controller.next : null,
+          PPTextField(
+            hintText: '输入学号',
+            textFieldStyle: PPTextFieldStyle.outline,
+            suffixText: '@hust.edu.cn',
+            controller: controller.idTC,
+            onChanged: controller.onIDChanged,
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "学号被占用？点击申诉",
-              style: AppTheme.headline6.copyWith(color: Colors.blue),
-            ).onTap(controller.appeal),
-            Text(
-              "已经注册？",
-              style: AppTheme.headline6.copyWith(color: Colors.blue),
-            ).onTap(controller.toLogin),
-          ],
-        ),
-        Text(
-          "1037拼拼会向您的华科校园邮箱发送邮件验证校园身份，您可稍后再进行验证。",
-          style: AppTheme.headline9.copyWith(color: AppTheme.banned),
-        ),
-        const Flexible(
-          child: SizedBox(
-            height: 400,
+          PPTextField(
+            hintText: '输入验证码',
+            textFieldStyle: PPTextFieldStyle.outline,
+            suffixIcon: const FractionallySizedBox(
+              widthFactor: 0.7,
+              child: CountDownWidget(),
+            ),
+            controller: controller.codeTC,
+            onChanged: controller.onCodeChanged,
           ),
-        ),
-        RichText(
-          text: TextSpan(
+          Obx(
+            () => PPCommonTextButton(
+              title: '下一步',
+              onPressed: controller.btnEnabled.value ? controller.next : null,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextSpan(
-                text: "注册账号即表示您同意",
-                style: AppTheme.headline6.copyWith(color: AppTheme.banned),
-              ),
-              TextSpan(
-                text: "《使用协议》",
+              Text(
+                "学号被占用？点击申诉",
                 style: AppTheme.headline6.copyWith(color: Colors.blue),
-              ),
-              TextSpan(
-                text: "和",
-                style: AppTheme.headline6.copyWith(color: AppTheme.banned),
-              ),
-              TextSpan(
-                text: "《隐私条款》",
+              ).onTap(controller.appeal),
+              Text(
+                "已经注册？",
                 style: AppTheme.headline6.copyWith(color: Colors.blue),
-              ),
+              ).onTap(controller.toLogin),
             ],
           ),
-        ).paddingOnly(bottom: 20),
-      ],
-    ));
+          Text(
+            "1037拼拼会向您的华科校园邮箱发送邮件验证校园身份，您可稍后再进行验证。",
+            style: AppTheme.headline9.copyWith(color: AppTheme.banned),
+          ),
+          const Flexible(child: SizedBox(height: 400)),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: "注册账号即表示您同意",
+                  style: AppTheme.headline6.copyWith(color: AppTheme.banned),
+                ),
+                TextSpan(
+                  text: "《使用协议》",
+                  style: AppTheme.headline6.copyWith(color: Colors.blue),
+                ),
+                TextSpan(
+                  text: "和",
+                  style: AppTheme.headline6.copyWith(color: AppTheme.banned),
+                ),
+                TextSpan(
+                  text: "《隐私条款》",
+                  style: AppTheme.headline6.copyWith(color: Colors.blue),
+                ),
+              ],
+            ),
+          ).paddingOnly(bottom: 20),
+        ],
+      ),
+    );
   }
 }

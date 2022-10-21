@@ -5,19 +5,17 @@ import 'package:pinpin/page/home/home_page.dart';
 import 'package:pinpin/page/login/login/binding.dart';
 import 'package:pinpin/page/login/password/setting/binding.dart';
 import 'package:pinpin/page/login/register/binding.dart';
-import 'package:pinpin/page/login/verify/binding.dart';
 import 'package:pinpin/page/login/welcome_page.dart';
 import 'package:pinpin/page/pp_detail/bingding.dart';
 import 'package:pinpin/page/pp_detail/view.dart';
 import 'package:pinpin/page/unknown_page/view.dart';
-import '../../page/login/login/view.dart';
-import '../../page/login/password/setting/view.dart';
-import '../../page/login/register/view.dart';
-import '../../page/login/verify/view.dart';
-import '../../page/profile/binding.dart';
-import '../../page/profile/view.dart';
-import '../../page/search/binding.dart';
-import '../../page/search/view.dart';
+import 'package:pinpin/page/login/login/view.dart';
+import 'package:pinpin/page/login/password/setting/view.dart';
+import 'package:pinpin/page/login/register/view.dart';
+import 'package:pinpin/page/profile/binding.dart';
+import 'package:pinpin/page/profile/view.dart';
+import 'package:pinpin/page/search/binding.dart';
+import 'package:pinpin/page/search/view.dart';
 import 'route_name.dart';
 
 class Routes {
@@ -37,7 +35,6 @@ class Routes {
       binding: LoginBinding(),
     ),
     GetPage(name: RN.passwd_set, page: () => const PasswordSetPage(),binding: PasswordSetBinding()),
-    GetPage(name: RN.verify, page: () => const VerifyPage(),binding: VerifyBinding()),
     GetPage(name: RN.pp_detail, page: () => const PPDetailPage(), binding: PPDetailBinding()),
     GetPage(name: RN.search, page: () => const SearchPage(), binding: SearchBinding()),
     GetPage(name: RN.profile, page: () => const ProfilePage(), binding: ProfileBinding())

@@ -85,7 +85,7 @@ class PPHomePersonView extends StatelessWidget {
         height: 1,
         width: double.infinity,
         child: ColoredBox(
-          color: AppTheme.gray80,
+          color: Color(0xFFF0F0F0),
         ),
       ),
     );

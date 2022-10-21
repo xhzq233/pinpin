@@ -22,17 +22,19 @@ class WelcomePage extends StatelessWidget {
                   "1037拼拼欢迎你",
                   style: AppTheme.headline1,
                 )
-                    .background(Align(
-                      alignment: const Alignment(-0.98, 0.9),
-                      child: Container(
-                        // padding: EdgeInsets.only(top: 20),
-                        constraints: const BoxConstraints.tightFor(width: 127, height: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: AppTheme.primary,
+                    .background(
+                      Align(
+                        alignment: const Alignment(-0.98, 0.9),
+                        child: Container(
+                          // padding: EdgeInsets.only(top: 20),
+                          constraints: const BoxConstraints.tightFor(width: 127, height: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: AppTheme.primary,
+                          ),
                         ),
                       ),
-                    ))
+                    )
                     .paddingOnly(left: 30, bottom: 7, top: 220),
                 const Text(
                   "拼拼一下，就差你了！",
@@ -41,10 +43,7 @@ class WelcomePage extends StatelessWidget {
               ],
             )),
         Align(
-          alignment: const Alignment(
-            -0.9,
-            0.80,
-          ),
+          alignment: const Alignment(-0.9, 0.80),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -54,9 +53,7 @@ class WelcomePage extends StatelessWidget {
                   Get.toNamed(RN.login);
                 },
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               PPCommonTextButton(
                 title: '我先逛逛',
                 style: PPCommonTextButtonStyle.outline,

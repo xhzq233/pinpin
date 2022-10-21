@@ -46,6 +46,7 @@ class PPHomeMainView extends GetView<PPHomeMainController> {
           maxDragOffset: 96,
           child: NestedScrollView(
             body: TabBarView(
+              physics: const BouncingScrollPhysics(),
               children: [
                 LoadMoreListView(
                   sourceList: controller.source,
