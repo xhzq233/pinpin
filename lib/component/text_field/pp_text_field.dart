@@ -72,7 +72,7 @@ class PPTextField extends StatefulWidget {
 }
 
 class _PPTextFieldState extends State<PPTextField> {
-  bool isPasswordVisible = false;
+  bool obscure = true;
   late TextEditingController textEditingController;
   late FocusNode focusNode;
   final RxString rxErrorText = RxString('');
@@ -160,11 +160,11 @@ class _PPTextFieldState extends State<PPTextField> {
   }
 
   Widget _obscureSuffix() => Icon(
-        isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+        obscure ? Icons.visibility : Icons.visibility_off,
         size: 24,
       ).onTap(() {
         setState(() {
-          isPasswordVisible = !isPasswordVisible;
+          obscure = !obscure;
         });
       });
 
@@ -259,7 +259,7 @@ class _PPTextFieldState extends State<PPTextField> {
           style: widget.style,
           decoration: decoration.copyWith(suffixIcon: _obscureSuffix()),
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
-          obscureText: isPasswordVisible,
+          obscureText: obscure,
         );
       }
       return Center(child: tf);

@@ -60,7 +60,7 @@ class LoginPage extends StatelessWidget {
               onPressed: controller.isLoginEnabled.value ? controller.onPressLogin : null,
             ),
           ),
-          const Flexible(child: SizedBox(height: 480))
+          const Flexible(child: SizedBox(height: 400))
         ],
       ),
     );

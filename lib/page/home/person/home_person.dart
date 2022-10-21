@@ -30,12 +30,12 @@ extension _Bg on Widget {
 
 class PPHomePersonView extends StatelessWidget {
   const PPHomePersonView({Key? key}) : super(key: key);
-  static const maxHeight = profileProtruding + backgroundMaxHeight;
-  static const minHeight = PinPinHomeSliverHeaderDelegate.appBarMinHeight;
+  static final maxHeight = profileProtruding + backgroundMaxHeight;
+  static final minHeight = PinPinHomeSliverHeaderDelegate.appBarMinHeight;
   static const profileProtruding = 56.0;
   static const profileHeight = 112.0;
   static const profileWidth = 345.0;
-  static const backgroundMaxHeight = PinPinHomeSliverHeaderDelegate.backgroundMaxHeight;
+  static final backgroundMaxHeight = PinPinHomeSliverHeaderDelegate.backgroundMaxHeight;
   static const avatarSize = 56.0;
 
   @override
@@ -221,7 +221,7 @@ class PPHomePersonView extends StatelessWidget {
           ).sized(width: profileWidth, height: avatarSize / 2 + profileH),
         ),
         Align(
-          alignment: Alignment(0.86, 0.5 - 0.8 * diff), //(-.3)->(0.5),
+          alignment: Alignment(0.86, 0.5 - 1 * diff), //(-.42)->(0.5),
           child: mailbox,
         ),
       ],

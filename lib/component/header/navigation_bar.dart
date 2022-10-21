@@ -1,14 +1,23 @@
 /// pinpin - navigation_bar
 /// Created by xhz on 06/09/2022
 
+import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
 
 const PPNavigationBarHeight = 40.0;
+final _windowPadding = window.padding;
+final _ratio = window.devicePixelRatio;
+
+final windowPadding = EdgeInsets.only(
+  top: _windowPadding.top / _ratio,
+  left: _windowPadding.left / _ratio,
+  bottom: _windowPadding.bottom / _ratio,
+  right: _windowPadding.right / _ratio,
+);
 
 class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   const PPNavigationBar({super.key, this.title, this.trailing = const SizedBox(), this.backAction = defaultBackAction});
@@ -24,7 +33,7 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final Widget back;
-    final padding = MediaQuery.of(context).padding;
+    final padding = windowPadding;
     if (Get.previousRoute != "") {
       back = PPImageButton(
         active: AppAssets.arrow_left,

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
+import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/search_bar/search_bar.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
@@ -12,10 +13,11 @@ import '/app/i18n/i18n_names.dart';
 class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   const PinPinHomeSliverHeaderDelegate();
 
-  static const backgroundMaxHeight = 152.0;
-  static const appBarMaxHeight = backgroundMaxHeight + searchBarProtruding;
-  static const appBarMinHeight = 99.0;
-  static const appBarHeightRange = appBarMaxHeight - appBarMinHeight;
+  static final backgroundMaxHeight = appBarMinHeight + 53;
+  static final appBarMaxHeight = backgroundMaxHeight + searchBarProtruding;
+  static final appBarMinHeight = PPNavigationBarHeight + windowPadding.top;//59+40
+  static final appBarHeightRange = appBarMaxHeight - appBarMinHeight;
+
   static const searchBarProtruding = 11.0;
   static const searchBarMaxWidth = 332.0;
   static const searchBarMinWidth = 286.0;
@@ -27,6 +29,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final height = max(appBarMinHeight, appBarMaxHeight - shrinkOffset);
+    print(height);
     // 1 -> 0
     final diff = (height - appBarMinHeight) / appBarHeightRange;
     final title = Text(
@@ -34,7 +37,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
       style: Get.textTheme.headline5,
     );
 
-    const imagePadding = 9.0;
+    const imagePadding = 8.0;
     final mailbox = PPImageButton(
       onPressed: () {},
       active: AppAssets.msg_white,
@@ -57,16 +60,22 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
       children: [
         background,
         Align(
-          alignment: const Alignment(-0.8, 0),
-          child: Opacity(
-            opacity: max(diff * 1.5 - 0.5, 0),
-            child: title,
+          alignment: const Alignment(-0.8, -1),
+          child: Padding(
+            padding: EdgeInsets.only(top: windowPadding.top + diff * 12),
+            child: Opacity(
+              opacity: max(diff * 1.5 - 0.5, 0),
+              child: title,
+            ),
           ),
         ),
         Align(
-          alignment: Alignment((1.0 - diff) * 0.06 + 0.86, 0.66 * (1.0 - curved)),
-          //(0.86, 0)->(0.9, 0.2)->(0.92, 0.66),
-          child: mailbox,
+          alignment: Alignment((1.0 - diff) * 0.05 + 0.86, 0.66 - 1.66 * curved),
+          //(0.86, -1)->(0.91, 0.66),
+          child: Padding(
+            padding: EdgeInsets.only(top: windowPadding.top * Curves.decelerate.transform(diff) + diff * 12),
+            child: mailbox,
+          ),
         ),
         Align(
           //Alignment(0, 1) -> Alignment(-0.33, 0.66)
