@@ -217,14 +217,15 @@ class _PPTextFieldState extends State<PPTextField> {
           buildCounter: widget.maxLength == null ? null : counterBuilder,
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
         ),
-      ).background(
-        Obx(
+      ).background(GestureDetector(
+        onTap: focusNode.requestFocus,
+        child: Obx(
           () => AnimatedContainer(
             duration: duration,
             decoration: rxMFBoxDecoration.value,
           ),
         ),
-      );
+      ));
     } else {
       final Widget tf;
 
