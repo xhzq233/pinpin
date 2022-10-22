@@ -1,6 +1,8 @@
 /// pinpin - pinpin
 /// Created by xhz on 31/07/2022
 
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/manager/api/http_client.dart';
@@ -11,39 +13,19 @@ class PinPinLoadMoreSource extends RefreshableListAdapter<PinPin, int> {
   final ppHttp = Get.find<PPHttp>();
 
   @override
-  Future<List<PinPin>?> init(CancelToken cancelToken) => ppHttp
-          .getPinPinData(
-        type: -1,
-        label: -1,
-        startTime: -1,
-        cancelToken: cancelToken,
-      )
-          .then((value) {
-        add(PinPin(
-            pinpinId: 0,
-            type: 0,
-            label: 0,
-            title: 'title',
-            deadline: DateTime.now(),
-            demandingNum: 8,
-            nowNum: 3,
-            ownerEmail: 'ownerEmail',
-            updatedAt: 0,
-            isFollowed: false));
-        nextDataPointer = value?.next;
-        return value?.data;
+  Future<List<PinPin>?> init(CancelToken cancelToken) =>
+      ppHttp.getPinPinData(type: -1, label: -1, startTime: -1, cancelToken: cancelToken).then((value) {
+        if (null != value) {
+          nextDataPointer = value.next;
+          return value.data;
+        }
+        return null;
       });
 
   @override
-  Future<List<PinPin>?> next(CancelToken cancelToken) => ppHttp
-          .getPinPinData(
-        type: -1,
-        label: -1,
-        cancelToken: cancelToken,
-        startTime: nextDataPointer!,
-      )
-          .then((value) {
+  Future<List<PinPin>?> next(CancelToken cancelToken) =>
+      ppHttp.getPinPinData(type: -1, label: -1, cancelToken: cancelToken, startTime: nextDataPointer!).then((value) {
         nextDataPointer = value?.next;
         return value?.data;
-      });
+      },);
 }

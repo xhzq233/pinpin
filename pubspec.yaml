@@ -19,7 +19,6 @@ dependencies:
   json_annotation: ^4.6.0
   shared_preferences: ^2.0.15
   loading_more_list: ^4.1.2
-  pull_to_refresh_notification: ^2.3.0
   boxy: ^2.0.6+1
 
 dev_dependencies:

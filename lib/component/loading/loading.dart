@@ -21,8 +21,8 @@ class Loading {
     final context = Get.overlayContext;
     if (context != null) {
       Overlay.of.call(context)?.insert(_entry);
+      _showing = true;
     }
-    _showing = true;
   }
 
   static void hide() {

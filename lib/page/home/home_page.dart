@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
+import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/bottom_tab_bar/bottom_tab_bar.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
@@ -59,19 +60,20 @@ class _HomePageState extends State<HomePage> {
       children: [
         _buildTabItem(0),
         HoldActiveButton(
-            onPressed: () {},
+            onPressed: () => Get.toNamed(RN.post),
             builder: (_) => const DecoratedBox(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      color: Colors.blueAccent,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0x5882B1FF),
-                          spreadRadius: 6,
-                          blurRadius: 10,
-                          offset: Offset(1, 5),
-                        )
-                      ]),
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.blueAccent,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x5882B1FF),
+                        spreadRadius: 6,
+                        blurRadius: 10,
+                        offset: Offset(1, 5),
+                      )
+                    ],
+                  ),
                   child: FittedBox(
                     child: Icon(Icons.add, color: AppTheme.gray100),
                   ),

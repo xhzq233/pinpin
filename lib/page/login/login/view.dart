@@ -31,7 +31,6 @@ class LoginPage extends StatelessWidget {
             controller: controller.idTC,
             suffixText: '@hust.edu.cn',
             validator: controller.validators[0],
-            textFieldStyle: PPTextFieldStyle.outline,
             onChanged: controller.onTextChanged,
           ),
           PPTextField(

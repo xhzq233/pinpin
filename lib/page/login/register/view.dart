@@ -29,14 +29,12 @@ class RegisterPage extends StatelessWidget {
           ),
           PPTextField(
             hintText: '输入学号',
-            textFieldStyle: PPTextFieldStyle.outline,
             suffixText: '@hust.edu.cn',
             controller: controller.idTC,
             onChanged: controller.onIDChanged,
           ),
           PPTextField(
             hintText: '输入验证码',
-            textFieldStyle: PPTextFieldStyle.outline,
             suffixIcon: const FractionallySizedBox(
               widthFactor: 0.7,
               child: CountDownWidget(),

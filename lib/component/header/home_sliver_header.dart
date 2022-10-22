@@ -29,7 +29,6 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final height = max(appBarMinHeight, appBarMaxHeight - shrinkOffset);
-    print(height);
     // 1 -> 0
     final diff = (height - appBarMinHeight) / appBarHeightRange;
     final title = Text(

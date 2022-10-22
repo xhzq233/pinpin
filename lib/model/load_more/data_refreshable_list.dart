@@ -26,8 +26,6 @@ abstract class RefreshableListAdapter<T, S> extends LoadingMoreBase<T> {
       final res = await init(_cancelToken);
       if (null != res) {//returning an empty array also indicates successful initialization
         addAll(res);
-        // addAll(res);
-        // addAll(res);
         initData = true;
         return true;
       }
@@ -36,7 +34,6 @@ abstract class RefreshableListAdapter<T, S> extends LoadingMoreBase<T> {
         final res = await next(_cancelToken);
         if (null != res) {//returning an empty array also indicates successful initialization
           addAll(res);
-          // addAll(res);
           return true;
         }
       }

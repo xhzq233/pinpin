@@ -276,17 +276,19 @@ class AppTheme {
   );
 
   static final lightTheme = ThemeData(
-      scaffoldBackgroundColor: lightBackground,
-      colorScheme: const ColorScheme(
-          brightness: Brightness.light,
-          primary: primary,
-          onPrimary: primary2,
-          secondary: secondary1,
-          onSecondary: secondary2,
-          error: secondary1,
-          onError: secondary2,
-          background: Colors.white,
-          onBackground: Colors.black,
-          surface: gray80,
-          onSurface: Colors.black));
+    scaffoldBackgroundColor: lightBackground,
+    colorScheme: const ColorScheme(
+      brightness: Brightness.light,
+      primary: primary,
+      onPrimary: primary2,
+      secondary: secondary1,
+      onSecondary: secondary2,
+      error: secondary1,
+      onError: secondary2,
+      background: Colors.white,
+      onBackground: Colors.black,
+      surface: gray80,
+      onSurface: Colors.black,
+    ),
+  );
 }

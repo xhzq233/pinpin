@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
 
 class PPHomePersonController extends GetxController {
+
   void toProfilePage() {
     Get.toNamed(RN.profile);
   }
