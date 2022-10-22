@@ -8,15 +8,15 @@ import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 
-const PPNavigationBarHeight = 40.0;
-final _windowPadding = window.padding;
-final _ratio = window.devicePixelRatio;
+const PPNavigationBarHeight = 41.0;
+final physicalPadding = window.padding;
+final devicePixelRatio = window.devicePixelRatio;
 
 final windowPadding = EdgeInsets.only(
-  top: _windowPadding.top / _ratio,
-  left: _windowPadding.left / _ratio,
-  bottom: _windowPadding.bottom / _ratio,
-  right: _windowPadding.right / _ratio,
+  top: physicalPadding.top / devicePixelRatio,
+  left: physicalPadding.left / devicePixelRatio,
+  bottom: physicalPadding.bottom / devicePixelRatio,
+  right: physicalPadding.right / devicePixelRatio,
 );
 
 class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
