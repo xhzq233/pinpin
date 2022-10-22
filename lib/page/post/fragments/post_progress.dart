@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/page/post/logic.dart';
 
 const _kPageTransDuration = Duration(milliseconds: 200);
@@ -29,7 +30,7 @@ class PPPostProgress extends StatelessWidget {
     }
 
     return LayoutBuilder(builder: (_, layout) {
-      final height = layout.maxHeight * 0.5;
+      final height = layout.maxHeight * 0.56;
       return SizedBox(
         height: height,
         width: height,
@@ -57,7 +58,7 @@ class PPPostProgress extends StatelessWidget {
             child: GestureDetector(
               onTap: () => logic.pageController.animateToPage(i, duration: _kPageTransDuration, curve: Curves.ease),
               child: const SizedBox.expand(
-                child: ColoredBox(color: Colors.transparent),//must add color or cant be hit test
+                child: ColoredBox(color: Colors.transparent), //must add color or cant be hit test
               ),
             ),
           ),
@@ -74,6 +75,7 @@ class PPPostProgress extends StatelessWidget {
               child: Obx(
                 () => Stack(
                   fit: StackFit.expand,
+                  alignment: Alignment.bottomCenter,
                   children: [
                     Center(
                       child: FractionallySizedBox(
@@ -108,20 +110,23 @@ class PPPostProgress extends StatelessWidget {
             ),
             Expanded(
               flex: 3,
-              child: Obx(
-                () => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text('基本信息',
-                        style: AppTheme.headline10
-                            .copyWith(color: logic.currentPage.value == 0 ? AppTheme.primary : AppTheme.gray50)),
-                    Text('人员需求',
-                        style: AppTheme.headline10
-                            .copyWith(color: logic.currentPage.value == 1 ? AppTheme.primary : AppTheme.gray50)),
-                    Text('详细信息',
-                        style: AppTheme.headline10
-                            .copyWith(color: logic.currentPage.value == 2 ? AppTheme.primary : AppTheme.gray50)),
-                  ],
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Obx(
+                  () => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('基本信息',
+                          style: AppTheme.headline9
+                              .copyWith(color: logic.currentPage.value == 0 ? AppTheme.primary : AppTheme.gray50)),
+                      Text('人员需求',
+                          style: AppTheme.headline9
+                              .copyWith(color: logic.currentPage.value == 1 ? AppTheme.primary : AppTheme.gray50)),
+                      Text('详细信息',
+                          style: AppTheme.headline9
+                              .copyWith(color: logic.currentPage.value == 2 ? AppTheme.primary : AppTheme.gray50)),
+                    ],
+                  ),
                 ),
               ),
             ),

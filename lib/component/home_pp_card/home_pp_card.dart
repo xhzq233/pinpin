@@ -55,14 +55,15 @@ class PPHomeCardView extends StatelessWidget {
     final demandingQty = ClipPath(
       clipper: const CapsuleClipper(),
       child: DecoratedBox(
-          decoration: const BoxDecoration(color: AppTheme.secondary3),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-            child: Text(
-              '${pp.nowNum}/${pp.demandingNum}',
-              style: AppTheme.headline6,
-            ),
-          )),
+        decoration: const BoxDecoration(color: AppTheme.secondary3),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+          child: Text(
+            '${pp.nowNum}/${pp.demandingNum}',
+            style: AppTheme.headline6,
+          ),
+        ),
+      ),
     );
     final label = ClipPath(
       clipper: CapsuleClipper(),
@@ -118,12 +119,14 @@ class PPHomeCardView extends StatelessWidget {
               children: [
                 title,
                 Builder(
-                    builder: (ctx) => PPImageButton(
-                        onPressed: () {
-                          pp.isFollowed = !pp.isFollowed;
-                          (ctx as Element).markNeedsBuild();
-                        },
-                        active: pp.isFollowed ? AppAssets.star_active : AppAssets.star))
+                  builder: (ctx) => PPImageButton(
+                    onPressed: () {
+                      pp.isFollowed = !pp.isFollowed;
+                      (ctx as Element).markNeedsBuild();
+                    },
+                    active: pp.isFollowed ? AppAssets.star_active : AppAssets.star,
+                  ),
+                )
               ],
             ),
             verticalSpacing,

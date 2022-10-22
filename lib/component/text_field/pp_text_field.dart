@@ -8,6 +8,8 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/util/validator.dart';
 
+const _kDuration = Duration(milliseconds: 200);
+
 class AutoUnFocusWrap extends StatelessWidget {
   const AutoUnFocusWrap({Key? key, required this.child}) : super(key: key);
   final Widget child;
@@ -50,6 +52,8 @@ class PPTextField extends StatefulWidget {
     this.suffixText,
     this.suffixIcon,
     this.textFieldStyle = PPTextFieldStyle.outline,
+    this.padding = const EdgeInsets.symmetric(vertical: 17, horizontal: 12),
+    this.radius = 15,
   });
 
   final TextInputType? keyboardType;
@@ -66,6 +70,8 @@ class PPTextField extends StatefulWidget {
   final Widget? suffixIcon;
   final Validator? validator;
   final PPTextFieldStyle textFieldStyle;
+  final EdgeInsets padding;
+  final double radius;
 
   @override
   State<PPTextField> createState() => _PPTextFieldState();
@@ -77,8 +83,10 @@ class _PPTextFieldState extends State<PPTextField> {
   late FocusNode focusNode;
   final RxString rxErrorText = RxString('');
 
-  final Rx<BoxDecoration> rxMFBoxDecoration =
-      Rx(const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15))));
+  late final Rx<BoxDecoration> rxMFBoxDecoration =
+      Rx(BoxDecoration(color: AppTheme.gray95, borderRadius: borderRadius));
+
+  get borderRadius => BorderRadius.all(Radius.circular(widget.radius));
 
   @override
   void initState() {
@@ -102,17 +110,16 @@ class _PPTextFieldState extends State<PPTextField> {
     if (widget.textFieldStyle == PPTextFieldStyle.backgroundFilled) {
       if (focusNode.hasFocus) {
         //如果开始聚焦
-        rxMFBoxDecoration.value = const BoxDecoration(
+        rxMFBoxDecoration.value = BoxDecoration(
           color: AppTheme.gray100,
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-          border: Border.symmetric(
+          borderRadius: borderRadius,
+          border: const Border.symmetric(
             horizontal: BorderSide(color: AppTheme.primary, width: 2),
             vertical: BorderSide(color: AppTheme.primary, width: 2),
           ),
         );
       } else {
-        rxMFBoxDecoration.value =
-            const BoxDecoration(color: AppTheme.gray95, borderRadius: BorderRadius.all(Radius.circular(15)));
+        rxMFBoxDecoration.value = BoxDecoration(color: AppTheme.gray95, borderRadius: borderRadius);
       }
     }
 
@@ -195,13 +202,9 @@ class _PPTextFieldState extends State<PPTextField> {
       );
 
   Widget buildTf() {
-    // const constraints = BoxConstraints(maxWidth: 330, maxHeight: 56);
-    const padding = EdgeInsets.symmetric(vertical: 17, horizontal: 12);
-    const duration = Duration(milliseconds: 200);
-
     if (widget.textFieldStyle == PPTextFieldStyle.backgroundFilled) {
       return Padding(
-        padding: padding,
+        padding: widget.padding,
         child: TextField(
           keyboardType: widget.keyboardType,
           controller: textEditingController,
@@ -213,7 +216,9 @@ class _PPTextFieldState extends State<PPTextField> {
           maxLines: widget.maxLines,
           style: widget.style,
           decoration: InputDecoration.collapsed(
-              hintText: widget.hintText, hintStyle: AppTheme.headline7.copyWith(color: AppTheme.gray80)),
+            hintText: widget.hintText,
+            hintStyle: AppTheme.headline7.copyWith(color: AppTheme.gray80),
+          ),
           buildCounter: widget.maxLength == null ? null : counterBuilder,
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
         ),
@@ -221,7 +226,7 @@ class _PPTextFieldState extends State<PPTextField> {
         onTap: focusNode.requestFocus,
         child: Obx(
           () => AnimatedContainer(
-            duration: duration,
+            duration: _kDuration,
             decoration: rxMFBoxDecoration.value,
           ),
         ),
@@ -230,10 +235,10 @@ class _PPTextFieldState extends State<PPTextField> {
       final Widget tf;
 
       final InputDecoration decoration = InputDecoration(
-        contentPadding: padding,
+        contentPadding: widget.padding,
         hintText: widget.hintText,
         hintStyle: AppTheme.headline7.copyWith(color: AppTheme.gray80),
-        border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+        border: OutlineInputBorder(borderRadius: borderRadius),
       );
 
       if (widget.textFieldStyle == PPTextFieldStyle.outline) {

@@ -7,12 +7,24 @@ import 'package:pinpin/model/pinpin/pin_pin.dart';
 class PPPostLogic extends GetxController {
   PPPostLogic();
 
+  // data
+  RxInt type = 0.obs;
+  final TextEditingController title = TextEditingController();
+  final TextEditingController summary = TextEditingController();
+  final TextEditingController qty1 = TextEditingController();
+  final TextEditingController qty2 = TextEditingController();
+  final TextEditingController qtyInfo = TextEditingController();
+  final TextEditingController teamInfo = TextEditingController();
+  DateTime? ddl;
+
   final Rx<void Function()?> next = Rx(null);
+  double maxHeight = 0.0;
 
   // max 3.0
   final RxDouble progress = RxDouble(0.0);
 
   final PageController pageController = PageController(initialPage: 0);
+
 
   final RxInt currentPage = 0.obs;
 
