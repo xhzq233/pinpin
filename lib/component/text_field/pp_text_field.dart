@@ -30,7 +30,7 @@ enum PPTextFieldStyle {
   outline,
   //  need more args void Function()? onPressVisible;  bool? isPasswordVisible;
   obscure,
-  multilineFilled
+  backgroundFilled,
 }
 
 class PPTextField extends StatefulWidget {
@@ -49,7 +49,7 @@ class PPTextField extends StatefulWidget {
     this.hintText,
     this.suffixText,
     this.suffixIcon,
-    required this.textFieldStyle,
+    this.textFieldStyle = PPTextFieldStyle.outline,
   });
 
   final TextInputType? keyboardType;
@@ -99,7 +99,7 @@ class _PPTextFieldState extends State<PPTextField> {
   }
 
   void focusNodeListener() {
-    if (widget.textFieldStyle == PPTextFieldStyle.multilineFilled) {
+    if (widget.textFieldStyle == PPTextFieldStyle.backgroundFilled) {
       if (focusNode.hasFocus) {
         //如果开始聚焦
         rxMFBoxDecoration.value = const BoxDecoration(
@@ -199,7 +199,7 @@ class _PPTextFieldState extends State<PPTextField> {
     const padding = EdgeInsets.symmetric(vertical: 17, horizontal: 12);
     const duration = Duration(milliseconds: 200);
 
-    if (widget.textFieldStyle == PPTextFieldStyle.multilineFilled) {
+    if (widget.textFieldStyle == PPTextFieldStyle.backgroundFilled) {
       return Padding(
         padding: padding,
         child: TextField(
@@ -213,8 +213,7 @@ class _PPTextFieldState extends State<PPTextField> {
           maxLines: widget.maxLines,
           style: widget.style,
           decoration: InputDecoration.collapsed(
-            hintText: widget.hintText,
-          ),
+              hintText: widget.hintText, hintStyle: AppTheme.headline7.copyWith(color: AppTheme.gray80)),
           buildCounter: widget.maxLength == null ? null : counterBuilder,
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
         ),
@@ -230,9 +229,11 @@ class _PPTextFieldState extends State<PPTextField> {
       final Widget tf;
 
       final InputDecoration decoration = InputDecoration(
-          contentPadding: padding,
-          hintText: widget.hintText,
-          border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))));
+        contentPadding: padding,
+        hintText: widget.hintText,
+        hintStyle: AppTheme.headline7.copyWith(color: AppTheme.gray80),
+        border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+      );
 
       if (widget.textFieldStyle == PPTextFieldStyle.outline) {
         tf = TextField(
