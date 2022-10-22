@@ -16,4 +16,6 @@ class RN {
   static const notFound = '/notFound';
 
   static const pp_detail = '/pinpin_detail';
+
+  static const post = '/post';
 }

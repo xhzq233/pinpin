@@ -8,7 +8,7 @@ import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:pinpin/app/route/route_name.dart';
 
 class RouteAuthMiddleware extends GetMiddleware {
-  RouteAuthMiddleware({required int? priority}) : super(priority: priority);
+  RouteAuthMiddleware() : super(priority: 1);
 
   @override
   RouteSettings? redirect(String? route) {

@@ -1,11 +1,14 @@
 /// pinpin - route
 /// Created by xhz on 27/07/2022
 import 'package:get/get.dart';
+import 'package:pinpin/app/route/route_auth_middleware.dart';
 import 'package:pinpin/page/home/home_page.dart';
 import 'package:pinpin/page/login/login/binding.dart';
 import 'package:pinpin/page/login/password/setting/binding.dart';
 import 'package:pinpin/page/login/register/binding.dart';
 import 'package:pinpin/page/login/welcome_page.dart';
+import 'package:pinpin/page/post/binding.dart';
+import 'package:pinpin/page/post/view.dart';
 import 'package:pinpin/page/pp_detail/bingding.dart';
 import 'package:pinpin/page/pp_detail/view.dart';
 import 'package:pinpin/page/unknown_page/view.dart';
@@ -34,10 +37,21 @@ class Routes {
       page: () => const LoginPage(),
       binding: LoginBinding(),
     ),
-    GetPage(name: RN.passwd_set, page: () => const PasswordSetPage(),binding: PasswordSetBinding()),
+    GetPage(name: RN.passwd_set, page: () => const PasswordSetPage(), binding: PasswordSetBinding()),
     GetPage(name: RN.pp_detail, page: () => const PPDetailPage(), binding: PPDetailBinding()),
     GetPage(name: RN.search, page: () => const SearchPage(), binding: SearchBinding()),
-    GetPage(name: RN.profile, page: () => const ProfilePage(), binding: ProfileBinding())
+    GetPage(
+      name: RN.profile,
+      page: () => const ProfilePage(),
+      binding: ProfileBinding(),
+      middlewares: [RouteAuthMiddleware()],
+    ),
+    GetPage(
+      name: RN.post,
+      page: () => const PPPostPage(),
+      binding: PPPostBinding(),
+      // middlewares: [RouteAuthMiddleware()],
+    ),
   ];
   static final unknown = GetPage(name: RN.notFound, page: () => const UnknownRoutePage());
 }
