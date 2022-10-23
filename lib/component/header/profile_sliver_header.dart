@@ -10,9 +10,12 @@ import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
+import 'package:pinpin/model/user_info/user_info.dart';
 
 class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
-  const PinPinPersonSliverHeaderDelegate();
+  const PinPinPersonSliverHeaderDelegate(this.userInfo);
+
+  final UserInfo userInfo;
 
   static final backgroundMaxHeight = backgroundMinHeight + 77;
   static final backgroundMinHeight = PinPinHomeSliverHeaderDelegate.appBarMinHeight;
@@ -46,8 +49,8 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
               opacity: diff,
               child: Transform.scale(
                 scale: max(0.8 + diff * 0.32, 1), //1.12 -> 1 -> 1,
-                child: Image.asset(
-                  AppAssets.profile,
+                child: Image.network(
+                  userInfo.background,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -82,7 +85,7 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     final imgSize = diff * avatarSizeRange + avatarMinSize;
     final img = PPImageButton.fromImage(
       Image.network(
-        'https://xhzq.xyz/images/doge.png',
+        userInfo.image,
         width: imgSize,
         height: imgSize,
         fit: BoxFit.scaleDown,
@@ -93,12 +96,15 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
     final username = SizedBox(
       height: avatarMinSize + 2,
-      width: avatarMinSize * 2,
+      width: avatarMinSize * (2 + diff),
       child: Center(
-        child: Text(
-          "用户名",
-          style:
-              AppTheme.headline4.copyWith(color: diff >= 0.7 ? AppTheme.gray0 : AppTheme.gray100.withOpacity(1 - diff)),
+        child: FittedBox(
+          child: Text(
+            userInfo.username,
+            style: AppTheme.headline4.copyWith(
+              color: diff >= 0.7 ? AppTheme.gray0 : AppTheme.gray100.withOpacity(1 - diff),
+            ),
+          ),
         ),
       ),
     );
@@ -118,13 +124,13 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
         ),
         Align(
-          // (-0.9,1) -> (-0.15, 0.1)
-          alignment: Alignment(-0.15 - 0.75 * diff, endLineY),
+          // (-0.9,1) -> (-0.18, 0.1)
+          alignment: Alignment(-0.18 - 0.72 * diff, endLineY),
           child: img,
         ),
         Align(
-          // (-0.5,1) -> (0.1, 0.1)
-          alignment: Alignment(0.1 - 0.6 * diff, endLineY),
+          // (-0.5,1) -> (0.13, 0.1)
+          alignment: Alignment(0.13 - 0.63 * diff, endLineY),
           child: username,
         ),
       ],

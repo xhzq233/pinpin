@@ -1,16 +1,15 @@
 /// pinpin - http_client_interface
 /// Created by xhz on 30/07/2022
 import 'dart:developer';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:pinpin/component/loading/loading.dart';
 import 'package:pinpin/component/toast/toast.dart';
 import 'package:pinpin/manager/api/api.dart';
-import 'package:pinpin/model/user_info/user_info.dart';
+import 'package:pinpin/model/account/account.dart';
 import 'package:pinpin/util/logger.dart';
 
 typedef Decoder<T> = T Function(dynamic);
+typedef AccountGetter = Account? Function();
+typedef AccountUpdater = void Function(Account account);
 
 abstract class HttpClientInterface {
   late final Dio _dio = createDio();
@@ -30,9 +29,10 @@ abstract class HttpClientInterface {
         onRequest: (options, handler) {
           final token = accountGetter.call()?.token;
           if (null != token) {
-            options.headers[_authHeaderName] = token;
+            options.headers[_authHeaderName] = 'Bearer $token';
+            log('ADD TOKEN ${options.headers[_authHeaderName]}');
           }
-          log('REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path}');
+          log('REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path + options.queryParameters.toString()}, DATA: ${options.data}');
           return handler.next(options); //continue
         },
         onResponse: (response, handler) {
@@ -43,9 +43,9 @@ abstract class HttpClientInterface {
           if (e.response == null) {
             toast('Network unavailable');
           } else {
-            final String? msg = e.response?.data.toString();
+            final String? msg = e.response?.data['msg'].toString() ?? e.response?.data.toString();
             toast(msg ?? 'Request Failed');
-            // log(msg ?? 'Request Failed');
+            Logger.e('Request:${e.requestOptions.data} ==> Response: ${e.response}');
           }
           handler.reject(e);
         },
@@ -56,8 +56,8 @@ abstract class HttpClientInterface {
   }
 
   final String deviceName;
-  final UserInfo? Function() accountGetter;
-  final void Function(UserInfo userInfo) accountUpdater;
+  final AccountGetter accountGetter;
+  final AccountUpdater accountUpdater;
 
   HttpClientInterface.init({
     required this.deviceName,
@@ -88,7 +88,7 @@ abstract class HttpClientInterface {
       );
       return decoder.call(response.data['data']);
     } catch (e) {
-      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data}', e);
+      Logger.e('HttpClientInterface.request<$T>, response:\n${response?.data}', e);
       return null;
     }
   }

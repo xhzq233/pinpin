@@ -2,14 +2,13 @@
 /// Created by xhz on 2022/7/27
 
 import 'package:dio/dio.dart';
+import 'package:pinpin/model/account/account.dart';
 import 'package:pinpin/model/pinpin/pinpin_list_data.dart';
 import 'package:pinpin/model/reply/reply_list_data.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
-
-import '../../model/notice/notice.dart';
-import '../../model/pinpin/history_pin_pin.dart';
-import '../../model/pinpin/pin_pin.dart';
-import '../../model/response/msg_response.dart';
+import 'package:pinpin/model/notice/notice.dart';
+import 'package:pinpin/model/pinpin/pin_pin.dart';
+import 'package:pinpin/model/response/msg_response.dart';
 
 mixin PPNetWorkInterface {
   /// welcome
@@ -52,7 +51,7 @@ mixin PPNetWorkInterface {
     required String img, // url
   });
 
-  Future<MsgResponse?> signIn({
+  Future<Account?> signIn({
     required String email,
     required String password,
   });
@@ -138,7 +137,7 @@ mixin PPNetWorkInterface {
     required int pinPinId,
   });
 
-  Future<HistoryPinPin?> getSpecifiedPinpin({
+  Future<PinPin?> getSpecifiedPinpin({
     required int pinPinId,
   });
 

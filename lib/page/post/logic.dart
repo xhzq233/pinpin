@@ -45,9 +45,9 @@ class PPPostLogic extends GetxController {
       title: title.text,
       //TODO
       label: 1,
-      type: type.value,
+      type: type.value + 1,
       description: summary.text,
-      deadline: ddl!.toIso8601String(),
+      deadline: ddl!.toUtc().toIso8601String(),
       demandingNum: int.parse(qty1.text),
       nowNum: int.parse(qty2.text),
       demandingDescription: qtyInfo.text,
@@ -117,7 +117,8 @@ class PPPostLogic extends GetxController {
       ddlValid = false;
     }
 
-    if (newDDL != ddl) {// change ui only when data changed
+    if (newDDL != ddl) {
+      // change ui only when data changed
       ddl = newDDL;
       (refresher as Element).markNeedsBuild();
     }

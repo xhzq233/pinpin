@@ -1,136 +1,83 @@
-import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'pin_pin.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class PinPin {
-  int pinpinId;
-  int type;
-  int label;
-  String title;
-  DateTime deadline;
-  int demandingNum;
-  int nowNum;
-  String ownerEmail;
-  int updatedAt;
-  bool isFollowed;
-
   PinPin({
     required this.pinpinId,
-    required this.type,
-    required this.label,
     required this.title,
+    required this.type,
     required this.deadline,
     required this.demandingNum,
+    required this.isFollowed,
     required this.nowNum,
+    required this.label,
     required this.ownerEmail,
     required this.updatedAt,
-    required this.isFollowed,
+    // more info
+    this.createdAt,
+    this.demandingDescription,
+    this.description,
+    this.isDeleted,
+    this.replyNum,
+    this.teamIntroduction,
   });
+
+  @JsonKey(name: "PinpinId")
+  int pinpinId;
+
+  @JsonKey(name: "Type")
+  int type;
+
+  @JsonKey(name: "Label")
+  int label;
+
+  @JsonKey(name: "Title")
+  String title;
+
+  @JsonKey(name: "Deadline", fromJson: DateTime.parse)
+  DateTime deadline;
+
+  @JsonKey(name: "DemandingNum")
+  int demandingNum;
+
+  @JsonKey(name: "NowNum")
+  int nowNum;
+
+  @JsonKey(name: "OwnerEmail")
+  String ownerEmail;
+
+  @JsonKey(name: "UpdatedAt")
+  int updatedAt;
+
+  @JsonKey(name: "IsFollowed", defaultValue: false)
+  bool isFollowed;
+
+  @JsonKey(name: "Description")
+  String? description;
+
+  @JsonKey(name: "DemandingDescription")
+  String? demandingDescription;
+
+  @JsonKey(name: "TeamIntroduction")
+  String? teamIntroduction;
+
+  @JsonKey(name: "IsDeleted")
+  bool? isDeleted;
+
+  @JsonKey(name: "CreatedAt")
+  int? createdAt;
+
+  @JsonKey(name: "ReplyNum")
+  int? replyNum;
 
   @override
   String toString() {
     return 'PinPin(pinpinId: $pinpinId, type: $type, label: $label, title: $title, deadline: $deadline, demandingNum: $demandingNum, nowNum: $nowNum, ownerEmail: $ownerEmail, updatedAt: $updatedAt, isFollowed: $isFollowed)';
   }
 
-  // {
-  //     "PinpinId": 1,
-  //     "Type": 1,
-  //     "Label": 14,
-  //     "Title": "去酒吧看球",
-  //     "Deadline": "2022-07-22T08:42:25.107Z",
-  //     "DemandingNum": 10,
-  //     "NowNum": 3,
-  //     "OwnerEmail": "U202015583",
-  //     "UpdatedAt": 1655703125,
-  //     "IsFollowed": false
-  // }
+  factory PinPin.fromJson(dynamic json) => _$PinPinFromJson(json);
 
-  // {
-  // "CreatedAt": 1659085440,
-  // "Deadline": "2022-07-26T16:57:35.107Z",
-  // "DemandingDescription": "",
-  // "DemandingNum": 100,
-  // "Description": "暂时没有",
-  // "IsDeleted": false,
-  // "IsFollow": false,
-  // "Label": 1,
-  // "NowNum": 10,
-  // "Owner_email": "U202013777",
-  // "PinpinId": 4,
-  // "ReplyNum": 6,
-  // "TeamIntroduction": "",
-  // "Title": "来去",
-  // "Type": 1,
-  // "UpdatedAt": 1662524826
-  // }
-
-  factory PinPin.fromJson(dynamic json) => PinPin(
-        pinpinId: json['PinpinId'],
-        type: json['Type'],
-        label: json['Label'],
-        title: json['Title'],
-        deadline: DateTime.parse(json['Deadline']),
-        demandingNum: json['DemandingNum'],
-        nowNum: json['NowNum'],
-        ownerEmail: json['Owner_email'] as String,
-        updatedAt: json['UpdatedAt'],
-        isFollowed: json['IsFollow'],
-      );
-
-  Map<String, dynamic> toJson() => {
-        'PinpinId': pinpinId,
-        'Type': type,
-        'Label': label,
-        'Title': title,
-        'Deadline': deadline.toIso8601String(),
-        'DemandingNum': demandingNum,
-        'NowNum': nowNum,
-        'OwnerEmail': ownerEmail,
-        'UpdatedAt': updatedAt,
-        'IsFollowed': isFollowed,
-      };
-
-  PinPin copyWith({
-    int? pinpinId,
-    int? type,
-    int? label,
-    String? title,
-    DateTime? deadline,
-    int? demandingNum,
-    int? nowNum,
-    String? ownerEmail,
-    int? updatedAt,
-    bool? isFollowed,
-  }) {
-    return PinPin(
-      pinpinId: pinpinId ?? this.pinpinId,
-      type: type ?? this.type,
-      label: label ?? this.label,
-      title: title ?? this.title,
-      deadline: deadline ?? this.deadline,
-      demandingNum: demandingNum ?? this.demandingNum,
-      nowNum: nowNum ?? this.nowNum,
-      ownerEmail: ownerEmail ?? this.ownerEmail,
-      updatedAt: updatedAt ?? this.updatedAt,
-      isFollowed: isFollowed ?? this.isFollowed,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    if (other is! PinPin) return false;
-    return mapEquals(other.toJson(), toJson());
-  }
-
-  @override
-  int get hashCode =>
-      pinpinId.hashCode ^
-      type.hashCode ^
-      label.hashCode ^
-      title.hashCode ^
-      deadline.hashCode ^
-      demandingNum.hashCode ^
-      nowNum.hashCode ^
-      ownerEmail.hashCode ^
-      updatedAt.hashCode ^
-      isFollowed.hashCode;
+  Map<String, dynamic> toJson() => _$PinPinToJson(this);
 }

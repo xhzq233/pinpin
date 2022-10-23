@@ -26,7 +26,7 @@ Future<void> _init() async {
     initPPHttp(
       deviceName: 'XHZQ',
       accountGetter: () => Get.find<AccountManager>().current,
-      accountUpdater: (data) => Get.find<AccountManager>().updateAccount(data),
+      accountUpdater: (data) => Get.find<AccountManager>().addAccount(data),
     ),
   );
   await Get.putAsync(() => SettingsManager().init());

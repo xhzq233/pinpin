@@ -1,7 +1,6 @@
-
 import 'package:get/get.dart';
+import 'package:pinpin/model/user_info/user_info.dart';
 
-import '../../model/load_more/pinpin.dart';
-
-class ProfileController extends GetxController{
+class ProfileController extends GetxController {
+  final UserInfo? userInfo = Get.arguments;
 }

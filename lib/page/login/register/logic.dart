@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/component/count_down/count_down_widget.dart';
+import 'package:pinpin/component/loading/loading.dart';
+import 'package:pinpin/component/toast/toast.dart';
+import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/util/validator.dart';
 
 class RegisterLogic extends GetxController {
   RxBool btnEnabled = false.obs;
 
-  final CountDownController countDownController = Get.put(CountDownController());
+  late final CountDownController countDownController = Get.find<CountDownController>()..sendCode = sendCode;
+
   final idTC = TextEditingController();
   final codeTC = TextEditingController();
   bool idValid = false;
@@ -19,6 +23,11 @@ class RegisterLogic extends GetxController {
       countDownController.update();
     }
   }
+
+  final _http = Get.find<PPNetWorkInterface>();
+
+  Future<bool> sendCode() =>
+      _http.sendVerifyCode(email: idTC.text, isResetPassword: false).then((value) => value != null);
 
   void onIDChanged(String str) {
     idValid = Validators.studentID.call(str) == null;
@@ -45,7 +54,13 @@ class RegisterLogic extends GetxController {
     Get.toNamed(RN.notFound);
   }
 
-  void next() {
-    Get.toNamed(RN.passwd_set);
+  void next() async {
+    Loading.show();
+    final res = await _http.activateAccount(email: idTC.text, verifyCode: codeTC.text);
+    Loading.hide();
+    if (null != res) {
+      toast(res.msg);
+      Get.toNamed(RN.passwd_set, arguments: idTC.text);
+    }
   }
 }

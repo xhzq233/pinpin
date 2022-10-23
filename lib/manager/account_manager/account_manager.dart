@@ -4,7 +4,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:pinpin/model/user_info/user_info.dart';
+import 'package:pinpin/model/account/account.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -12,7 +12,7 @@ class AccountManager extends GetxService {
   static const _dataKeyName = "accounts";
   static const _dataIndexKeyName = "account_index";
 
-  final Rx<List<UserInfo>> accounts = Rx([]);
+  final Rx<List<Account>> accounts = Rx([]);
 
   late final SharedPreferences _sharedPreferences;
 
@@ -26,7 +26,7 @@ class AccountManager extends GetxService {
         tempAccounts.map(
               (jsonString) {
             final json = jsonDecode(jsonString);
-            return UserInfo.fromJson(json);
+            return Account.fromJson(json);
           },
         ),
       );
@@ -46,13 +46,12 @@ class AccountManager extends GetxService {
   }
 
   ///更新账号
-  void updateAccount(UserInfo account) {
+  void updateAccount(Account account) {
     accounts.update((val) {
       if (null != val) {
         for (int i = 0; i < val.length; i++) {
-          if (account.id == val[i].id) {
+          if (account.email == val[i].email) {
             val[i] = account;
-            saveAccounts();
             break;
           }
         }
@@ -61,9 +60,9 @@ class AccountManager extends GetxService {
   }
 
   ///添加账号
-  void addAccount(UserInfo account) {
+  void addAccount(Account account) {
     //如果已经存在就更新
-    if (accounts().any((element) => element.id == account.id)) {
+    if (accounts().any((element) => element.email == account.email)) {
       updateAccount(account);
     } else {
       accounts.update((val) {
@@ -79,9 +78,9 @@ class AccountManager extends GetxService {
   }
 
   ///移除账号
-  void removeAccount(UserInfo account) {
+  void removeAccount(Account account) {
     accounts.update((val) {
-      val?.removeWhere((element) => element.id == account.id);
+      val?.removeWhere((element) => element.email == account.email);
     });
     saveAccounts();
   }
@@ -94,7 +93,7 @@ class AccountManager extends GetxService {
     saveAccounts();
   }
 
-  UserInfo? get current {
+  Account? get current {
     if (-1 == currentIndex.value) {
       return null;
     }

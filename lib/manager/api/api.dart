@@ -102,9 +102,6 @@ enum Api {
   // 成功返回ok及该拼拼帖所有信息
   getSpecifiedPinpin('/manage/recruit/getPinpinDetails'),
 
-  // changeProfileVisibility('$_head/manage/change/changeShowHistory'),
-  // changeProfileVisibility('$_head/manage/change/changeShowHistory'),
-  // changeProfileVisibility('$_head/manage/change/changeShowHistory'),
   /// follow
   // 第一次调为关注，再次调为取消关注，以此类推
   followPinPin('/manage/follows/createFollow'),

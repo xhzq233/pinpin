@@ -166,6 +166,16 @@ class _PPTextFieldState extends State<PPTextField> {
         return;
       }
     }
+
+    // remove error hint when input rightly
+    final validator = widget.validator;
+    if (null != validator) {
+      final errorText = validator.call(str);
+      if (errorText == null) {
+        rxErrorText.value = '';
+      }
+    }
+
     widget.onChanged?.call(str);
     lastTextContent = str;
   }

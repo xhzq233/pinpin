@@ -1,7 +1,6 @@
 /// pinpin - hold_active_button
 /// Created by xhz on 05/08/2022
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 typedef ButtonOnPressed = void Function();

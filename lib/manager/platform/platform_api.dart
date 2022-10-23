@@ -1,7 +1,6 @@
 /// pinpin - platform_api
 /// Created by xhz on 27/07/2022
 
-import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 

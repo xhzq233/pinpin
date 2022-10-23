@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
+import 'package:pinpin/component/loading/loading.dart';
+import 'package:pinpin/component/toast/toast.dart';
+import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/util/validator.dart';
 
 class LoginLogic extends GetxController {
@@ -26,7 +29,16 @@ class LoginLogic extends GetxController {
     Get.toNamed(RN.notFound);
   }
 
-  void onPressLogin() {
-    Get.offAllNamed(RN.home);
+  final _http = Get.find<PPNetWorkInterface>();
+
+  void onPressLogin() async {
+    Loading.show();
+    final res = await _http.signIn(email: idTC.text, password: passwdTC.text);
+
+    if (null != res) {
+      toast('Login Success');
+      Get.offAllNamed(RN.home);
+    }
+    Loading.hide();
   }
 }

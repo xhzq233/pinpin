@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
-import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/search_bar/search_bar.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';

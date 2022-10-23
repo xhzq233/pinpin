@@ -1,6 +1,8 @@
 /// pinpin - loading
 /// Created by xhz on 27/07/2022
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -29,5 +31,11 @@ class Loading {
     if (!_showing) return;
     _entry.remove();
     _showing = false;
+  }
+
+  static void call(FutureOr<void> Function() function) {
+    show();
+    function.call();
+    hide();
   }
 }

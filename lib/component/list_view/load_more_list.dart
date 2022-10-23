@@ -23,11 +23,15 @@ class LoadMoreListView<T, S> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> func() async {
+      await sourceList.refresh(true);
+    }
+
     return RefreshIndicator(
-      onRefresh: sourceList.refresh,
+      onRefresh: func,
       child: LoadingMoreList(
         ListConfig(
-          physics: const BouncingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           padding: padding,
           showGlowLeading: false,
           showGlowTrailing: false,

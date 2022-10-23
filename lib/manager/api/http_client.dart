@@ -4,17 +4,17 @@ import 'package:dio/dio.dart';
 import 'package:pinpin/manager/api/api.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/manager/api/http_client_interface.dart';
-import 'package:pinpin/model/pinpin/history_pin_pin.dart';
+import 'package:pinpin/model/account/account.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/model/pinpin/pinpin_list_data.dart';
 import 'package:pinpin/model/reply/reply_list_data.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
-import '../../model/notice/notice.dart';
-import '../../model/response/msg_response.dart';
+import 'package:pinpin/model/notice/notice.dart';
+import 'package:pinpin/model/response/msg_response.dart';
 
 PPNetWorkInterface Function({
-  required UserInfo? Function() accountGetter,
-  required void Function(UserInfo userInfo) accountUpdater,
+  required AccountGetter accountGetter,
+  required AccountUpdater accountUpdater,
   required String deviceName,
 }) initPPHttp = _PPHttpImplement.init;
 
@@ -104,15 +104,20 @@ class _PPHttpImplement extends HttpClientInterface with PPNetWorkInterface {
   }
 
   @override
-  Future<MsgResponse?> signIn({
+  Future<Account?> signIn({
     required String email,
     required String password,
-  }) {
+  }) async {
     var formData = FormData.fromMap({
       "Email": email,
       "Password": password,
     });
-    return requestForMsg(Api.signIn, MsgResponse.fromJson, data: formData);
+    final account = await request(Api.signIn, Account.fromJson, data: formData);
+    if (null != account) {
+      account.email = email;
+      accountUpdater.call(account);
+    }
+    return account;
   }
 
   @override
@@ -200,7 +205,7 @@ class _PPHttpImplement extends HttpClientInterface with PPNetWorkInterface {
     String? demandingDescription,
     String? teamIntroduction,
   }) {
-    FormData formData = FormData.fromMap({
+    final formData = {
       "Title": title,
       "Label": label,
       "Type": type,
@@ -210,7 +215,7 @@ class _PPHttpImplement extends HttpClientInterface with PPNetWorkInterface {
       "NowNum": nowNum,
       "DemandingDescription": demandingDescription,
       "TeamIntroduction": teamIntroduction
-    });
+    };
 
     return requestForMsg(Api.createPinpin, MsgResponse.fromJson, data: formData);
   }
@@ -328,13 +333,13 @@ class _PPHttpImplement extends HttpClientInterface with PPNetWorkInterface {
   Future<List<Notice>?> getNotice() => requestList(Api.getNotice, Notice.fromJson);
 
   @override
-  Future<HistoryPinPin?> getSpecifiedPinpin({
+  Future<PinPin?> getSpecifiedPinpin({
     required int pinPinId,
   }) {
     FormData formData = FormData.fromMap({
       "PinpinId": pinPinId,
     });
-    return request(Api.getSpecifiedPinpin, HistoryPinPin.fromJson, data: formData);
+    return request(Api.getSpecifiedPinpin, PinPin.fromJson, data: formData);
   }
 
   @override
@@ -400,9 +405,7 @@ class _PPHttpImplement extends HttpClientInterface with PPNetWorkInterface {
       "PinpinId": pinPinId,
     });
 
-    return requestForMsg(Api.addPinpinPersonQty, MsgResponse.fromJson, queryParameters: {
-      "PinpinId": pinPinId,
-    });
+    return requestForMsg(Api.addPinpinPersonQty, MsgResponse.fromJson, data: formData);
   }
 
   @override

@@ -33,7 +33,6 @@ migrate_working_dir/
 /build/
 
 # Web related
-lib/generated_plugin_registrant.dart
 
 # Symbolication related
 app.*.symbols
@@ -49,3 +48,4 @@ app.*.map.json
 pubspec.lock
 *.DS_Store
 **/Podfile.lock
+**.g.dart

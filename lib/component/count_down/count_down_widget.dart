@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/loading/loading.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 
 class CountDownController extends GetxController {
@@ -29,8 +30,15 @@ class CountDownController extends GetxController {
     update();
   }
 
+  Future<bool> Function()? sendCode;
+
   @mustCallSuper
-  void start() {
+  void start() async {
+    Loading.show();
+    final res = await sendCode?.call();
+    Loading.hide();
+    if (res != true) return;
+
     current = max;
     execute();
 

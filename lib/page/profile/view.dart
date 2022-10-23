@@ -5,7 +5,7 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/profile_sliver_header.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
-import 'package:pinpin/model/pinpin/pin_pin.dart';
+import 'package:pinpin/page/unknown_page/view.dart';
 
 import 'controller.dart';
 
@@ -15,19 +15,13 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 页面布局逻辑
-    final controller = Get.find<ProfileController>(); //Get拿到controller里的变量
+    final logic = Get.find<ProfileController>();
+    final userInfo = logic.userInfo;
 
-    final pinpin = PinPin(
-        pinpinId: 1,
-        type: 2,
-        label: 3,
-        title: "hello world",
-        deadline: DateTime.now(),
-        demandingNum: 100,
-        nowNum: 10,
-        ownerEmail: "U202013777",
-        updatedAt: 555,
-        isFollowed: true);
+    if (null == userInfo) {
+      return const UnknownRoutePage();
+    }
+    final historyOpen = userInfo.history != null;
 
     /// content
     const personDesc = Text(
@@ -42,8 +36,8 @@ class ProfilePage extends StatelessWidget {
       textAlign: TextAlign.left,
     );
 
-    const text = Text(
-      "多好玩会晚点海王awful啊文本色废弃物画的图还挺好都挺好挺好好更好地发放我发哇哇哇大发发阿尔法啊发的，而非爱儿阿苏是的污。",
+    final brief = Text(
+      userInfo.brief.isEmpty ? '这个人好懒...' : userInfo.brief,
       style: AppTheme.headline9,
       maxLines: null,
       textAlign: TextAlign.left,
@@ -53,6 +47,11 @@ class ProfilePage extends StatelessWidget {
       "我发布的",
       style: AppTheme.headline4,
       textAlign: TextAlign.left,
+    );
+
+    const bg = BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+      color: Colors.white,
     );
 
     const checkAll = SizedBox(
@@ -88,13 +87,12 @@ class ProfilePage extends StatelessWidget {
       children: [launchers, const Spacer(), checkAll, rightArrow],
     );
 
-    const myLabels = ['白羊座', '二次元', 'intp', '巴拉拉', 'lgbt', 'lgbtq', '巴拉拉'];
-
+    final myLabels = userInfo.myTags.trim().isEmpty ? ['Nothing here'] : userInfo.myTags.trim().split(',');
     final body = CustomScrollView(
       slivers: [
-        const SliverPersistentHeader(
+        SliverPersistentHeader(
           pinned: true,
-          delegate: PinPinPersonSliverHeaderDelegate(),
+          delegate: PinPinPersonSliverHeaderDelegate(userInfo),
         ),
         SliverToBoxAdapter(
           child: Padding(
@@ -104,16 +102,16 @@ class ProfilePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 personDesc,
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      color: Colors.white,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      child: text,
+                    decoration: bg,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                        child: brief,
+                      ),
                     ),
                   ),
                 ),
@@ -122,10 +120,7 @@ class ProfilePage extends StatelessWidget {
                   child: labels,
                 ),
                 DecoratedBox(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.white,
-                  ),
+                  decoration: bg,
                   child: Padding(
                     padding: const EdgeInsets.all(10),
                     child: SizedBox(
@@ -162,21 +157,27 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
         ),
-        SliverFillRemaining(
-          child: ListView.builder(
+        if (historyOpen)
+          SliverFillRemaining(
+            child: ListView.builder(
               physics: const BouncingScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 18),
-              itemCount: 100,
-              prototypeItem: PPHomeCardView(pp: pinpin).paddingOnly(bottom: 8), //prototype
+              itemCount: userInfo.history!.length,
+              //prototype
               itemBuilder: (context, index) {
-                return PPHomeCardView(pp: pinpin).paddingOnly(bottom: 8);
-              }),
-        ),
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: PPHomeCardView(pp: userInfo.history![index]),
+                );
+              },
+            ),
+          ),
       ],
     );
 
-    return Scaffold(
-      body: body,
+    return ColoredBox(
+      color: AppTheme.lightBackground,
+      child: body,
     );
   }
 }

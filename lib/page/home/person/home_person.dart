@@ -80,6 +80,7 @@ class PPHomePersonView extends StatelessWidget {
         ),
       ),
     ];
+
     const div = Padding(
       padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
       child: SizedBox(
@@ -94,7 +95,7 @@ class PPHomePersonView extends StatelessWidget {
     return NestedScrollView(
       body: ListView(
         physics: const BouncingScrollPhysics(),
-        padding: EdgeInsets.zero,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
           getItem("我的主页", controller.toProfilePage)._bg(),
           Column(
@@ -105,10 +106,8 @@ class PPHomePersonView extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [getItem("使用指南", controller.toXX), div, getItem("建议与反馈", controller.toXX)],
           )._bg(),
-          getItem("退出登录", controller.toXX)._bg(),
+          getItem("退出登录", controller.logout)._bg(),
         ],
-      ).paddingSymmetric(
-        horizontal: 16,
       ),
       headerSliverBuilder: (_, __) => headers,
     );
@@ -123,23 +122,8 @@ class PPHomePersonView extends StatelessWidget {
     // 1 -> 0
     final diff = (height - minHeight) / (maxHeight - minHeight);
 
-    // signature content
-    const personSignature = Text(
-      "啊对对对",
-      style: AppTheme.headline8,
-      textAlign: TextAlign.left,
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-    );
-
-    // username
-    const username = Text(
-      "用户名",
-      style: AppTheme.headline6,
-    );
-
     final mailbox = PPImageButton(
-      onPressed: () {},
+      onPressed: controller.toXX,
       active: AppAssets.msg_white,
       size: 25,
       padding: 5,
@@ -147,85 +131,113 @@ class PPHomePersonView extends StatelessWidget {
 
     // img
     final avatar = DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(width: 1.6, strokeAlign: StrokeAlign.inside, color: AppTheme.primary),
-          borderRadius: const BorderRadius.all(Radius.circular(28)),
+      decoration: BoxDecoration(
+        border: Border.all(width: 1.6, strokeAlign: StrokeAlign.inside, color: AppTheme.primary),
+        borderRadius: const BorderRadius.all(Radius.circular(28)),
+      ),
+      child: PPImageButton.fromImage(
+        Image.network(
+          controller.userInfo.value.image,
+          width: avatarSize,
+          height: avatarSize,
+          fit: BoxFit.scaleDown,
         ),
-        child: PPImageButton.fromImage(
-          Image.network(
-            'https://xhzq.xyz/images/doge.png',
-            width: avatarSize,
-            height: avatarSize,
-            fit: BoxFit.scaleDown,
-          ),
-          onPressed: controller.pressEditAvatar,
-          padding: 1,
-        ));
-
-    // profile box
-    final profile = Opacity(
-      opacity: max(diff * 1.7 - 0.7, 0),
-      child: const DecoratedBox(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)), color: Colors.white, boxShadow: [AppTheme.shadow]),
-        child: FractionallySizedBox(
-          widthFactor: 0.85,
-          heightFactor: 0.5,
-          child: Align(
-            alignment: Alignment(-0.9, 0.9),
-            child: personSignature,
-          ),
-        ),
+        onPressed: controller.pressEditAvatar,
+        padding: 1,
       ),
     );
 
     final radius = Radius.circular(diff * 20 + 20);
 
-    final background = DecoratedBox(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius), color: Colors.blueAccent),
-    ).sized(height: min(height, backgroundMaxHeight), width: double.infinity);
-
-    final Widget title = Opacity(
-      opacity: diff,
-      child: FittedBox(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            avatar,
-            username,
-          ],
+    final background = SizedBox(
+      height: min(height, backgroundMaxHeight),
+      width: double.infinity,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius),
+          color: Colors.blueAccent,
         ),
       ),
     );
 
     final profileH = diff * (profileHeight - profileProtruding) + profileProtruding;
 
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        background,
-        Align(
-          alignment: const Alignment(0, 1),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: profile.sized(width: profileWidth, height: profileH),
+    return SizedBox(
+      height: height,
+      width: double.infinity,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          background,
+          Align(
+            alignment: const Alignment(0, 1),
+            child: SizedBox(
+              width: profileWidth,
+              height: avatarSize / 2 + profileH,
+              child: Obx(
+                () => Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: profileWidth,
+                        height: profileH,
+                        child: Opacity(
+                          opacity: max(diff * 1.7 - 0.7, 0),
+                          child: DecoratedBox(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              color: Colors.white,
+                              boxShadow: [AppTheme.shadow],
+                            ),
+                            child: FractionallySizedBox(
+                              widthFactor: 0.85,
+                              heightFactor: 0.5,
+                              child: Align(
+                                alignment: const Alignment(-0.9, 0.9),
+                                child: Text(
+                                  controller.userInfo.value.brief,
+                                  style: AppTheme.headline8,
+                                  textAlign: TextAlign.left,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Opacity(
+                        opacity: diff,
+                        child: FittedBox(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              avatar,
+                              Text(
+                                controller.userInfo.value.username,
+                                style: AppTheme.headline6,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: title,
-              )
-            ],
-          ).sized(width: profileWidth, height: avatarSize / 2 + profileH),
-        ),
-        Align(
-          alignment: Alignment(0.86, 0.5 - 1 * diff), //(-.42)->(0.5),
-          child: mailbox,
-        ),
-      ],
-    ).sized(height: height, width: double.infinity);
+            ),
+          ),
+          Align(
+            alignment: Alignment(0.86, 0.5 - 1 * diff), //(-.42)->(0.5),
+            child: mailbox,
+          ),
+        ],
+      ),
+    );
   }
 }
