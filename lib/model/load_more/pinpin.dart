@@ -5,12 +5,12 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:pinpin/manager/api/http_client.dart';
+import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'data_refreshable_list.dart';
 
 class PinPinLoadMoreSource extends RefreshableListAdapter<PinPin, int> {
-  final ppHttp = Get.find<PPHttp>();
+  final ppHttp = Get.find<PPNetWorkInterface>();
 
   @override
   Future<List<PinPin>?> init(CancelToken cancelToken) =>

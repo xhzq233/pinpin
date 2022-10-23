@@ -14,7 +14,10 @@ class PPPost3Fragment extends StatelessWidget {
     final logic = Get.find<PPPostLogic>();
     const padding = SizedBox(height: 8);
     final TextStyle textStyle = AppTheme.headline7.copyWith(color: AppTheme.gray80);
-
+    const bg = BoxDecoration(
+      color: AppTheme.gray95,
+      borderRadius: BorderRadius.all(Radius.circular(15)),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -34,27 +37,16 @@ class PPPost3Fragment extends StatelessWidget {
         SizedBox(
           height: 45,
           width: double.infinity,
-          child: GestureDetector(
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                color: AppTheme.gray95,
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-              ),
-              child: Center(
-                child: Text(logic.ddl?.toIso8601String() ?? 'Select Deadline', style: textStyle),
+          child: Builder(
+            builder: (ctx) => GestureDetector(
+              onTap: () => logic.pickDll(ctx),
+              child: DecoratedBox(
+                decoration: bg,
+                child: Center(
+                  child: Text(logic.ddl?.toIso8601String() ?? 'Select Deadline', style: textStyle),
+                ),
               ),
             ),
-            onTap: () async {
-              final now = DateTime.now();
-              final select = await showDatePicker(
-                context: context,
-                initialDate: logic.ddl ?? now,
-                firstDate: now,
-                lastDate: now.add(const Duration(days: 60)),
-              );
-              logic.ddl = select;
-              (context as Element).markNeedsBuild();
-            },
           ),
         ),
         padding,

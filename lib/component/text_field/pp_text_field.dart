@@ -36,6 +36,8 @@ class PPTextField extends StatefulWidget {
     this.textFieldStyle = PPTextFieldStyle.outline,
     this.padding = const EdgeInsets.symmetric(vertical: 17, horizontal: 12),
     this.radius = 15,
+    this.limitations = const [],
+    this.textAlign = TextAlign.start,
   });
 
   final TextInputType? keyboardType;
@@ -54,6 +56,8 @@ class PPTextField extends StatefulWidget {
   final PPTextFieldStyle textFieldStyle;
   final EdgeInsets padding;
   final double radius;
+  final List<TextFiledLimitation> limitations;
+  final TextAlign textAlign;
 
   @override
   State<PPTextField> createState() => _PPTextFieldState();
@@ -77,6 +81,7 @@ class _PPTextFieldState extends State<PPTextField> {
     } else {
       textEditingController = TextEditingController();
     }
+    lastTextContent = textEditingController.text;
 
     if (null != widget.focusNode) {
       focusNode = widget.focusNode!;
@@ -123,6 +128,7 @@ class _PPTextFieldState extends State<PPTextField> {
   void didUpdateWidget(covariant PPTextField oldWidget) {
     if (null != widget.controller && oldWidget.controller != widget.controller) {
       textEditingController = widget.controller!;
+      lastTextContent = textEditingController.text;
     }
     if (null != widget.focusNode && oldWidget.focusNode != widget.focusNode) {
       focusNode.dispose();
@@ -133,19 +139,35 @@ class _PPTextFieldState extends State<PPTextField> {
     super.didUpdateWidget(oldWidget);
   }
 
-  @override
-  void dispose() {
-    textEditingController.dispose();
-    focusNode.dispose();
-    super.dispose();
-  }
-
   static Widget? counterBuilder(BuildContext context,
       {required int currentLength, required bool isFocused, required int? maxLength}) {
     return Text(
       '$currentLength/$maxLength',
       style: TextStyle(color: isFocused ? AppTheme.primary : AppTheme.gray80),
     );
+  }
+
+  late String lastTextContent;
+
+  void onTextChange(String str) {
+    for (var func in widget.limitations) {
+      if (!func.call(str)) {
+        // Do not meet condition
+        // Return to the original condition (Reset)
+        final newValue = textEditingController.value.copyWith(
+          text: lastTextContent,
+          selection: TextSelection.collapsed(offset: lastTextContent.length),
+        );
+        if (!newValue.composing.isValid || newValue.isComposingRangeValid) {
+          textEditingController.value = newValue;
+        } else {
+          textEditingController.text = lastTextContent;
+        }
+        return;
+      }
+    }
+    widget.onChanged?.call(str);
+    lastTextContent = str;
   }
 
   Widget _obscureSuffix() => Icon(
@@ -191,12 +213,13 @@ class _PPTextFieldState extends State<PPTextField> {
           keyboardType: widget.keyboardType,
           controller: textEditingController,
           focusNode: focusNode,
-          onChanged: widget.onChanged,
+          onChanged: onTextChange,
           onEditingComplete: widget.onEditingComplete,
           onSubmitted: widget.onSubmitted,
           maxLength: widget.maxLength,
           maxLines: widget.maxLines,
           style: widget.style,
+          textAlign: widget.textAlign,
           decoration: InputDecoration.collapsed(
             hintText: widget.hintText,
             hintStyle: AppTheme.headline7.copyWith(color: AppTheme.gray80),
@@ -228,7 +251,7 @@ class _PPTextFieldState extends State<PPTextField> {
           keyboardType: widget.keyboardType,
           controller: textEditingController,
           focusNode: focusNode,
-          onChanged: widget.onChanged,
+          onChanged: onTextChange,
           onEditingComplete: widget.onEditingComplete,
           onSubmitted: widget.onSubmitted,
           maxLines: 1,
@@ -241,7 +264,7 @@ class _PPTextFieldState extends State<PPTextField> {
           keyboardType: widget.keyboardType,
           controller: textEditingController,
           focusNode: focusNode,
-          onChanged: widget.onChanged,
+          onChanged: onTextChange,
           onEditingComplete: widget.onEditingComplete,
           onSubmitted: widget.onSubmitted,
           maxLines: 1,

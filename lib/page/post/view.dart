@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
+import 'package:pinpin/component/page_view/page_view.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/component/text_field/unfocus.dart';
@@ -58,7 +59,8 @@ class PPPostPage extends StatelessWidget {
                       SizedBox(
                         height: height * _kBodyHeightFactor,
                         width: width,
-                        child: PageView.builder(
+                        child: CachePageView.builder(
+                          cacheExtent: 2,
                           controller: logic.pageController,
                           physics: const BouncingScrollPhysics(),
                           itemCount: children.length,

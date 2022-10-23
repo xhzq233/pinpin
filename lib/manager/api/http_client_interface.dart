@@ -25,26 +25,32 @@ abstract class HttpClientInterface {
       responseType: ResponseType.json,
     ));
 
-    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
-      final token = accountGetter.call()?.token;
-      if (null != token) {
-        options.headers[_authHeaderName] = token;
-      }
-      log('REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path}');
-      return handler.next(options); //continue
-    }, onResponse: (response, handler) {
-      log('RESPONSE[${response.statusCode}] => DATA: ${response.data} ');
-      return handler.next(response); // continue
-    }, onError: (DioError e, handler) {
-      if (e.response == null) {
-        toast('Network unavailable');
-      } else {
-        final String? msg = e.response?.data.toString();
-        toast(msg ?? 'Request Failed');
-        log(msg ?? 'Request Failed');
-      }
-      handler.reject(e);
-    }));
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final token = accountGetter.call()?.token;
+          if (null != token) {
+            options.headers[_authHeaderName] = token;
+          }
+          log('REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path}');
+          return handler.next(options); //continue
+        },
+        onResponse: (response, handler) {
+          log('RESPONSE[${response.statusCode}] => DATA: ${response.data} ');
+          return handler.next(response); // continue
+        },
+        onError: (DioError e, handler) {
+          if (e.response == null) {
+            toast('Network unavailable');
+          } else {
+            final String? msg = e.response?.data.toString();
+            toast(msg ?? 'Request Failed');
+            // log(msg ?? 'Request Failed');
+          }
+          handler.reject(e);
+        },
+      ),
+    );
 
     return dio;
   }
@@ -71,17 +77,18 @@ abstract class HttpClientInterface {
   }) async {
     Response? response;
     try {
-      _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
-      response = await _dio.request(api.val,
-          data: data,
-          queryParameters: queryParameters,
-          cancelToken: cancelToken,
-          onSendProgress: onSendProgress,
-          onReceiveProgress: onReceiveProgress,
-          options: options?.copyWith(method: api.method) ?? Options(method: api.method));
+      response = await _dio.request(
+        api.val,
+        data: data,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+        options: options?.copyWith(method: api.method) ?? Options(method: api.method),
+      );
       return decoder.call(response.data['data']);
     } catch (e) {
-      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
+      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data}', e);
       return null;
     }
   }
@@ -98,17 +105,18 @@ abstract class HttpClientInterface {
   }) async {
     Response? response;
     try {
-      _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
-      response = await _dio.request(api.val,
-          data: data,
-          queryParameters: queryParameters,
-          cancelToken: cancelToken,
-          onSendProgress: onSendProgress,
-          onReceiveProgress: onReceiveProgress,
-          options: options?.copyWith(method: api.method) ?? Options(method: api.method));
+      response = await _dio.request(
+        api.val,
+        data: data,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+        options: options?.copyWith(method: api.method) ?? Options(method: api.method),
+      );
       return decoder.call(response.data['info']);
     } catch (e) {
-      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
+      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data}', e);
       return null;
     }
   }
@@ -125,22 +133,23 @@ abstract class HttpClientInterface {
   }) async {
     Response? response;
     try {
-      _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
-      response = await _dio.request(api.val,
-          data: data,
-          queryParameters: queryParameters,
-          cancelToken: cancelToken,
-          onSendProgress: onSendProgress,
-          onReceiveProgress: onReceiveProgress,
-          options: options?.copyWith(method: api.method) ?? Options(method: api.method));
+      response = await _dio.request(
+        api.val,
+        data: data,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+        options: options?.copyWith(method: api.method) ?? Options(method: api.method),
+      );
       return decoder.call(response.data);
     } catch (e) {
-      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
+      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data}', e);
       return null;
     }
   }
 
-  Future<List<T>> requestList<T>(
+  Future<List<T>?> requestList<T>(
     Api api,
     Decoder<T> decoder, {
     data,
@@ -149,22 +158,15 @@ abstract class HttpClientInterface {
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    Response? response;
-    try {
-      _dio.options.headers[_authHeaderName] = accountGetter.call()?.token;
-      response = await _dio.request(api.val,
-          data: data,
-          queryParameters: queryParameters,
-          cancelToken: cancelToken,
-          onSendProgress: onSendProgress,
-          onReceiveProgress: onReceiveProgress,
-          options: options?.copyWith(method: api.method) ?? Options(method: api.method));
-      var body = response.data['data'] as List<dynamic>; //？
-      return body.map((e) => decoder.call(e)).toList();
-    } catch (e) {
-      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data['msg']}', e);
-      return [];
-    }
-  }
+  }) =>
+      request(
+        api,
+        (list) => (list as List<dynamic>).map((e) => decoder.call(e)).toList(),
+        data: data,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+        options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
 }

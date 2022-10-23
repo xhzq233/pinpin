@@ -25,12 +25,15 @@ class RegisterLogic extends GetxController {
 
     // enableCountDown when idValid
     enableCountDown = idValid;
-
-    btnEnabled.value = idValid && codeValid;
+    _refreshValidValue();
   }
 
   void onCodeChanged(String str) {
     codeValid = Validators.verifyCode.call(str) == null;
+    _refreshValidValue();
+  }
+
+  void _refreshValidValue() {
     btnEnabled.value = idValid && codeValid;
   }
 

@@ -1,10 +1,28 @@
+import 'package:get/get.dart';
+
 /// pinpin - validator
 /// Created by xhz on 06/09/2022
 
 typedef Validator = String? Function(String);
+typedef TextFiledLimitation = bool Function(String);
 
 class Validators {
   Validators._();
+
+  static TextFiledLimitation maxNNumber(int n) {
+    bool func(String str) {
+      if (str.isEmpty) {
+        return true;
+      } else if (str.length <= n && str.isNumericOnly) {
+        final num = int.tryParse(str);
+        return num != null;
+      } else {
+        return false;
+      }
+    }
+
+    return func;
+  }
 
   static Validator studentID = (String str) {
     if (str.isEmpty) {

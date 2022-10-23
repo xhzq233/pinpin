@@ -22,6 +22,7 @@ import 'package:pinpin/page/search/view.dart';
 import 'route_name.dart';
 
 class Routes {
+  static final authMiddleware = RouteAuthMiddleware();
   static final routes = [
     GetPage(
       name: RN.home,
@@ -44,13 +45,13 @@ class Routes {
       name: RN.profile,
       page: () => const ProfilePage(),
       binding: ProfileBinding(),
-      middlewares: [RouteAuthMiddleware()],
+      middlewares: [authMiddleware],
     ),
     GetPage(
       name: RN.post,
       page: () => const PPPostPage(),
       binding: PPPostBinding(),
-      // middlewares: [RouteAuthMiddleware()],
+      middlewares: [authMiddleware],
     ),
   ];
   static final unknown = GetPage(name: RN.notFound, page: () => const UnknownRoutePage());

@@ -4,10 +4,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/page/post/logic.dart';
 
-const _kPageTransDuration = Duration(milliseconds: 200);
+const _kPageTransDuration = Duration(milliseconds: 400);
+const _kProgressDuration = Duration(milliseconds: 220);
 
 class PPPostProgress extends StatelessWidget {
   const PPPostProgress({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class PPPostProgress extends StatelessWidget {
     final Border? border;
     final Color color;
     final Color textColor;
-    if (logic.progress.value > index) {
+    if (logic.progress.value >= index) {
       border = null;
       color = AppTheme.primary;
       textColor = AppTheme.gray100;
@@ -65,6 +65,65 @@ class PPPostProgress extends StatelessWidget {
         ),
       );
     }
+
+    final progresses = Obx(
+      () => Stack(
+        fit: StackFit.expand,
+        alignment: Alignment.bottomCenter,
+        children: [
+          Center(
+            child: FractionallySizedBox(
+              widthFactor: 2 / 3,
+              // [spaceAround]: Place the free space evenly between the children as well as half of that
+              // space before and after the first and last child. So (1 + 1)/(1 + 1 + 0.5 * 2)
+              child: SizedBox(
+                height: 3,
+                width: double.infinity,
+                child: ColoredBox(
+                  color: AppTheme.gray80,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: AnimatedFractionallySizedBox(
+                      widthFactor: min(1.0, max(logic.progress.value / 3, 0)),
+                      heightFactor: 1,
+                      duration: _kProgressDuration,
+                      child: const ColoredBox(color: AppTheme.primary),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildTitle(logic, 1),
+              _buildTitle(logic, 2),
+              _buildTitle(logic, 3),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    final titles = Obx(
+      //will refresh multiple times so place it separately
+      () => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text('基本信息',
+              style: AppTheme.headline9
+                  .copyWith(color: logic.currentPage.value == 0 ? AppTheme.primary : AppTheme.gray50)),
+          Text('人员需求',
+              style: AppTheme.headline9
+                  .copyWith(color: logic.currentPage.value == 1 ? AppTheme.primary : AppTheme.gray50)),
+          Text('详细信息',
+              style: AppTheme.headline9
+                  .copyWith(color: logic.currentPage.value == 2 ? AppTheme.primary : AppTheme.gray50)),
+        ],
+      ),
+    );
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -72,62 +131,13 @@ class PPPostProgress extends StatelessWidget {
           children: [
             Expanded(
               flex: 5,
-              child: Obx(
-                () => Stack(
-                  fit: StackFit.expand,
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Center(
-                      child: FractionallySizedBox(
-                        widthFactor: 2 / 3,
-                        // [spaceAround]: Place the free space evenly between the children as well as half of that
-                        // space before and after the first and last child. So (1 + 1)/(1 + 1 + 0.5 * 2)
-                        child: SizedBox(
-                          height: 3,
-                          width: double.infinity,
-                          child: ColoredBox(
-                            color: AppTheme.gray80,
-                            child: FractionallySizedBox(
-                              widthFactor: min(1.0, max(logic.progress.value, 0)),
-                              heightFactor: 1,
-                              child: const ColoredBox(color: AppTheme.primary),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildTitle(logic, 1),
-                        _buildTitle(logic, 2),
-                        _buildTitle(logic, 3),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              child: progresses,
             ),
             Expanded(
               flex: 3,
               child: Align(
                 alignment: Alignment.topCenter,
-                child: Obx(
-                  () => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('基本信息',
-                          style: AppTheme.headline9
-                              .copyWith(color: logic.currentPage.value == 0 ? AppTheme.primary : AppTheme.gray50)),
-                      Text('人员需求',
-                          style: AppTheme.headline9
-                              .copyWith(color: logic.currentPage.value == 1 ? AppTheme.primary : AppTheme.gray50)),
-                      Text('详细信息',
-                          style: AppTheme.headline9
-                              .copyWith(color: logic.currentPage.value == 2 ? AppTheme.primary : AppTheme.gray50)),
-                    ],
-                  ),
-                ),
+                child: titles,
               ),
             ),
           ],

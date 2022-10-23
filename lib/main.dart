@@ -11,6 +11,7 @@ import 'package:pinpin/app/route/route.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/i18n/i18n_names.dart';
 import 'package:pinpin/manager/setting/settings_manager.dart';
+import 'package:pinpin/manager/api/api_interface.dart';
 
 void main() async {
   await _init();
@@ -21,8 +22,8 @@ Future<void> _init() async {
   WidgetsFlutterBinding.ensureInitialized(); //app运行前，先和engine层通信(指注册好绘画手势的监听器等)
   // debugRepaintRainbowEnabled = true;
   await Get.putAsync(() => AccountManager().init());
-  Get.put(
-    PPHttp.init(
+  Get.put<PPNetWorkInterface>(
+    initPPHttp(
       deviceName: 'XHZQ',
       accountGetter: () => Get.find<AccountManager>().current,
       accountUpdater: (data) => Get.find<AccountManager>().updateAccount(data),

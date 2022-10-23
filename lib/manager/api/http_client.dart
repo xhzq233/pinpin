@@ -12,8 +12,18 @@ import 'package:pinpin/model/user_info/user_info.dart';
 import '../../model/notice/notice.dart';
 import '../../model/response/msg_response.dart';
 
-class PPHttp extends HttpClientInterface with PPNetWorkInterface {
-  PPHttp.init({required super.deviceName, required super.accountGetter, required super.accountUpdater}) : super.init();
+PPNetWorkInterface Function({
+  required UserInfo? Function() accountGetter,
+  required void Function(UserInfo userInfo) accountUpdater,
+  required String deviceName,
+}) initPPHttp = _PPHttpImplement.init;
+
+class _PPHttpImplement extends HttpClientInterface with PPNetWorkInterface {
+  _PPHttpImplement.init({
+    required super.deviceName,
+    required super.accountGetter,
+    required super.accountUpdater,
+  }) : super.init();
 
   /// welcome
   @override
@@ -23,14 +33,23 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
     required int startTime,
     CancelToken? cancelToken,
   }) =>
-      request(Api.getPinPinData, PinPinListData.fromJson, cancelToken: cancelToken, queryParameters: {
-        'Type': type,
-        'Label': label,
-        'Start': startTime,
-      });
+      request(
+        Api.getPinPinData,
+        PinPinListData.fromJson,
+        cancelToken: cancelToken,
+        queryParameters: {
+          'Type': type,
+          'Label': label,
+          'Start': startTime,
+        },
+      );
 
   @override
-  Future<PinPinListData?> searchPinPinData({required String title, required int label, required int startTime}) =>
+  Future<PinPinListData?> searchPinPinData({
+    required String title,
+    required int label,
+    required int startTime,
+  }) =>
       request(Api.searchPinPinData, PinPinListData.fromJson, queryParameters: {
         'Title': title,
         'Label': label,
@@ -38,7 +57,11 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
       });
 
   @override
-  Future<PinPinListData?> getValidPinPInData({required int type, required int label, required int startTime}) =>
+  Future<PinPinListData?> getValidPinPInData({
+    required int type,
+    required int label,
+    required int startTime,
+  }) =>
       request(Api.getValidPinPInData, PinPinListData.fromJson, queryParameters: {
         'Type': type,
         'Label': label,
@@ -47,20 +70,30 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
 
   /// manage
   @override
-  Future<MsgResponse?> sendVerifyCode({required String email, required bool isResetPassword}) {
+  Future<MsgResponse?> sendVerifyCode({
+    required String email,
+    required bool isResetPassword,
+  }) {
     var formData = FormData.fromMap({"Email": email, "IsResetPassword": isResetPassword});
     return requestForMsg(Api.sendVerifyCode, MsgResponse.fromJson, data: formData);
   }
 
   @override
-  Future<MsgResponse?> activateAccount({required String email, required String verifyCode}) {
+  Future<MsgResponse?> activateAccount({
+    required String email,
+    required String verifyCode,
+  }) {
     var formData = FormData.fromMap({"Email": email, "VerifyCode": verifyCode});
     return requestForMsg(Api.activateAccount, MsgResponse.fromJson, data: formData);
   }
 
   @override
-  Future<MsgResponse?> createUser(
-      {required String email, required String username, required String password, required String img}) {
+  Future<MsgResponse?> createUser({
+    required String email,
+    required String username,
+    required String password,
+    required String img,
+  }) {
     var formData = FormData.fromMap({
       "Email": email,
       "Username": username,
@@ -71,7 +104,10 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
   }
 
   @override
-  Future<MsgResponse?> signIn({required String email, required String password}) {
+  Future<MsgResponse?> signIn({
+    required String email,
+    required String password,
+  }) {
     var formData = FormData.fromMap({
       "Email": email,
       "Password": password,
@@ -80,66 +116,90 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
   }
 
   @override
-  Future<UserInfo?> getUserInfo({required String email}) =>
+  Future<UserInfo?> getUserInfo({
+    required String email,
+  }) =>
       request(Api.getUserInfo, UserInfo.fromJson, queryParameters: {
         "Email": email,
       });
 
   /// change
   @override
-  Future<MsgResponse?> changePassword(
-      {required String email, required String verifyCode, required String newPassword}) {
+  Future<MsgResponse?> changePassword({
+    required String email,
+    required String verifyCode,
+    required String newPassword,
+  }) {
     FormData formData = FormData.fromMap({"Email": email, "VerifyCode": verifyCode, "NewPassword": newPassword});
     return requestForUserInfo(Api.changePassword, MsgResponse.fromJson, data: formData);
   }
 
   @override
-  Future<UserInfo?> changeProfileVisibility({required String email, required String showPinPin}) {
+  Future<UserInfo?> changeProfileVisibility({
+    required String email,
+    required String showPinPin,
+  }) {
     FormData formData = FormData.fromMap({"Email": email, "ShowPinpin": showPinPin});
     return requestForUserInfo(Api.changeProfileVisibility, UserInfo.fromJson, data: formData);
   }
 
   @override
-  Future<UserInfo?> changeUserAvatar({required String email, required String newImg}) {
+  Future<UserInfo?> changeUserAvatar({
+    required String email,
+    required String newImg,
+  }) {
     FormData formData = FormData.fromMap({"Email": email, "NewImage": newImg});
     return requestForUserInfo(Api.changeUserAvatar, UserInfo.fromJson, data: formData);
   }
 
   @override
-  Future<UserInfo?> changeUserBackground({required String email, required String background}) {
+  Future<UserInfo?> changeUserBackground({
+    required String email,
+    required String background,
+  }) {
     FormData formData = FormData.fromMap({"Email": email, "Background": background});
     return requestForUserInfo(Api.changeUserBackground, UserInfo.fromJson, data: formData);
   }
 
   @override
-  Future<UserInfo?> changeUserDescription({required String email, required String masterIntroduction}) {
+  Future<UserInfo?> changeUserDescription({
+    required String email,
+    required String masterIntroduction,
+  }) {
     FormData formData = FormData.fromMap({"Email": email, "MasterIntroduction": masterIntroduction});
     return requestForUserInfo(Api.changeUserDescription, UserInfo.fromJson, data: formData);
   }
 
   @override
-  Future<UserInfo?> changeUserTags({required String email, required String myTags}) {
+  Future<UserInfo?> changeUserTags({
+    required String email,
+    required String myTags,
+  }) {
     FormData formData = FormData.fromMap({"Email": email, "MyTags": myTags});
     return requestForUserInfo(Api.changeUserTags, UserInfo.fromJson, data: formData);
   }
 
   @override
-  Future<UserInfo?> changeUsername({required String email, required String username}) {
+  Future<UserInfo?> changeUsername({
+    required String email,
+    required String username,
+  }) {
     FormData formData = FormData.fromMap({"Email": email, "Username": username});
     return requestForUserInfo(Api.changeUsername, UserInfo.fromJson, data: formData);
   }
 
   @override
-  Future<MsgResponse?> createPinpin(
-      {required String title,
-      required int label,
-      required int type,
-      required String deadline,
-      String? description,
-      required int demandingNum,
-      required int nowNum,
-      String? demandingDescription,
-      String? teamIntroduction}) {
+  Future<MsgResponse?> createPinpin({
+    required String title,
+    required int label,
+    required int type,
+    required String deadline,
+    String? description,
+    required int demandingNum,
+    required int nowNum,
+    String? demandingDescription,
+    String? teamIntroduction,
+  }) {
     FormData formData = FormData.fromMap({
       "Title": title,
       "Label": label,
@@ -156,15 +216,21 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
   }
 
   @override
-  Future<MsgResponse?> createReply({required String content, required int pinPinId, int? replyTo //后台默认为0
-      }) {
+  Future<MsgResponse?> createReply({
+    required String content,
+    required int pinPinId,
+    int? replyTo, //后台默认为0
+  }) {
     FormData formData = FormData.fromMap({"Content": content, "PinpinId": pinPinId, "ReplyTo": replyTo});
 
     return requestForMsg(Api.createReply, MsgResponse.fromJson, data: formData);
   }
 
   @override
-  Future<MsgResponse?> createReportPinPin({required int pinPinId, required String content}) {
+  Future<MsgResponse?> createReportPinPin({
+    required int pinPinId,
+    required String content,
+  }) {
     FormData formData = FormData.fromMap({
       "Content": content,
       "PinpinId": pinPinId,
@@ -174,7 +240,10 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
   }
 
   @override
-  Future<MsgResponse?> createReportUser({required String email, required String content}) {
+  Future<MsgResponse?> createReportUser({
+    required String email,
+    required String content,
+  }) {
     FormData formData = FormData.fromMap({
       "Content": content,
       "EmailReported": email,
@@ -184,20 +253,28 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
   }
 
   @override
-  Future<MsgResponse?> createSysNotice({required String title, required String content, required String email}) {
+  Future<MsgResponse?> createSysNotice({
+    required String title,
+    required String content,
+    required String email,
+  }) {
     FormData formData = FormData.fromMap({"Content": content, "Email": email, "Title": title});
 
     return requestForMsg(Api.createSysNotice, MsgResponse.fromJson, data: formData);
   }
 
   @override
-  Future<MsgResponse?> createThumbUp({required int replyId}) {
+  Future<MsgResponse?> createThumbUp({
+    required int replyId,
+  }) {
     FormData formData = FormData.fromMap({"ReplyId": replyId});
     return requestForMsg(Api.createThumbUp, MsgResponse.fromJson, data: formData);
   }
 
   @override
-  Future<MsgResponse?> deletePinpin({required int pinPinId}) {
+  Future<MsgResponse?> deletePinpin({
+    required int pinPinId,
+  }) {
     FormData formData = FormData.fromMap({
       "PinpinId": pinPinId,
     });
@@ -206,14 +283,19 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
   }
 
   @override
-  Future<MsgResponse?> deleteReply({required int pinPinId, required int replyId}) {
+  Future<MsgResponse?> deleteReply({
+    required int pinPinId,
+    required int replyId,
+  }) {
     FormData formData = FormData.fromMap({"PinpinId": pinPinId, "ReplyId": replyId});
 
     return requestForMsg(Api.deleteReply, MsgResponse.fromJson, data: formData);
   }
 
   @override
-  Future<MsgResponse?> followPinPin({required int pinPinId}) {
+  Future<MsgResponse?> followPinPin({
+    required int pinPinId,
+  }) {
     FormData formData = FormData.fromMap({
       "PinpinId": pinPinId,
     });
@@ -225,34 +307,40 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
   Future<ReplyListData?> getAllReplys({
     required int pinPinId,
   }) =>
-      requestForMsg(Api.getAllReplys, ReplyListData.fromJson, queryParameters: {
-        "PinpinId": pinPinId,
-      });
+      requestForMsg(
+        Api.getAllReplys,
+        ReplyListData.fromJson,
+        queryParameters: {
+          "PinpinId": pinPinId,
+        },
+      );
 
   @override
-  Future<List<PinPin>> getMyFollow() => requestList(Api.getMyFollow, PinPin.fromJson);
+  Future<List<PinPin>?> getMyFollow() => requestList(Api.getMyFollow, PinPin.fromJson);
 
   @override
-  Future<List<PinPin>> getMyPinPin() => requestList(Api.getMyFollow, PinPin.fromJson);
+  Future<List<PinPin>?> getMyPinPin() => requestList(Api.getMyFollow, PinPin.fromJson);
 
   @override
-  Future<List<Notice>> getMySysNotice() => requestList(Api.getMySysNotice, Notice.fromJson);
+  Future<List<Notice>?> getMySysNotice() => requestList(Api.getMySysNotice, Notice.fromJson);
 
   @override
-  Future<List<Notice>> getNotice() => requestList(Api.getNotice, Notice.fromJson);
+  Future<List<Notice>?> getNotice() => requestList(Api.getNotice, Notice.fromJson);
 
   @override
-  Future<HistoryPinPin?> getSpecifiedPinpin({required int pinPinId}) {
+  Future<HistoryPinPin?> getSpecifiedPinpin({
+    required int pinPinId,
+  }) {
     FormData formData = FormData.fromMap({
       "PinpinId": pinPinId,
     });
-    return request(Api.getSpecifiedPinpin, HistoryPinPin.fromJson, queryParameters: {
-      "PinpinId": pinPinId,
-    });
+    return request(Api.getSpecifiedPinpin, HistoryPinPin.fromJson, data: formData);
   }
 
   @override
-  Future<MsgResponse?> readNotice({required int id}) {
+  Future<MsgResponse?> readNotice({
+    required int id,
+  }) {
     FormData formData = FormData.fromMap({
       "NoticeId": id,
     });
@@ -261,17 +349,18 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
   }
 
   @override
-  Future<MsgResponse?> updatePinpin(
-      {required int pinPinId,
-      required String title,
-      required int label,
-      required int type,
-      required String deadline,
-      String? description,
-      required int demandingNum,
-      required int nowNum,
-      String? demandingDescription,
-      String? teamIntroduction}) {
+  Future<MsgResponse?> updatePinpin({
+    required int pinPinId,
+    required String title,
+    required int label,
+    required int type,
+    required String deadline,
+    String? description,
+    required int demandingNum,
+    required int nowNum,
+    String? demandingDescription,
+    String? teamIntroduction,
+  }) {
     FormData formData = FormData.fromMap({
       "PinpinId": pinPinId,
       "Title": title,
@@ -317,14 +406,22 @@ class PPHttp extends HttpClientInterface with PPNetWorkInterface {
   }
 
   @override
-  Future<MsgResponse?> cancelThumpUp({required int replyId}) {
-    FormData formData = FormData.fromMap({"ReplyId": replyId});
+  Future<MsgResponse?> cancelThumpUp({
+    required int replyId,
+  }) {
+    FormData formData = FormData.fromMap({
+      "ReplyId": replyId,
+    });
     return requestForMsg(Api.cancelThumpUp, MsgResponse.fromJson, data: formData);
   }
 
   @override
-  Future<MsgResponse?> create({required String content}) {
-    FormData formData = FormData.fromMap({"Content": content});
+  Future<MsgResponse?> create({
+    required String content,
+  }) {
+    FormData formData = FormData.fromMap({
+      "Content": content,
+    });
     return requestForMsg(Api.create, MsgResponse.fromJson, data: formData);
   }
 }
