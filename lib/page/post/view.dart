@@ -5,7 +5,7 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:get/get.dart';
-import 'package:pinpin/component/text_field/pp_text_field.dart';
+import 'package:pinpin/component/text_field/unfocus.dart';
 import 'package:pinpin/page/post/fragments/post_1.dart';
 import 'package:pinpin/page/post/fragments/post_2.dart';
 import 'package:pinpin/page/post/fragments/post_3.dart';

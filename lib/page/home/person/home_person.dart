@@ -21,9 +21,10 @@ extension _Bg on Widget {
           child: this,
         ).background(const DecoratedBox(
           decoration: BoxDecoration(
-              color: AppTheme.gray100,
-              boxShadow: [AppTheme.shadow],
-              borderRadius: BorderRadius.all(Radius.circular(12))),
+            color: AppTheme.gray100,
+            boxShadow: [AppTheme.shadow],
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
         )),
       );
 }
