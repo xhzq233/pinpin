@@ -49,3 +49,4 @@ pubspec.lock
 *.DS_Store
 **/Podfile.lock
 **.g.dart
+**generated*

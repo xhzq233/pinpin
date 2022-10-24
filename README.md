@@ -15,10 +15,15 @@ Use GetX for UI state management
 ### Build APK or IPA
 
 > Optional 
+> 
 > `flutter run --profile --cache-sksl [--purge-persistent-cache]`
+> 
 > tap M
+> 
 > Add `--bundle-sksl-path flutter_01.sksl.json` subcommand
+
 `flutter build ios`
+
 `flutter build apk --obfuscate --split-debug-info=build/split-debug-info/ --split-per-abi`
 
 ### Build WEB
