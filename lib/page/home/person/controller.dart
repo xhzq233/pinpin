@@ -25,12 +25,14 @@ class PPHomePersonController extends GetxController {
 
   @override
   void onInit() {
-    _http.getUserInfo(email: _accountManager.current!.email).then((value) {
+    super.onInit();
+    final account = _accountManager.current;
+    if (null == account) return;
+    _http.getUserInfo(email: account.email).then((value) {
       if (value != null) {
         userInfo.value = value;
       }
     });
-    super.onInit();
   }
 
   void toXX() {}

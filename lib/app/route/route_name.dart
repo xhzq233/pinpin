@@ -18,4 +18,6 @@ class RN {
   static const pp_detail = '/pinpin_detail';
 
   static const post = '/post';
+
+  static const edit_bg = '/edit_bg';
 }

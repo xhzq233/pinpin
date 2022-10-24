@@ -28,7 +28,7 @@ Use GetX for UI state management
 
 ### Build WEB
 
-`flutter build apk --obfuscate --split-debug-info=build/split-debug-info/ --split-per-abi`
+`flutter build web --release --web-renderer=html`
 
 ### Generate Json Model
 

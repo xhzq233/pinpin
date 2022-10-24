@@ -2,13 +2,15 @@
 /// Created by xhz on 2022/8/3
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
+import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/bar_items/person_avatar.dart';
 import 'package:pinpin/component/header/home_sliver_header.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 
@@ -59,14 +61,12 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
               alignment: const Alignment(0.88, 0.9),
               child: Opacity(
                 opacity: diff,
-                child: const PPCustomCapsuleButton(
+                child: PPCustomCapsuleButton(
                   background: AppTheme.secondary5,
+                  onPressed:()=> Get.toNamed(RN.edit_bg),
                   child: Text(
                     '编辑',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF0076FC),
-                    ),
+                    style: AppTheme.headline6.copyWith(color: AppTheme.primary),
                   ),
                 ),
               ),
@@ -83,16 +83,7 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     );
 
     final imgSize = diff * avatarSizeRange + avatarMinSize;
-    final img = PPImageButton.fromImage(
-      Image.network(
-        userInfo.image,
-        width: imgSize,
-        height: imgSize,
-        fit: BoxFit.scaleDown,
-      ),
-      onPressed: () {},
-      padding: 1,
-    );
+    final img = PersonAvatar(url: userInfo.image, size: imgSize);
 
     final username = SizedBox(
       height: avatarMinSize + 2,
@@ -112,29 +103,33 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     // 1 -> 0.9
     final endLineY = 0.9 + 0.1 * diff;
 
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        background,
-        Align(
-          alignment: const Alignment(-1, -1),
-          child: Padding(
-            padding: EdgeInsets.only(top: windowPadding.top, left: 3),
-            child: arrow,
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          background,
+          Align(
+            alignment: const Alignment(-1, -1),
+            child: Padding(
+              padding: EdgeInsets.only(top: windowPadding.top, left: 3),
+              child: arrow,
+            ),
           ),
-        ),
-        Align(
-          // (-0.9,1) -> (-0.18, 0.1)
-          alignment: Alignment(-0.18 - 0.72 * diff, endLineY),
-          child: img,
-        ),
-        Align(
-          // (-0.5,1) -> (0.13, 0.1)
-          alignment: Alignment(0.13 - 0.63 * diff, endLineY),
-          child: username,
-        ),
-      ],
-    ).sized(height: height, width: width);
+          Align(
+            // (-0.9,1) -> (-0.18, 0.1)
+            alignment: Alignment(-0.18 - 0.72 * diff, endLineY),
+            child: img,
+          ),
+          Align(
+            // (-0.5,1) -> (0.13, 0.1)
+            alignment: Alignment(0.13 - 0.63 * diff, endLineY),
+            child: username,
+          ),
+        ],
+      ),
+    );
   }
 
   @override

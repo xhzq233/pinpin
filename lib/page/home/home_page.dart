@@ -83,7 +83,6 @@ class _HomePageState extends State<HomePage> {
               Get.toNamed(RN.login);
               return;
             }
-
             setState(() => tabBarIndex = 1);
           },
           builder: (_) => Column(
@@ -102,17 +101,20 @@ class _HomePageState extends State<HomePage> {
       ],
     );
 
-    return Scaffold(
-      body: IndexedStack(
-        index: tabBarIndex,
-        children: const [
-          PPHomeMainView(),
-          PPHomePersonView(),
+    return Material(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          IndexedStack(
+            index: tabBarIndex,
+            children: const [
+              PPHomeMainView(),
+              PPHomePersonView(),
+            ],
+          ),
+          Align(alignment: Alignment.bottomCenter, child: bottomBar),
         ],
-      ).overlay(Align(
-        alignment: Alignment.bottomCenter,
-        child: bottomBar,
-      )),
+      ),
     );
   }
 }

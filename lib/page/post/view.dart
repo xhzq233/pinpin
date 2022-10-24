@@ -55,6 +55,7 @@ class PPPostPage extends StatelessWidget {
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.zero,
+                    physics: const BouncingScrollPhysics(),
                     children: [
                       SizedBox(
                         height: height * _kBodyHeightFactor,

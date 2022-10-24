@@ -89,6 +89,7 @@ class ProfilePage extends StatelessWidget {
 
     final myLabels = userInfo.myTags.trim().isEmpty ? ['Nothing here'] : userInfo.myTags.trim().split(',');
     final body = CustomScrollView(
+      physics: const BouncingScrollPhysics(),
       slivers: [
         SliverPersistentHeader(
           pinned: true,

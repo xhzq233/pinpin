@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/bar_items/person_avatar.dart';
 import 'package:pinpin/component/header/home_sliver_header.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
@@ -135,15 +136,9 @@ class PPHomePersonView extends StatelessWidget {
         border: Border.all(width: 1.6, strokeAlign: StrokeAlign.inside, color: AppTheme.primary),
         borderRadius: const BorderRadius.all(Radius.circular(28)),
       ),
-      child: PPImageButton.fromImage(
-        Image.network(
-          controller.userInfo.value.image,
-          width: avatarSize,
-          height: avatarSize,
-          fit: BoxFit.scaleDown,
-        ),
-        onPressed: controller.pressEditAvatar,
-        padding: 1,
+      child: PersonAvatar(
+        url: controller.userInfo.value.image,
+        size: avatarSize,
       ),
     );
 

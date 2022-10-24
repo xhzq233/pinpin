@@ -17,11 +17,15 @@ class PPHomeMainView extends GetView<PPHomeMainController> {
   const PPHomeMainView({Key? key}) : super(key: key);
 
   Widget _itemBuilder(BuildContext context, PinPin item, int index) {
-    return Hero(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Hero(
         tag: 'pp_${item.pinpinId}',
-        child: PPHomeCardView(
-          pp: item,
-        )).onTap(() => Get.toNamed(RN.pp_detail, arguments: item));
+        child: PPHomeCardView(pp: item),
+      ).onTap(
+        () => Get.toNamed(RN.pp_detail, arguments: item),
+      ),
+    );
   }
 
   @override
