@@ -32,15 +32,32 @@ class Routes {
       name: RN.welcome,
       page: () => const WelcomePage(),
     ),
-    GetPage(name: RN.register, page: () => const RegisterPage(), binding: RegisterBinding()),
+    GetPage(
+      name: RN.register,
+      page: () => const RegisterPage(),
+      binding: RegisterBinding(),
+    ),
     GetPage(
       name: RN.login,
       page: () => const LoginPage(),
       binding: LoginBinding(),
     ),
-    GetPage(name: RN.passwd_set, page: () => const PasswordSetPage(), binding: PasswordSetBinding()),
-    GetPage(name: RN.pp_detail, page: () => const PPDetailPage(), binding: PPDetailBinding()),
-    GetPage(name: RN.search, page: () => const SearchPage(), binding: SearchBinding()),
+    GetPage(
+      name: RN.passwd_set,
+      page: () => const PasswordSetPage(),
+      binding: PasswordSetBinding(),
+    ),
+    GetPage(
+      name: RN.pp_detail,
+      page: () => const PPDetailPage(),
+      binding: PPDetailBinding(),
+      middlewares: [authMiddleware],
+    ),
+    GetPage(
+      name: RN.search,
+      page: () => const SearchPage(),
+      binding: SearchBinding(),
+    ),
     GetPage(
       name: RN.profile,
       page: () => const ProfilePage(),

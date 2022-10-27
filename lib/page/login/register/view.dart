@@ -37,7 +37,7 @@ class RegisterPage extends StatelessWidget {
             hintText: '输入验证码',
             suffixIcon: const FractionallySizedBox(
               widthFactor: 0.7,
-              child: CountDownWidget(),
+              child: Padding(padding: EdgeInsets.symmetric(vertical: 2), child: CountDownWidget()),
             ),
             controller: controller.codeTC,
             onChanged: controller.onCodeChanged,
@@ -65,7 +65,7 @@ class RegisterPage extends StatelessWidget {
             "1037拼拼会向您的华科校园邮箱发送邮件验证校园身份，您可稍后再进行验证。",
             style: AppTheme.headline9.copyWith(color: AppTheme.banned),
           ),
-          const Flexible(child: SizedBox(height: 400)),
+          const Flexible(child: SizedBox(height: 380)),
           RichText(
             text: TextSpan(
               children: [

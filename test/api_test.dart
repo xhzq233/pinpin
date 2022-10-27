@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:pinpin/main.dart';
 import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:pinpin/manager/api/api.dart';
-import 'package:pinpin/manager/api/http_client.dart';
+import 'package:pinpin/manager/api/client.dart';
 import 'package:pinpin/model/account/account.dart';
 import 'package:pinpin/model/notice/notice.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';

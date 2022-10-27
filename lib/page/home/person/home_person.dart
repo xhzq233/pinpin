@@ -4,7 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/bar_items/person_avatar.dart';
-import 'package:pinpin/component/header/home_sliver_header.dart';
+import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';

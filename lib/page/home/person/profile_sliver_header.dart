@@ -8,7 +8,7 @@ import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/bar_items/person_avatar.dart';
-import 'package:pinpin/component/header/home_sliver_header.dart';
+import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';

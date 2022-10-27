@@ -3,7 +3,7 @@
 import 'package:dio/dio.dart';
 import 'package:pinpin/manager/api/api.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
-import 'package:pinpin/manager/api/http_client_interface.dart';
+import 'package:pinpin/manager/api/client_interface.dart';
 import 'package:pinpin/model/account/account.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/model/pinpin/pinpin_list_data.dart';
@@ -16,10 +16,10 @@ PPNetWorkInterface Function({
   required AccountGetter accountGetter,
   required AccountUpdater accountUpdater,
   required String deviceName,
-}) initPPHttp = _PPHttpImplement.init;
+}) initPPHttp = _PPNetworkImplement.init;
 
-class _PPHttpImplement extends HttpClientInterface with PPNetWorkInterface {
-  _PPHttpImplement.init({
+class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
+  _PPNetworkImplement.init({
     required super.deviceName,
     required super.accountGetter,
     required super.accountUpdater,

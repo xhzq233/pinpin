@@ -15,7 +15,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   static final backgroundMaxHeight = appBarMinHeight + 53;
   static final appBarMaxHeight = backgroundMaxHeight + searchBarProtruding;
-  static final appBarMinHeight = PPNavigationBarHeight + windowPadding.top;//59+40
+  static final appBarMinHeight = PPNavigationBarHeight + windowPadding.top; //59+40
   static final appBarHeightRange = appBarMaxHeight - appBarMinHeight;
 
   static const searchBarProtruding = 11.0;
@@ -54,37 +54,41 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
     final curved = Curves.easeOutCubic.transform(diff); // slower when near the ending
 
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        background,
-        Align(
-          alignment: const Alignment(-0.8, -1),
-          child: Padding(
-            padding: EdgeInsets.only(top: windowPadding.top + diff * 12),
-            child: Opacity(
-              opacity: max(diff * 1.5 - 0.5, 0),
-              child: title,
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          background,
+          Align(
+            alignment: const Alignment(-0.8, -1),
+            child: Padding(
+              padding: EdgeInsets.only(top: windowPadding.top + diff * 12),
+              child: Opacity(
+                opacity: max(diff * 1.5 - 0.5, 0),
+                child: title,
+              ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment((1.0 - diff) * 0.05 + 0.86, 0.66 - 1.66 * curved),
-          //(0.86, -1)->(0.91, 0.66),
-          child: Padding(
-            padding: EdgeInsets.only(top: windowPadding.top * Curves.decelerate.transform(diff) + diff * 12),
-            child: mailbox,
+          Align(
+            alignment: Alignment((1.0 - diff) * 0.05 + 0.86, 0.66 - 1.66 * curved),
+            //(0.86, -1)->(0.91, 0.66),
+            child: Padding(
+              padding: EdgeInsets.only(top: windowPadding.top * Curves.decelerate.transform(diff) + diff * 12),
+              child: mailbox,
+            ),
           ),
-        ),
-        Align(
-          //Alignment(0, 1) -> Alignment(-0.33, 0.66)
-          alignment: Alignment((1.0 - diff) * (-0.33), 0.66 + 0.33 * diff),
-          child: const Hero(tag: PPHomeSearchBar.heroTag, child: PPHomeSearchBar()).sized(
-              width: diff * searchBarWidthRange + searchBarMinWidth,
-              height: diff * searchBarHeightRange + searchBarMinHeight),
-        ),
-      ],
-    ).sized(height: height, width: width);
+          Align(
+            //Alignment(0, 1) -> Alignment(-0.33, 0.66)
+            alignment: Alignment((1.0 - diff) * (-0.33), 0.66 + 0.33 * diff),
+            child: const Hero(tag: PPHomeSearchBar.heroTag, child: PPHomeSearchBar()).sized(
+                width: diff * searchBarWidthRange + searchBarMinWidth,
+                height: diff * searchBarHeightRange + searchBarMinHeight),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
