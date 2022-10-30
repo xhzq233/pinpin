@@ -8,13 +8,8 @@ class ReplyListData {
 
   @JsonKey(name: "data")
   List<Reply> data;
-  // late List<Reply> data;
-
 
   ReplyListData({required this.data});
-  // ReplyListData({required List<Reply> data});
-
-
 
   factory ReplyListData.fromJson(dynamic json) {
     return _$ReplyListDataFromJson(json);

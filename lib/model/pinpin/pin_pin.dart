@@ -15,13 +15,7 @@ class PinPin {
     required this.label,
     required this.ownerEmail,
     required this.updatedAt,
-    // more info
-    this.createdAt,
-    this.demandingDescription,
-    this.description,
-    this.isDeleted,
-    this.replyNum,
-    this.teamIntroduction,
+    required this.description,
   });
 
   @JsonKey(name: "PinpinId")
@@ -55,22 +49,22 @@ class PinPin {
   bool isFollowed;
 
   @JsonKey(name: "Description")
-  String? description;
+  String description;
 
-  @JsonKey(name: "DemandingDescription")
-  String? demandingDescription;
+  @JsonKey(name: "DemandingDescription", defaultValue: 'No demanding description')
+  late String demandingDescription;
 
-  @JsonKey(name: "TeamIntroduction")
-  String? teamIntroduction;
+  @JsonKey(name: "TeamIntroduction", defaultValue: 'No team introduction')
+  late String teamIntroduction;
 
-  @JsonKey(name: "IsDeleted")
-  bool? isDeleted;
+  @JsonKey(name: "IsDeleted", defaultValue: false)
+  late bool isDeleted;
 
-  @JsonKey(name: "CreatedAt")
-  int? createdAt;
+  @JsonKey(name: "CreatedAt", defaultValue: 0)
+  late int createdAt;
 
-  @JsonKey(name: "ReplyNum")
-  int? replyNum;
+  @JsonKey(name: "ReplyNum", defaultValue: 0)
+  late int replyNum;
 
   @override
   String toString() {

@@ -4,26 +4,36 @@ part 'notice.g.dart';
 
 @JsonSerializable()
 class Notice {
-  Notice();
-  @JsonKey(name: 'ID')
-  late num id;
-  @JsonKey(name: 'CreatedAt')
-  late String createdAt;
-  @JsonKey(name: 'UpdatedAt')
-  late String updatedAt;
-  @JsonKey(name: 'DeletedAt')
-  late String deletedAt;
-  @JsonKey(name: 'Title')
-  late String title;
-  @JsonKey(name: 'Content')
-  late String content;
-  @JsonKey(name: 'Email')
-  late String email;
-  @JsonKey(name: 'Timestamp')
-  late num timeStamp;
-  @JsonKey(name: 'IsRead')
-  late bool isRead;
+  Notice({
+    required this.id,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.deletedAt,
+    required this.title,
+    required this.content,
+    required this.email,
+    required this.timeStamp,
+    required this.isRead,
+  });
 
+  @JsonKey(name: 'ID')
+  int id;
+  @JsonKey(name: 'CreatedAt')
+  String createdAt;
+  @JsonKey(name: 'UpdatedAt')
+  String updatedAt;
+  @JsonKey(name: 'DeletedAt')
+  String deletedAt;
+  @JsonKey(name: 'Title')
+  String title;
+  @JsonKey(name: 'Content')
+  String content;
+  @JsonKey(name: 'Email')
+  String email;
+  @JsonKey(name: 'Timestamp')
+  int timeStamp;
+  @JsonKey(name: 'IsRead')
+  bool isRead;
 
   @override
   String toString() {
@@ -31,5 +41,6 @@ class Notice {
   }
 
   factory Notice.fromJson(dynamic json) => _$NoticeFromJson(json);
+
   Map<String, dynamic> toJson() => _$NoticeToJson(this);
 }

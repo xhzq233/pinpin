@@ -8,6 +8,8 @@ import 'package:pinpin/component/toast/toast.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/util/bool_pp.dart';
 
+const _kMaxDuration = Duration(days: 60);
+
 class PPPostLogic extends GetxController {
   PPPostLogic();
 
@@ -108,7 +110,7 @@ class PPPostLogic extends GetxController {
       context: refresher,
       initialDate: ddl ?? now,
       firstDate: now,
-      lastDate: now.add(const Duration(days: 60)),
+      lastDate: now.add(_kMaxDuration),
     );
 
     if (null != newDDL) {

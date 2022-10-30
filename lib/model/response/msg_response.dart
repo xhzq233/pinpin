@@ -4,9 +4,10 @@ part 'msg_response.g.dart';
 
 @JsonSerializable()
 class MsgResponse {
-  MsgResponse();
+  MsgResponse(this.msg);
 
-  late String msg;
+  @JsonKey(name: "msg", defaultValue: 'No msg available')
+  final String msg;
 
   @override
   String toString() {
@@ -14,5 +15,6 @@ class MsgResponse {
   }
 
   factory MsgResponse.fromJson(dynamic json) => _$MsgResponseFromJson(json);
+
   dynamic toJson() => _$MsgResponseToJson(this);
 }

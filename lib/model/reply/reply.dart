@@ -4,33 +4,44 @@ part 'reply.g.dart';
 
 @JsonSerializable()
 class Reply {
-  Reply();
+  
+  Reply({
+    required this.id,
+    required this.createdAt,
+    required this.content,
+    required this.email,
+    required this.isDeleted,
+    required this.isThumbUp,
+    required this.pinPinId,
+    required this.replyTo,
+    required this.thumbUpint,
+  });
 
   @JsonKey(name: "Content")
-  late String content;
+  final String content;
   @JsonKey(name: "Created_at")
-  late String createdAt;
+  final String createdAt;
   @JsonKey(name: "Email")
-  late String email;
+  final String email;
   @JsonKey(name: "ID")
-  late num id;
+  final int id;
   @JsonKey(name: "IsDeleted")
-  late bool isDeleted;
+  final bool isDeleted;
   @JsonKey(name: "IsThumbUp")
-  late bool isThumbUp;
+  final bool isThumbUp;
   @JsonKey(name: "PinpinId")
-  late num pinPinId;
+  final int pinPinId;
   @JsonKey(name: "ReplyTo")
-  late num replyTo;
-  @JsonKey(name: "ThumbUpNum")
-  late num thumbUpNum;
-
+  final int replyTo;
+  @JsonKey(name: "ThumbUpint")
+  final int thumbUpint;
 
   @override
   String toString() {
-    return 'Reply{content: $content, createdAt: $createdAt, email: $email, id: $id, isDeleted: $isDeleted, isThumbUp: $isThumbUp, pinPinId: $pinPinId, replyTo: $replyTo, thumbUpNum: $thumbUpNum}';
+    return 'Reply{content: $content, createdAt: $createdAt, email: $email, id: $id, isDeleted: $isDeleted, isThumbUp: $isThumbUp, pinPinId: $pinPinId, replyTo: $replyTo, thumbUpint: $thumbUpint}';
   }
 
-  factory Reply.fromJson(Map<String,dynamic> json) => _$ReplyFromJson(json);
+  factory Reply.fromJson(Map<String, dynamic> json) => _$ReplyFromJson(json);
+
   Map<String, dynamic> toJson() => _$ReplyToJson(this);
 }
