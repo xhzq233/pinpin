@@ -9,6 +9,16 @@ class RN {
   static const login = "/login";
   static const search = "/search";
   static const profile = "/profile";
+  static const collections = "/collections";
+  static const releases = "/releases";
+  static const guidance = "/guidance";
+  static const advice = "/advice";
+  static const edit_profile = "/edit_profile";
+  static const edit_personal_profile = "/edit_personal_profile";
+  static const edit_username = "/edit_username";
+  static const edit_labels = "/edit_labels";
+  static const edit_avatar = "/edit_avatar";
+
 
   static const register = "$login/register";
   static const passwd_set = "$login/passwd";

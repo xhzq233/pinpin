@@ -20,6 +20,8 @@ dependencies:
   shared_preferences: ^2.0.15
   loading_more_list: ^4.1.2
   boxy: ^2.0.6+1
+  image_picker: ^0.8.6
+  flutter_slidable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

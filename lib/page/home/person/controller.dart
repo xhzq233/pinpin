@@ -1,49 +1,103 @@
 /// pinpin - controller
 /// Created by xhz on 07/08/2022
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
-import 'package:pinpin/manager/account_manager/account_manager.dart';
-import 'package:pinpin/manager/api/api_interface.dart';
-import 'package:pinpin/model/user_info/user_info.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 
 class PPHomePersonController extends GetxController {
+  void toEditProfilePage() {
+    Get.toNamed(RN.edit_profile);
+  }
+
   void toProfilePage() {
-    Get.toNamed(RN.profile, arguments: userInfo.value);
+    Get.toNamed(RN.profile);
   }
 
-  final _accountManager = Get.find<AccountManager>();
-  final _http = Get.find<PPNetWorkInterface>();
-
-  final Rx<UserInfo> userInfo = UserInfo(
-    background: 'https://xhzq.xyz/images/doge.png',
-    history: [],
-    image: 'https://xhzq.xyz/images/doge.png',
-    brief: 'User brief',
-    myTags: 'User tags',
-    username: 'Username',
-  ).obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-    final account = _accountManager.current;
-    if (null == account) return;
-    _http.getUserInfo(email: account.email).then((value) {
-      if (value != null) {
-        userInfo.value = value;
-      }
-    });
+  void toCollectionsPage() {
+    Get.toNamed(RN.collections);
   }
 
-  void toXX() {}
+  void toReleasesPage() {
+    Get.toNamed(RN.releases);
+  }
 
-  void pressEditAvatar() {}
+  void toGuidancePage() {
+    Get.toNamed(RN.guidance);
+  }
 
-  void logout() {
-    if (_accountManager.isEmpty) return;
+  void toAdvicePage() {
+    Get.toNamed(RN.advice);
+  }
 
-    _accountManager.removeAccountAt(_accountManager.currentIndex.value);
-    _accountManager.setMainAccount(-1);
-    Get.offAllNamed(RN.welcome);
+  void logOut(BuildContext context) async {
+    bool? delete = await showDeleteConfirmDialog(context);
+    // if delete
+  }
+
+  Future<bool?> showDeleteConfirmDialog(BuildContext context) {
+    return showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: const OutlineInputBorder(
+                borderSide: BorderSide(width: 0, color: Colors.white),
+                borderRadius: BorderRadius.all(Radius.circular(12))),
+            content: SizedBox(
+              width: 250,
+              height: 92,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Center(
+                    child: Text(
+                      "确认退出拼拼?",
+                      style: AppTheme.headline4,
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(bottom: 20)),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: SizedBox(
+                            height: 36,
+                            child: PPCommonTextButton(
+                              style: PPCommonTextButtonStyle.outline,
+                              title: "退出",
+                              onPressed: () =>
+                                  Navigator.of(context).pop(), // 关闭对话框
+                            ),
+                          )),
+
+                      const SizedBox(width: 20),
+
+                      Expanded(
+                        flex: 1,
+                        child: SizedBox(
+                          height: 36,
+                          child: PPCommonTextButton(
+                            title: "再想想",
+                            onPressed: () {
+                              //关闭对话框并返回true
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        )
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  void pressEditAvatar() {
+    toEditProfilePage();
   }
 }

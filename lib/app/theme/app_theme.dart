@@ -6,6 +6,14 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
+  static const titleline = TextStyle(
+      fontSize: 20,
+      decoration: TextDecoration.none,
+      color: Colors.white,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+      fontFamily: '.SF UI Display');
+
   static const headline1 = TextStyle(
       fontSize: 24,
       decoration: TextDecoration.none,
