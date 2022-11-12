@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/header/home_sliver_header.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/header/sliver_header_delegate.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/tab_bar/tab_bar.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
+import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'controller.dart';
 
 class ReleasesPage extends StatelessWidget {
@@ -28,7 +28,7 @@ class ReleasesPage extends StatelessWidget {
         nowNum: 10,
         ownerEmail: "U202013777",
         updatedAt: 555,
-        isFollowed: true);
+        isFollowed: true, description: '');
 
     final header = SliverPersistentHeader(
         pinned: true,
