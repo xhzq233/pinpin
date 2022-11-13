@@ -6,14 +6,42 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
+import 'package:pinpin/manager/account_manager/account_manager.dart';
+import 'package:pinpin/manager/api/api_interface.dart';
+import 'package:pinpin/model/user_info/user_info.dart';
 
 class PPHomePersonController extends GetxController {
+
+  final _accountManager = Get.find<AccountManager>();
+  final _http = Get.find<PPNetWorkInterface>();
+
+  final Rx<UserInfo> userInfo = UserInfo(
+    background: 'https://xhzq.xyz/images/doge.png',
+    history: [],
+    image: 'https://xhzq.xyz/images/doge.png',
+    brief: 'User brief',
+    myTags: 'User tags',
+    username: 'Username',
+  ).obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    final account = _accountManager.current;
+    if (null == account) return;
+    _http.getUserInfo(email: account.email).then((value) {
+      if (value != null) {
+        userInfo.value = value;
+      }
+    });
+  }
+
   void toEditProfilePage() {
     Get.toNamed(RN.edit_profile);
   }
 
   void toProfilePage() {
-    Get.toNamed(RN.profile);
+    Get.toNamed(RN.profile, arguments: userInfo.value);
   }
 
   void toCollectionsPage() {
@@ -68,8 +96,15 @@ class PPHomePersonController extends GetxController {
                             child: PPCommonTextButton(
                               style: PPCommonTextButtonStyle.outline,
                               title: "退出",
-                              onPressed: () =>
-                                  Navigator.of(context).pop(), // 关闭对话框
+                              onPressed: (){
+                                if (_accountManager.isEmpty) return;
+
+                                // 移除账户
+                                _accountManager.removeAccountAt(_accountManager.currentIndex.value);
+                                _accountManager.setMainAccount(-1);
+                                // 跳转到欢迎页
+                                Get.offAllNamed(RN.welcome);
+                              }// 关闭对话框
                             ),
                           )),
 
