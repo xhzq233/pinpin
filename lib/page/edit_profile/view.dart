@@ -12,26 +12,24 @@ import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 
-
-
 import 'controller.dart';
-
 
 extension _Bg on Widget {
   Widget _bg() => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: this,
-    ).background(const DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppTheme.gray100,
-        boxShadow: [AppTheme.shadow],
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-      ),
-    )),
-  );
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: this,
+        ).background(const DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppTheme.gray100,
+            boxShadow: [AppTheme.shadow],
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+          ),
+        )),
+      );
 }
+
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
 
@@ -40,11 +38,7 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfilePage> {
-
   final controller = Get.find<EditProfileController>();
-
-  var _imgPath;
-
 
   final back = Image.asset(
     AppAssets.arrow_right,
@@ -90,19 +84,14 @@ class _EditProfileState extends State<EditProfilePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
+    Object buildImage() => controller.count != 0
+        ? FileImage(controller.imageFile.value)
+        : const AssetImage(AppAssets.profile);
 
-    ImageProvider _buildImage(){
-      if(_imgPath == null){
-        return const AssetImage(AppAssets.profile);
-      } else {
-        return FileImage(File(_imgPath.path));
-      }
-    }
     final avatar = CircleAvatar(
-      backgroundImage: _buildImage(),
+      backgroundImage: buildImage() as ImageProvider,
       radius: 20,
     );
 
@@ -118,19 +107,22 @@ class _EditProfileState extends State<EditProfilePage> {
                   title,
                   style: AppTheme.headline5,
                 ),
-                Row(mainAxisSize: MainAxisSize.min,
-                  children: [avatar, back],)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Obx(() => CircleAvatar(
+                        backgroundImage: FileImage(controller.imageFile.value),
+                        radius: 20)),
+                    back
+                  ],
+                )
               ],
             ).paddingSymmetric(vertical: 3);
-          }
-      );
+          });
     }
 
-    void changeAvatar(){
+    void changeAvatar() {
       controller.onChangeAvatar(context);
-      setState(() {
-        _imgPath = controller.imageFile;
-      });
     }
 
     return Scaffold(
@@ -139,16 +131,19 @@ class _EditProfileState extends State<EditProfilePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const PPNavigationBar(title: "编辑个人资料"),
-          getItemWidthAvatar("头像", changeAvatar)._bg(),
+          getItemWidthAvatar("头像", () => controller.onChangeAvatar(context))
+              ._bg(),
           getItem("昵称", controller.toEditUsernamePage)._bg(),
           getItem("个人简介", controller.toEditPersonalProfilePage)._bg(),
           getItem("标签页", controller.toEditLabelsPage)._bg(),
-          getItemWidthOpenButton("向他人展示我发布过的", controller.onClickShowOrNotButton)._bg(),
+          getItemWidthOpenButton(
+                  "向他人展示我发布过的", controller.onClickShowOrNotButton)
+              ._bg(),
         ],
-      ).paddingSymmetric( // ListView添加内边距
+      ).paddingSymmetric(
+        // ListView添加内边距
         horizontal: 16,
       ),
     );
   }
 }
-

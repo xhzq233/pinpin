@@ -8,9 +8,10 @@ import 'package:pinpin/app/route/route_name.dart';
 
 class EditProfileController extends GetxController {
 
-  XFile? imageFile;
-  final imagePath = "".obs;
-  final imageIdx = 0.obs;
+  XFile? pickedFile;
+  final imageFile = File("").obs;
+  final isShowBottomSheet = false.obs;
+  int count = 0;
 
   void toEditPersonalProfilePage() {
     Get.toNamed(RN.edit_personal_profile);
@@ -27,11 +28,10 @@ class EditProfileController extends GetxController {
   void onClickShowOrNotButton() {}
 
   void onChangeAvatar(BuildContext context) async{
-    // 跳转到edit_avatar页面， 但是现在不需要
-    // Get.toNamed(RN.edit_avatar);
-
     final names = ["选择照片", "拍照"];
-    var index = await _showBottomSheet(context, names);
+    if(isShowBottomSheet.value){
+      var index = await _showBottomSheet(context, names);
+    }
   }
 
   Future<int?> _showBottomSheet(context, List<String> options) async {
@@ -92,14 +92,12 @@ class EditProfileController extends GetxController {
   }
 
   _takePhoto() async {
-    imageFile = await ImagePicker().pickImage(source: ImageSource.camera);
-    imagePath(imageFile?.path);
-    print(imageFile?.path);
+    pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    imageFile(File(pickedFile!.path));
   }
 
   _openGallery() async {
-    imageFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    print(imageFile?.path);
-    imagePath(imageFile?.path);
+    pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    imageFile(File(pickedFile!.path));
   }
 }
