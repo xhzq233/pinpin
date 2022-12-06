@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
@@ -31,12 +32,19 @@ extension _Bg on Widget {
     )),
   );
 }
+class EditProfilePage extends StatefulWidget {
+  const EditProfilePage({Key? key}) : super(key: key);
 
-class EditProfilePage extends StatelessWidget {
-  
-  EditProfilePage({Key? key}) : super(key: key);
+  @override
+  State<EditProfilePage> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfilePage> {
 
   final controller = Get.find<EditProfileController>();
+
+  var _imgPath;
+
 
   final back = Image.asset(
     AppAssets.arrow_right,
@@ -81,18 +89,18 @@ class EditProfilePage extends StatelessWidget {
       },
     );
   }
-  
+
+
   @override
   Widget build(BuildContext context) {
 
     ImageProvider _buildImage(){
-      if(controller.getImage() == null){
+      if(_imgPath == null){
         return const AssetImage(AppAssets.profile);
       } else {
-        return FileImage(File(controller.getImage().path));
+        return FileImage(File(_imgPath.path));
       }
     }
-
     final avatar = CircleAvatar(
       backgroundImage: _buildImage(),
       radius: 20,
@@ -100,22 +108,29 @@ class EditProfilePage extends StatelessWidget {
 
     Widget getItemWidthAvatar(String title, void Function() function) {
       return HoldActiveButton(
-        onPressed: function,
-        builder: (_) {
-          return Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: AppTheme.headline5,
-              ),
-              Row(mainAxisSize: MainAxisSize.min,
-                children: [avatar, back],)
-            ],
-          ).paddingSymmetric(vertical: 3);
-        },
+          onPressed: function,
+          builder: (_) {
+            return Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: AppTheme.headline5,
+                ),
+                Row(mainAxisSize: MainAxisSize.min,
+                  children: [avatar, back],)
+              ],
+            ).paddingSymmetric(vertical: 3);
+          }
       );
+    }
+
+    void changeAvatar(){
+      controller.onChangeAvatar(context);
+      setState(() {
+        _imgPath = controller.imageFile;
+      });
     }
 
     return Scaffold(
@@ -124,7 +139,7 @@ class EditProfilePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const PPNavigationBar(title: "编辑个人资料"),
-          getItemWidthAvatar("头像", () => controller.onChangeAvatar(context))._bg(),
+          getItemWidthAvatar("头像", changeAvatar)._bg(),
           getItem("昵称", controller.toEditUsernamePage)._bg(),
           getItem("个人简介", controller.toEditPersonalProfilePage)._bg(),
           getItem("标签页", controller.toEditLabelsPage)._bg(),
@@ -136,3 +151,4 @@ class EditProfilePage extends StatelessWidget {
     );
   }
 }
+

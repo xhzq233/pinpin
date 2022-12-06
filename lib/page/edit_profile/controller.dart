@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -6,7 +8,9 @@ import 'package:pinpin/app/route/route_name.dart';
 
 class EditProfileController extends GetxController {
 
-  Rx<XFile>? _imagePath = null;
+  XFile? imageFile;
+  final imagePath = "".obs;
+  final imageIdx = 0.obs;
 
   void toEditPersonalProfilePage() {
     Get.toNamed(RN.edit_personal_profile);
@@ -27,10 +31,10 @@ class EditProfileController extends GetxController {
     // Get.toNamed(RN.edit_avatar);
 
     final names = ["选择照片", "拍照"];
-    var index = await _showCustomModalBottomSheet(context, names);
+    var index = await _showBottomSheet(context, names);
   }
 
-  Future<int?> _showCustomModalBottomSheet(context, List<String> options) async {
+  Future<int?> _showBottomSheet(context, List<String> options) async {
 
     return showModalBottomSheet<int>(
       backgroundColor: Colors.transparent, // 背景颜色
@@ -75,7 +79,7 @@ class EditProfileController extends GetxController {
                   return ListTile(// ListTile作为item
                       title: Text(options[index]),
                       onTap: () async{
-                        index == 1 ? _imagePath = await _takePhoto() : _imagePath = await _openGallery();
+                        index == 1 ? await _takePhoto() : await _openGallery();
                       });
                 },
                 itemCount: options.length,
@@ -87,17 +91,15 @@ class EditProfileController extends GetxController {
     );
   }
 
-  /*拍照*/
   _takePhoto() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.camera);
-    return image;
+    imageFile = await ImagePicker().pickImage(source: ImageSource.camera);
+    imagePath(imageFile?.path);
+    print(imageFile?.path);
   }
 
-  /*相册*/
   _openGallery() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    return image;
+    imageFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    print(imageFile?.path);
+    imagePath(imageFile?.path);
   }
-
-  getImage() => _imagePath;
 }
