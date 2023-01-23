@@ -4,7 +4,6 @@ import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/model/account/account.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 
-import '../../model/load_more/pinpin.dart';
 
 class ReleasesController extends GetxController {
   final _accountManager = Get.find<AccountManager>();
