@@ -72,7 +72,7 @@ class Routes {
         binding: SearchBinding()),
     GetPage(
         name: RN.collections,
-        page: () => const CollectionsPage(),
+        page: () => CollectionsPage(),
         binding: CollectionsBinding()),
     GetPage(
         name: RN.advice,
@@ -84,7 +84,7 @@ class Routes {
         binding: EditProfileBinding()),
     GetPage(
         name: RN.releases,
-        page: () => const ReleasesPage(),
+        page: () => ReleasesPage(),
         binding: ReleasesBinding()),
     GetPage(
         name: RN.guidance,

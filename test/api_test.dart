@@ -82,7 +82,7 @@ void main() {
     });
     test("change", () async {
       UserInfo? user;
-      user = await http.changeUsername(email: "U202013777", username: "whl55556"); //？
+      user = await http.changeUsername(email: "U202013777", username: "whl55556666"); //？
       print(user);
     });
 
