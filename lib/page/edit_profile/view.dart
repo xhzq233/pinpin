@@ -1,16 +1,15 @@
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
-import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/slide/slide_left_to_right.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
-import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:pinpin/page/home/person/controller.dart';
 
 import 'controller.dart';
 
@@ -39,6 +38,7 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfilePage> {
   final controller = Get.find<EditProfileController>();
+  final personController = Get.find<PPHomePersonController>();
 
   final back = Image.asset(
     AppAssets.arrow_right,
@@ -77,7 +77,7 @@ class _EditProfileState extends State<EditProfilePage> {
               title,
               style: AppTheme.headline5,
             ),
-            SlideAnimation(path: AppAssets.profile)
+            const SlideAnimation(path: AppAssets.profile)
           ],
         ).paddingSymmetric(vertical: 8);
       },
@@ -88,7 +88,7 @@ class _EditProfileState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     Object buildImage() => controller.count != 0
         ? FileImage(controller.imageFile.value)
-        : const AssetImage(AppAssets.profile);
+        : const AssetImage(AppAssets.home);
 
     final avatar = CircleAvatar(
       backgroundImage: buildImage() as ImageProvider,
@@ -111,7 +111,10 @@ class _EditProfileState extends State<EditProfilePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Obx(() => CircleAvatar(
-                        backgroundImage: FileImage(controller.imageFile.value),
+                        // FileImage(controller.imageFile.value)
+                      // FileImage(File(personController.userInfo.value.image))
+                      //   NetworkImage(personController.userInfo.value.image)
+                        backgroundImage: FileImage(File(personController.userInfo.value.image)),
                         radius: 20)),
                     back
                   ],
@@ -123,6 +126,7 @@ class _EditProfileState extends State<EditProfilePage> {
 
     void changeAvatar() {
       controller.onChangeAvatar(context);
+      print(personController.userInfo.value.image);
     }
 
     return Scaffold(
@@ -131,7 +135,7 @@ class _EditProfileState extends State<EditProfilePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const PPNavigationBar(title: "编辑个人资料"),
-          getItemWidthAvatar("头像", () => controller.onChangeAvatar(context))
+          getItemWidthAvatar("头像", changeAvatar)
               ._bg(),
           getItem("昵称", controller.toEditUsernamePage)._bg(),
           getItem("个人简介", controller.toEditPersonalProfilePage)._bg(),

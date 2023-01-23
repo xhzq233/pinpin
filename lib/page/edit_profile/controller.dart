@@ -4,9 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pinpin/app/route/route_name.dart';
+import 'package:pinpin/model/user_info/user_info.dart';
+import 'package:pinpin/page/home/person/controller.dart';
 
 
 class EditProfileController extends GetxController {
+
+  final personController = Get.find<PPHomePersonController>();
+  final UserInfo? userInfo = Get.arguments;
+
 
   XFile? pickedFile;
   final imageFile = File("").obs;
@@ -14,24 +20,22 @@ class EditProfileController extends GetxController {
   int count = 0;
 
   void toEditPersonalProfilePage() {
-    Get.toNamed(RN.edit_personal_profile);
+    Get.toNamed(RN.edit_personal_profile, arguments: userInfo);
   }
 
   void toEditUsernamePage() {
-    Get.toNamed(RN.edit_username);
+    Get.toNamed(RN.edit_username, arguments: userInfo);
   }
 
   void toEditLabelsPage() {
-    Get.toNamed(RN.edit_labels);
+    Get.toNamed(RN.edit_labels, arguments: userInfo);
   }
 
   void onClickShowOrNotButton() {}
 
   void onChangeAvatar(BuildContext context) async{
     final names = ["选择照片", "拍照"];
-    if(isShowBottomSheet.value){
-      var index = await _showBottomSheet(context, names);
-    }
+    var index = await _showBottomSheet(context, names);
   }
 
   Future<int?> _showBottomSheet(context, List<String> options) async {
@@ -94,10 +98,12 @@ class EditProfileController extends GetxController {
   _takePhoto() async {
     pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     imageFile(File(pickedFile!.path));
+    personController.updateAvatar(pickedFile!.path);
   }
 
   _openGallery() async {
     pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     imageFile(File(pickedFile!.path));
+    personController.updateAvatar(pickedFile!.path);
   }
 }

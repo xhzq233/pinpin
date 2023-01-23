@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
+import 'package:pinpin/component/key_board/key_board_detector.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 
@@ -15,14 +16,6 @@ class EditPersonalProfilePage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-
-    const personSignature = Text(
-      "啊对对对",
-      style: AppTheme.headline8,
-      textAlign: TextAlign.left,
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-    );
 
     final profile = DecoratedBox(
         decoration: const BoxDecoration(
@@ -42,33 +35,45 @@ class EditPersonalProfilePage extends StatelessWidget {
         ),
     );
 
-    return Scaffold(
-      body: InkWell(
-        onTap: () {
-          FocusScope.of(context).requestFocus(FocusNode());
+    return KeyboardDetector(
+        keyboardShowCallback: (show) {
+          controller.isKeyboardShowing(show);
         },
-        highlightColor: Colors.transparent,// 去除水波纹
-        splashColor: Colors.transparent,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const PPNavigationBar(title: "个人简介"),
-            const Padding(padding: EdgeInsets.only(bottom: 20)),
-
-            profile.sized(width: 354, height: 191),
-
-            const Padding(padding: EdgeInsets.only(bottom: 260)),
-            PPCommonTextButton(
-              title: '确认修改',
-              onPressed: () {
-                Get.back();
-              },
-            ),
-            const Spacer()
-          ],
-        )
-      )
-    );
+        content: Scaffold(
+            body: InkWell(
+                onTap: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                },
+                highlightColor: Colors.transparent, // 去除水波纹
+                splashColor: Colors.transparent,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Column(
+                        children: [
+                          const PPNavigationBar(title: "个人简介"),
+                          const Padding(padding: EdgeInsets.only(bottom: 20)),
+                          profile.sized(width: 354, height: 191),
+                        ],
+                      ),
+                    ),
+                    Align(
+                      alignment: const Alignment(0, 2.0),
+                      child: Obx(
+                            () => Visibility(
+                          visible: !controller.isKeyboardShowing.value,
+                          child: PPCommonTextButton(
+                            title: '确认修改',
+                            onPressed: () {
+                              Get.back();
+                            },
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ))));
   }
 }
