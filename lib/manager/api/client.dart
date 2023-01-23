@@ -153,7 +153,7 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
     required String email,
     required String newImg,
   }) {
-    FormData formData = FormData.fromMap({"Email": email, "NewImage": newImg});
+    FormData formData = FormData.fromMap({"Email": email, "Image": newImg});
     return requestForUserInfo(Api.changeUserAvatar, UserInfo.fromJson, data: formData);
   }
 
