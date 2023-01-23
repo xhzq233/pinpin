@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
-import 'package:pinpin/component/slide/slide_left_to_right.dart';
+import 'package:pinpin/component/slide/pp_slide.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/page/home/person/controller.dart';
@@ -77,7 +77,7 @@ class _EditProfileState extends State<EditProfilePage> {
               title,
               style: AppTheme.headline5,
             ),
-            const SlideAnimation(path: AppAssets.profile)
+            const PPSlide(path: AppAssets.profile)
           ],
         ).paddingSymmetric(vertical: 8);
       },

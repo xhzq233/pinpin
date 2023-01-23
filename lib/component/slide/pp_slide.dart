@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 
-class SlideAnimation extends StatelessWidget {
-
+class PPSlide extends StatelessWidget {
   final String path;
 
-  const SlideAnimation({Key? key, required this.path}) : super(key: key);
+  const PPSlide({Key? key, required this.path}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return
-      Container(
-        child: Center(
-          child: SlideVerify(
-            sliderImage: path,
-            successText: null,
-            initText: null,
-          ),
-        ),
-      );
+    return Center(
+      child: SlideAnimation(
+        sliderImage: path,
+        successText: null,
+        initText: null,
+      ),
+    );
   }
 }
 
-class SlideVerify extends StatefulWidget {
+class SlideAnimation extends StatefulWidget {
   final double height;
   final double width;
   final Color borderColor;
@@ -35,30 +31,30 @@ class SlideVerify extends StatefulWidget {
   final TextStyle initTextStyle;
   final VoidCallback? successListener;
 
-  const SlideVerify(
+  const SlideAnimation(
       {Key? key,
-        this.height = 40,
-        this.width = 70,
-        this.successText,
-        this.initText,
-        this.sliderImage,
-        this.initImage,
-        this.successTextStyle =
-        const TextStyle(fontSize: 14, color: Colors.white),
-        this.initTextStyle = const TextStyle(fontSize: 14, color: Colors.black12),
-        this.bgColor = Colors.grey,
-        this.moveColor = Colors.blue,
-        this.borderColor = Colors.blueAccent,
-        this.successListener})
+      this.height = 40,
+      this.width = 70,
+      this.successText,
+      this.initText,
+      this.sliderImage,
+      this.initImage,
+      this.successTextStyle =
+          const TextStyle(fontSize: 14, color: Colors.white),
+      this.initTextStyle = const TextStyle(fontSize: 14, color: Colors.black12),
+      this.bgColor = Colors.grey,
+      this.moveColor = Colors.blue,
+      this.borderColor = Colors.blueAccent,
+      this.successListener})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return SlideVerifyState();
+    return SlideAnimationState();
   }
 }
 
-class SlideVerifyState extends State<SlideVerify>
+class SlideAnimationState extends State<SlideAnimation>
     with TickerProviderStateMixin {
   AnimationController? _animController;
   Animation? _curve;
@@ -66,13 +62,8 @@ class SlideVerifyState extends State<SlideVerify>
   double height = 0;
   double width = 0;
   double moveDistance = 0;
-
   double sliderWidth = 0;
-
-  bool verifySuccess = false;
-
   bool enable = true;
-
   bool end = false;
 
   void _init() {
@@ -90,7 +81,6 @@ class SlideVerifyState extends State<SlideVerify>
       });
     });
     _animController?.addStatusListener((status) {
-      print("hello, ${status}");
       if (status == AnimationStatus.completed) {
         enable = true;
         end = false;
@@ -102,8 +92,8 @@ class SlideVerifyState extends State<SlideVerify>
   @override
   void initState() {
     super.initState();
-    this.width = widget.width;
-    this.height = widget.height;
+    width = widget.width;
+    height = widget.height;
     _init();
   }
 
@@ -117,7 +107,7 @@ class SlideVerifyState extends State<SlideVerify>
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragStart: (DragStartDetails details) {
-        if(end){
+        if (end) {
           _animController?.forward();
           return;
         }
@@ -131,6 +121,7 @@ class SlideVerifyState extends State<SlideVerify>
           return;
         }
         moveDistance = details.globalPosition.dx - initX;
+
         if (moveDistance < 0) {
           moveDistance = 0;
         }
@@ -139,7 +130,6 @@ class SlideVerifyState extends State<SlideVerify>
           moveDistance = width - sliderWidth;
           enable = false;
           end = true;
-          verifySuccess = true;
           if (widget.successListener != null) {
             widget.successListener?.call();
           }
@@ -152,10 +142,17 @@ class SlideVerifyState extends State<SlideVerify>
           _animController?.forward(); // 启动动画, 归零
           print(_curve?.value);
         }
-        if(end){
-          enable = true;
-        }
+
       },
+      onTap: () {
+        if (moveDistance == width - sliderWidth) {
+          moveDistance = 0;
+        } else {
+          moveDistance = width - sliderWidth;
+        }
+        setState(() {});
+      },
+
       child: Container(
         height: height,
         width: width,
@@ -163,7 +160,7 @@ class SlideVerifyState extends State<SlideVerify>
         decoration: BoxDecoration(
             color: widget.bgColor,
             border: Border.all(color: widget.borderColor),
-            borderRadius: BorderRadius.all(new Radius.circular(height))),
+            borderRadius: BorderRadius.all(Radius.circular(height))),
         child: Stack(
           alignment: Alignment.centerLeft,
           children: <Widget>[
@@ -178,20 +175,10 @@ class SlideVerifyState extends State<SlideVerify>
                 ),
               ),
             ),
-            Center(
-              child: Text(
-                verifySuccess
-                    ? widget.successText ?? ""
-                    : widget.initText ?? "",
-                style: verifySuccess
-                    ? widget.successTextStyle
-                    : widget.initTextStyle,
-              ),
-            ),
             Positioned(
               top: 1,
               left:
-              moveDistance > sliderWidth ? moveDistance - 2 : moveDistance,
+                  moveDistance > sliderWidth ? moveDistance - 2 : moveDistance,
               child: Container(
                 width: sliderWidth,
                 height: sliderWidth,
@@ -200,7 +187,7 @@ class SlideVerifyState extends State<SlideVerify>
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(
-                    new Radius.circular(sliderWidth),
+                    Radius.circular(sliderWidth),
                   ),
                 ),
                 child: Row(
