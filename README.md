@@ -33,3 +33,5 @@ Use GetX for UI state management
 ### Generate Json Model
 
 `flutter packages pub run build_runner build --delete-conflicting-outputs`
+
+test
