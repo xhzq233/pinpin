@@ -34,4 +34,3 @@ Use GetX for UI state management
 
 `flutter packages pub run build_runner build --delete-conflicting-outputs`
 
-test

@@ -1,70 +1,70 @@
-/// pinpin - ext
-/// Created by xhz on 02/08/2022
+/// chat_box - widget_extensions
+/// Created by xhz on 01/11/2022
 
 import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:boxy/boxy.dart';
-import 'package:pinpin/util/clipper.dart';
+import 'package:util/clipper.dart';
 
 extension WidgetExtensions on Widget {
 
   Widget blur([double sigma = 10]) => ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
-          child: this,
-        ),
-      );
+    child: BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: sigma, sigmaY: sigma),
+      child: this,
+    ),
+  );
 
   Widget onTap(void Function() function) => GestureDetector(
-        onTap: function,
-        child: this,
-      );
+    onTap: function,
+    child: this,
+  );
 
   Widget centralized() => Center(
-        child: this,
-      );
+    child: this,
+  );
 
   // overlaying a widget whose constraints bigger than the background widget
   Widget overlay(Widget content) => CustomBoxy(
-        delegate: AdaptiveOverlayDelegate(),
-        children: [
-          this,
-          content,
-        ],
-      );
+    delegate: AdaptiveOverlayDelegate(),
+    children: [
+      this,
+      content,
+    ],
+  );
 
   // place a widget with constraints bigger than the overlay widget to background
   Widget background(Widget content) => CustomBoxy(
-        delegate: AdaptiveBackgroundDelegate(),
-        children: [
-          content,
-          this,
-        ],
-      );
+    delegate: AdaptiveBackgroundDelegate(),
+    children: [
+      content,
+      this,
+    ],
+  );
 
   Widget decorated(BoxDecoration boxDecoration) => DecoratedBox(
-        decoration: boxDecoration,
-        child: this,
-      );
+    decoration: boxDecoration,
+    child: this,
+  );
 
   Widget sized({double? width, double? height}) => SizedBox(
-        width: width,
-        height: height,
-        child: this,
-      );
+    width: width,
+    height: height,
+    child: this,
+  );
 
   Widget border({EdgeInsets? margin, EdgeInsets? padding, Color color = Colors.blueAccent}) => Container(
-        margin: margin,
-        padding: padding,
-        decoration: BoxDecoration(border: Border.all(color: color)),
-        child: this,
-      );
+    margin: margin,
+    padding: padding,
+    decoration: BoxDecoration(border: Border.all(color: color)),
+    child: this,
+  );
 
   Widget clipped([BorderRadius? borderRadius]) => ClipRRect(
-        borderRadius: borderRadius,
-        child: this,
-      );
+    borderRadius: borderRadius,
+    child: this,
+  );
 
   Widget clip([
     CustomClipper<Path> clipper = const CapsuleClipper(),
@@ -75,8 +75,8 @@ extension WidgetExtensions on Widget {
       );
 
   Widget unconstrained() => UnconstrainedBox(
-        child: this,
-      );
+    child: this,
+  );
 }
 
 class AdaptiveOverlayDelegate extends BoxyDelegate {
@@ -101,7 +101,7 @@ class AdaptiveBackgroundDelegate extends BoxyDelegate {
     final background = children[0];
     final foregroundSize = foreground.layout(constraints);
     final backgroundConstraints =
-        constraints.copyWith(minHeight: foregroundSize.height, minWidth: foregroundSize.width);
+    constraints.copyWith(minHeight: foregroundSize.height, minWidth: foregroundSize.width);
     final backgroundSize = background.layout(backgroundConstraints);
 
     return Size(max(foregroundSize.width, backgroundSize.width), max(foregroundSize.height, backgroundSize.height));

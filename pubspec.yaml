@@ -22,6 +22,10 @@ dependencies:
   boxy: ^2.0.6+1
   image_picker: ^0.8.6
   flutter_slidable: ^2.0.0
+  util:
+    path: modules/util
+  widget:
+    path: modules/widget
 
 dev_dependencies:
   flutter_test:
@@ -34,3 +38,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/home_tag/icon_big/
