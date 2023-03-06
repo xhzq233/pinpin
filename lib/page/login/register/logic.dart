@@ -3,9 +3,8 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/component/count_down/count_down_widget.dart';
 import 'package:pinpin/component/loading/loading.dart';
-import 'package:pinpin/component/toast/toast.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
-import 'package:pinpin/util/validator.dart';
+import 'package:util/util.dart';
 
 class RegisterLogic extends GetxController {
   RxBool btnEnabled = false.obs;

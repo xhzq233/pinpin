@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/component/loading/loading.dart';
-import 'package:pinpin/component/toast/toast.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
-import 'package:pinpin/util/validator.dart';
+import 'package:util/util.dart';
 
 class PasswordSetLogic extends GetxController {
   Rx<VoidCallback?> next = Rx<VoidCallback?>(null);
@@ -29,7 +28,7 @@ class PasswordSetLogic extends GetxController {
       // ppHttp.changePassword(email: 'email', verifyCode: 'verifyCode', newPassword: 'newPassword');
     } else {
       final res = await _http.createUser(
-          email: email, username: 'user_$email', password: passwd.text, img: 'https://xhzq.xyz/images/doge.png');
+          email: email, username: 'user_$email', password: passwd.text, img: 'https://pic.onlinewebfonts.com/svg/img_293778.png');
 
       if (null != res) {
         final res = await _http.signIn(email: email, password: passwd.text);

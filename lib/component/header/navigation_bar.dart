@@ -9,11 +9,19 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 
 class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
-  const PPNavigationBar({super.key, this.title, this.trailing = const SizedBox(), this.backAction = defaultBackAction});
+  const PPNavigationBar(
+      {super.key,
+      this.title,
+      this.actions = const [],
+      this.leading,
+      this.backAction = defaultBackAction,
+      this.whiteAccent = false});
 
   final String? title;
-  final Widget trailing;
+  final Widget? leading;
+  final List<Widget> actions;
   final void Function() backAction;
+  final bool whiteAccent;
 
   static void defaultBackAction() {
     Get.back();
@@ -22,48 +30,73 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final Widget back;
-    final padding = windowPadding;
-    if (Get.previousRoute != "") {
+    final padding = MediaQuery.of(context).viewPadding;
+    if (null != leading) {
+      back = leading!;
+    } else if (ModalRoute.of(context)?.canPop == true) {
       back = PPImageButton(
-        active: AppAssets.arrow_left,
+        active: whiteAccent ? AppAssets.arrow_left_white : AppAssets.arrow_left,
         onPressed: backAction,
-        padding: 7.2,
+        // padding: 7.2,
       );
     } else {
       back = const SizedBox();
     }
 
+    final TextStyle titleStyle;
+
+    if (whiteAccent) {
+      titleStyle = AppTheme.headline2.copyWith(color: Colors.white);
+    } else {
+      titleStyle = AppTheme.headline2;
+    }
     return Padding(
-      padding: EdgeInsets.only(top: padding.top, right: padding.right, left: padding.left),
+      padding: EdgeInsets.only(right: padding.right, left: padding.left),
       child: SizedBox(
-        height: PPNavigationBarHeight,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: back,
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.all(7.2),
-                child: IconTheme(
-                  data: const IconThemeData(
-                    color: AppTheme.primary,
-                    size: 24,
-                  ),
-                  child: trailing,
+        height: PPNavigationBarHeight + padding.top,
+        child: ColoredBox(
+          color: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.only(top: padding.top),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: back,
                 ),
-              ),
+                if (actions.isNotEmpty)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 7),
+                      child: IconTheme(
+                        data: const IconThemeData(
+                          color: AppTheme.primary,
+                          size: 24,
+                        ),
+                        child: FittedBox(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: actions,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                FractionallySizedBox(
+                  heightFactor: 0.64,
+                  child: FittedBox(
+                    child: Text(
+                      title ?? "",
+                      style: titleStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Center(
-              child: Text(
-                title ?? "",
-                textAlign: TextAlign.center,
-                style: AppTheme.headline2,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

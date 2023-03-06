@@ -5,6 +5,7 @@ export 'logger.dart';
 export 'validator.dart';
 export 'clipper.dart';
 export 'widget_extensions.dart';
+export 'time_converter.dart';
 export 'toast/toast.dart'
 if (dart.library.html) 'toast/toast_web.dart' // Browser
 if (dart.library.io) 'toast/toast.dart' // VM

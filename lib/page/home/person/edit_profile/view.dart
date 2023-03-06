@@ -1,6 +1,6 @@
 
 import 'dart:io';
-
+import 'package:util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
@@ -8,7 +8,7 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/slide/pp_slide.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+
 import 'package:pinpin/page/home/person/controller.dart';
 
 import 'controller.dart';

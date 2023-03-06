@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:util/util.dart';
+
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);

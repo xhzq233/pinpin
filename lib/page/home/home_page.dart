@@ -5,7 +5,7 @@ import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/bottom_tab_bar/bottom_tab_bar.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+
 import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:pinpin/page/home/main/controller.dart';
 import 'package:pinpin/page/home/main/home_main.dart';

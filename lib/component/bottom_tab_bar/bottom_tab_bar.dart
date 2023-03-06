@@ -3,7 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:util/util.dart';
 
 class PPBottomTabBar extends StatelessWidget {
   const PPBottomTabBar({Key? key, required this.children}) : super(key: key);

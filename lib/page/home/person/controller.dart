@@ -11,18 +11,10 @@ import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 
 class PPHomePersonController extends GetxController {
-
   final _accountManager = Get.find<AccountManager>();
   final _http = Get.find<PPNetWorkInterface>();
 
-  final Rx<UserInfo> userInfo = UserInfo(
-    background: 'https://xhzq.xyz/images/doge.png',
-    history: [],
-    image: 'https://xhzq.xyz/images/doge.png',
-    brief: 'User brief',
-    myTags: 'User tags',
-    username: 'Username',
-  ).obs;
+  final Rx<UserInfo> userInfo = UserInfo.sample.obs;
 
   @override
   void onInit() {
@@ -94,35 +86,32 @@ class PPHomePersonController extends GetxController {
                           child: SizedBox(
                             height: 36,
                             child: PPCommonTextButton(
-                              style: PPCommonTextButtonStyle.outline,
-                              title: "退出",
-                              onPressed: (){
-                                if (_accountManager.isEmpty) return;
+                                style: PPCommonTextButtonStyle.outline,
+                                title: "退出",
+                                onPressed: () {
+                                  if (_accountManager.isEmpty) return;
 
-                                // 移除账户
-                                _accountManager.removeAccountAt(_accountManager.currentIndex.value);
-                                _accountManager.setMainAccount(-1);
-                                // 跳转到欢迎页
-                                Get.offAllNamed(RN.welcome);
-                              }// 关闭对话框
-                            ),
+                                  // 移除账户
+                                  _accountManager.removeAccountAt(_accountManager.currentIndex.value);
+                                  _accountManager.setMainAccount(-1);
+                                  // 跳转到欢迎页
+                                  Get.offAllNamed(RN.welcome);
+                                } // 关闭对话框
+                                ),
                           )),
-
                       const SizedBox(width: 20),
-
                       Expanded(
-                        flex: 1,
-                        child: SizedBox(
-                          height: 36,
-                          child: PPCommonTextButton(
-                            title: "再想想",
-                            onPressed: () {
-                              //关闭对话框并返回true
-                              Navigator.of(context).pop(true);
-                            },
-                          ),
-                        )
-                      )
+                          flex: 1,
+                          child: SizedBox(
+                            height: 36,
+                            child: PPCommonTextButton(
+                              title: "再想想",
+                              onPressed: () {
+                                //关闭对话框并返回true
+                                Navigator.of(context).pop(true);
+                              },
+                            ),
+                          ))
                     ],
                   )
                 ],

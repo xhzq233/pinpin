@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:util/util.dart';
 
 import '../../app/assets/name.dart';
 import '../../component/search_bar/search_bar.dart';

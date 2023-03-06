@@ -5,7 +5,7 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
-import 'package:pinpin/util/clipper.dart';
+import 'package:util/util.dart';
 
 import 'controller.dart';
 

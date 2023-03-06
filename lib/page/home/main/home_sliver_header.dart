@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
+import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/search_bar/search_bar.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:util/util.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import '/app/i18n/i18n_names.dart';
 
@@ -32,8 +33,8 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     // 1 -> 0
     final diff = (height - appBarMinHeight) / appBarHeightRange;
     final title = Text(
-      I18n.title.tr,
-      style: Get.textTheme.headline5,
+      '1037拼拼',
+      style: AppTheme.headline1.copyWith(color: Colors.white),
     );
 
     const imagePadding = 8.0;
@@ -49,7 +50,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     final radius = Radius.circular(20.0 + diff * 20);
     final background = DecoratedBox(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius), color: Colors.blueAccent),
+          borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius), color: AppTheme.primary),
     ).sized(height: min(height, backgroundMaxHeight), width: width);
 
     final curved = Curves.easeOutCubic.transform(diff); // slower when near the ending

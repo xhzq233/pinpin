@@ -6,19 +6,28 @@ part 'user_info.g.dart';
 @JsonSerializable(explicitToJson: true)
 class UserInfo {
   @JsonKey(name: 'Background')
-  String background;
+  final String background;
   @JsonKey(name: 'History')
-  List<PinPin>? history;
+  final List<PinPin>? history;
   @JsonKey(name: 'Image')
-  String image;
+  final String image;
   @JsonKey(name: 'Brief')
-  String brief;
+  final String brief;
   @JsonKey(name: 'MyTags')
-  String myTags;
+  final String myTags;
   @JsonKey(name: 'Username')
-  String username;
+  final String username;
 
-  UserInfo({
+  static const sample = UserInfo(
+    background: 'https://www.technocrazed.com/wp-content/uploads/2015/12/Windows-XP-wallpaper-23.jpg',
+    history: [],
+    image: 'https://q1.qlogo.cn/g?b=qq&nk=1761373255&s=640',
+    brief: 'brief',
+    myTags: 'myTags',
+    username: '大家好啊',
+  );
+
+  const UserInfo({
     required this.background,
     required this.history,
     required this.image,

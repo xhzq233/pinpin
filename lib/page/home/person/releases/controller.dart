@@ -11,9 +11,9 @@ class ReleasesController extends GetxController {
   late Account account;
 
   final Rx<UserInfo> userInfo = UserInfo(
-    background: 'https://xhzq.xyz/images/doge.png',
+    background: 'https://pic.onlinewebfonts.com/svg/img_293778.png',
     history: [],
-    image: 'https://xhzq.xyz/images/doge.png',
+    image: 'https://pic.onlinewebfonts.com/svg/img_293778.png',
     brief: 'User brief',
     myTags: 'User tags',
     username: 'Username',

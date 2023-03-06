@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
-import 'package:pinpin/util/validator.dart';
+import 'package:util/util.dart';
 
 const _kDuration = Duration(milliseconds: 200);
 

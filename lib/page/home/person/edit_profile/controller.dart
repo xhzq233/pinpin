@@ -98,12 +98,12 @@ class EditProfileController extends GetxController {
   _takePhoto() async {
     pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     imageFile(File(pickedFile!.path));
-    personController.updateAvatar(pickedFile!.path);
+    // personController.updateAvatar(pickedFile!.path);
   }
 
   _openGallery() async {
     pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     imageFile(File(pickedFile!.path));
-    personController.updateAvatar(pickedFile!.path);
+    // personController.updateAvatar(pickedFile!.path);
   }
 }

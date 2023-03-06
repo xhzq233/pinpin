@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:pinpin/component/text_field/pp_text_field.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+
 import 'package:pinpin/page/login/login_base_page.dart';
+import 'package:util/util.dart';
 import 'logic.dart';
 
 class LoginPage extends StatelessWidget {

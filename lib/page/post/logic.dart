@@ -2,11 +2,13 @@
 /// Created by xhz on 2022/8/9
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/component/loading/loading.dart';
 import 'package:pinpin/component/page_view/page_view.dart';
-import 'package:pinpin/component/toast/toast.dart';
+
 import 'package:pinpin/manager/api/api_interface.dart';
-import 'package:pinpin/util/bool_pp.dart';
+import 'package:pinpin/model/pinpin/pin_pin.dart';
+import 'package:util/util.dart';
 
 const _kMaxDuration = Duration(days: 60);
 
@@ -14,7 +16,8 @@ class PPPostLogic extends GetxController {
   PPPostLogic();
 
   // data
-  RxInt type = 0.obs;
+  RxInt selectedType = PinPin.ppt_ett.obs;
+  RxInt selectedLabel = 0.obs;
   final TextEditingController title = TextEditingController();
   final TextEditingController summary = TextEditingController();
   final TextEditingController qty1 = TextEditingController();
@@ -46,8 +49,8 @@ class PPPostLogic extends GetxController {
     final res = await ppHttp.createPinpin(
       title: title.text,
       //TODO
-      label: 1,
-      type: type.value + 1,
+      label: AppAssets.label_array[selectedType.value]![selectedLabel.value].id,
+      type: selectedType.value,
       description: summary.text,
       deadline: ddl!.toUtc().toIso8601String(),
       demandingNum: int.parse(qty1.text),

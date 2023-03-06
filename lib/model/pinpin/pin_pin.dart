@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pin_pin.g.dart';
@@ -18,11 +20,22 @@ class PinPin {
     required this.description,
   });
 
+  static final sample = PinPin.fromJson(
+    jsonDecode(
+      '{"PinpinId": 48, "Type": 2, "Label": 33, "Title": "学习类型", "Deadline": "2024-10-30T16:00:00Z", "Description": "", "DemandingNum": 96, "NowNum": 3, "DemandingDescription": "", "TeamIntroduction": "kdk", "IsDeleted": false, "OwnerEmail": "U202017199", "ReplyNum": 0, "CreatedAt": 1666543851, "UpdatedAt": 1666543851}',
+    ),
+  );
+
   @JsonKey(name: "PinpinId")
   int pinpinId;
 
   @JsonKey(name: "Type")
   int type;
+
+  //ppt -> pin pin type
+  static const ppt_study = 2;
+  //ett -> entertainment
+  static const ppt_ett = 1;
 
   @JsonKey(name: "Label")
   int label;

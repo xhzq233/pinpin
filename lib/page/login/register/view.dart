@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/component/count_down/count_down_widget.dart';
 import 'package:pinpin/component/text_field/pp_text_field.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:util/util.dart';
 import 'package:pinpin/page/login/login_base_page.dart';
 import 'package:pinpin/page/login/register/logic.dart';
 import 'package:pinpin/app/theme/app_theme.dart';

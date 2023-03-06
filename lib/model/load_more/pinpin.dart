@@ -1,7 +1,3 @@
-/// pinpin - pinpin
-/// Created by xhz on 31/07/2022
-
-import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -19,6 +15,7 @@ class PinPinLoadMoreSource extends RefreshableListAdapter<PinPin, int> {
   @override
   Future<List<PinPin>?> init(CancelToken cancelToken) =>
       ppHttp.getPinPinData(type: type, label: -1, startTime: -1, cancelToken: cancelToken).then((value) {
+        return [PinPin.sample];
         if (null != value) {
           nextDataPointer = value.next;
           return value.data;

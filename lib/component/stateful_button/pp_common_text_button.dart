@@ -2,8 +2,7 @@
 /// Created by xhz on 2022/8/5
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
-import 'package:pinpin/util/clipper.dart';
+import 'package:util/util.dart';
 import 'hold_active_button.dart';
 
 enum PPCommonTextButtonStyle { fill, outline }

@@ -7,17 +7,17 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 
 class PPSwitcher extends StatelessWidget {
-  const PPSwitcher(
-      {Key? key,
-      required this.rxIndex,
-      required this.titles,
-      this.onTap = defaultOnTap,
-      this.height,
-      this.width,
-      this.fontScale = 0.4})
-      : super(key: key);
+  const PPSwitcher({
+    Key? key,
+    required this.rxIndex,
+    required this.titles,
+    this.onTap = defaultOnTap,
+    this.height,
+    this.width,
+    this.fontScale = 0.4,
+  }) : super(key: key);
   final RxInt rxIndex;
-  final List<String> titles;
+  final Map<int, String> titles;
   final void Function(int, RxInt) onTap;
   final double? width;
   final double? height;
@@ -57,7 +57,7 @@ class PPSwitcher extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                for (int i = 0; i < titles.length; i++)
+                for (int i in titles.keys)
                   Expanded(
                     child: FractionallySizedBox(
                       widthFactor: fontScale,
@@ -70,7 +70,7 @@ class PPSwitcher extends StatelessWidget {
                             child: AnimatedOpacity(
                               opacity: rxIndex.value == i ? 1.0 : 0.5,
                               duration: _animationDuration,
-                              child: Text(titles[i]),
+                              child: Text(titles[i]!),
                             ),
                           ),
                         ),

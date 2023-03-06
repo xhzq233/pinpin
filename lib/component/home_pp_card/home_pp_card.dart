@@ -1,49 +1,65 @@
 /// pinpin - home_pp_card
 /// Created by xhz on 06/08/2022
 
-import 'package:boxy/boxy.dart';
-import 'package:boxy/flex.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/constant.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
-import 'package:pinpin/util/clipper.dart';
+import 'package:pinpin/model/user_info/user_info.dart';
+import 'package:util/util.dart';
+import 'package:widget/avatar.dart';
+
+class DemandingBubble extends StatelessWidget {
+  const DemandingBubble({Key? key, required this.content}) : super(key: key);
+  final String content;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+          color: AppTheme.secondary3, shape: BoxShape.rectangle, borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 9),
+        child: Text(
+          content,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white, height: 1.09),
+          maxLines: 1,
+        ),
+      ),
+    );
+  }
+}
+
+class LabelBubble extends StatelessWidget {
+  const LabelBubble({Key? key, required this.content}) : super(key: key);
+  final String content;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipPath(
+      clipper: const CapsuleClipper(),
+      child: DecoratedBox(
+        decoration: const BoxDecoration(color: Color(0x80FFE3B3)),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.9),
+            child: Text(
+              content,
+              style: AppTheme.headline8.copyWith(color: AppTheme.primary2),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 class PPHomeCardView extends StatelessWidget {
-  const PPHomeCardView({Key? key, required this.pp}) : super(key: key);
+  const PPHomeCardView({Key? key, required this.pp, this.userInfo = UserInfo.sample}) : super(key: key);
   final PinPin pp;
-  static const onlineWidget = ClipPath(
-    clipper: CapsuleClipper(),
-    child: DecoratedBox(
-      decoration: BoxDecoration(color: AppTheme.secondary5),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-        child: Text(
-          '在线',
-          style: AppTheme.headline11,
-          maxLines: 1,
-        ),
-      ),
-    ),
-  );
-
-  static const offlineWidget = ClipPath(
-    clipper: CapsuleClipper(),
-    child: DecoratedBox(
-      decoration: BoxDecoration(color: AppTheme.secondary5),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-        child: Text(
-          '在线',
-          style: AppTheme.headline11,
-          maxLines: 1,
-        ),
-      ),
-    ),
-  );
+  final UserInfo userInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -52,33 +68,12 @@ class PPHomeCardView extends StatelessWidget {
       style: AppTheme.headline2,
       maxLines: 1,
     );
-    final demandingQty = ClipPath(
-      clipper: const CapsuleClipper(),
-      child: DecoratedBox(
-        decoration: const BoxDecoration(color: AppTheme.secondary3),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-          child: Text(
-            '${pp.nowNum}/${pp.demandingNum}',
-            style: AppTheme.headline6,
-          ),
-        ),
-      ),
+
+    final demandingQty = DemandingBubble(
+      content: '${pp.nowNum}/${pp.demandingNum}',
     );
-    const label = ClipPath(
-      clipper: CapsuleClipper(),
-      child: DecoratedBox(
-        decoration: BoxDecoration(color: AppTheme.primary2),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
-          child: Text(
-            '密室逃脱',
-            style: AppTheme.headline8,
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    );
+
+    final label = LabelBubble(content: AppAssets.label_map[pp.type]![pp.label]!.title);
 
     final content = Text(
       pp.title,
@@ -86,27 +81,24 @@ class PPHomeCardView extends StatelessWidget {
       maxLines: 4,
       textAlign: TextAlign.start,
     );
+
     final timeline = Text(
-      "${pp.deadline.year}-${pp.deadline.month}-${pp.deadline.day} ${pp.deadline.hour}:${pp.deadline.minute}:${pp.deadline.second}",
-      style: AppTheme.headline10,
+      TimeConverter.timeDescriptionFromSeconds(pp.updatedAt),
+      style: AppTheme.headline10.copyWith(color: AppTheme.gray80),
       maxLines: 1,
     );
 
-    final person = Text(
-      pp.ownerEmail,
-      style: AppTheme.headline11,
+    final avatar = Avatar(url: userInfo.image);
+
+    final poster = Text(
+      userInfo.username,
+      style: AppTheme.headline11.copyWith(color: AppTheme.gray80),
       maxLines: 1,
-    );
-    const horizontalSpacing = SizedBox(
-      width: 10,
-    );
-    const verticalSpacing = SizedBox(
-      height: 10,
     );
 
     return Material(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 18),
+        padding: const EdgeInsets.only(top: 8, bottom: 10, left: 18, right: 15),
         decoration: const BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20)), boxShadow: [AppTheme.shadow]),
         child: Column(
@@ -129,16 +121,49 @@ class PPHomeCardView extends StatelessWidget {
                 )
               ],
             ),
-            verticalSpacing,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [demandingQty, horizontalSpacing, label],
+            const SizedBox(
+              height: 5,
             ),
-            verticalSpacing,
+            SizedBox(
+              height: 23,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  demandingQty,
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  label
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 14,
+            ),
             content,
-            verticalSpacing,
-            Row(
-              children: [person, horizontalSpacing, onlineWidget, const Spacer(), timeline],
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              height: 24,
+              child: Row(
+                children: [
+                  avatar,
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  poster,
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ConstantWidget.onlineWidget,
+                  const Spacer(),
+                  timeline,
+                  const SizedBox(
+                    width: 2,
+                  )
+                ],
+              ),
             ),
           ],
         ),

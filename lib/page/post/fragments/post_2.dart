@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/text_field/pp_text_field.dart';
 import 'package:pinpin/page/post/logic.dart';
-import 'package:pinpin/util/validator.dart';
+import 'package:util/util.dart';
 
 class PPPost2Fragment extends StatelessWidget {
   const PPPost2Fragment({Key? key}) : super(key: key);

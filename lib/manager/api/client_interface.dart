@@ -2,10 +2,10 @@
 /// Created by xhz on 30/07/2022
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:pinpin/component/toast/toast.dart';
+
 import 'package:pinpin/manager/api/api.dart';
 import 'package:pinpin/model/account/account.dart';
-import 'package:pinpin/util/logger.dart';
+import 'package:util/util.dart';
 
 typedef Decoder<T> = T Function(dynamic);
 typedef AccountGetter = Account? Function();

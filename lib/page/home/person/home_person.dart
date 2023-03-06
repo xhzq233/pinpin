@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
-import 'package:pinpin/component/widget_extensions/ext.dart';
+import 'package:pinpin/manager/account_manager/account_manager.dart';
+import 'package:util/util.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:pinpin/page/home/person/controller.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/component/header/sliver_header_delegate.dart';
+import 'package:widget/avatar.dart';
 
 extension _Bg on Widget {
   Widget _bg() => Padding(
@@ -146,21 +148,17 @@ class PPHomePersonView extends StatelessWidget {
     );
 
     // img
-    final avatar = DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border.all(width: 1.6, strokeAlign: StrokeAlign.inside, color: AppTheme.primary),
-          borderRadius: const BorderRadius.all(Radius.circular(28)),
-        ),
-        child: PPImageButton.fromImage(
-          Image.network(
-            'https://xhzq.xyz/images/doge.png',
-            width: avatarSize,
-            height: avatarSize,
-            fit: BoxFit.scaleDown,
-          ),
+    final avatar = ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 64, maxWidth: 64),
+      child: DecoratedBox(
+        decoration: BoxDecoration(border: Border.all(width: 2, color: AppTheme.primary), shape: BoxShape.circle),
+        child: Avatar(
+          url: Get.find<AccountManager>().current!.userInfo.image,
+          margin: 2,
           onPressed: controller.pressEditAvatar,
-          padding: 1,
-        ));
+        ),
+      ),
+    );
 
     // profile box
     final profile = Opacity(

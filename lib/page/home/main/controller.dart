@@ -3,8 +3,13 @@
 
 import 'package:get/get.dart';
 import 'package:pinpin/model/load_more/pinpin.dart';
+import 'package:pinpin/model/pinpin/pin_pin.dart';
 
 class PPHomeMainController extends GetxController {
-  final source = PinPinLoadMoreSource(type: 1);
-  final source2 = PinPinLoadMoreSource(type: 2);
+  final entertainmentSource = PinPinLoadMoreSource(type: PinPin.ppt_ett);
+  final studySource = PinPinLoadMoreSource(type: PinPin.ppt_study);
+
+
+  RxInt selectedType = PinPin.ppt_ett.obs;
+  RxInt selectedLabel = 0.obs;
 }

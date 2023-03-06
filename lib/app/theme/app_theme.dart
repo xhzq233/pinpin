@@ -84,7 +84,7 @@ class AppTheme {
   static const primary = Color(0xFF0076FC);
   static const primary2 = Color(0xFFFEA734);
 
-  static const secondary5 = Color(0xFFE6EDFF);
+  static const secondary5 = Color(0xFFE6EDFF);//#F7FBFF
   static const secondary4 = Color(0xFF005EC8);
   static const secondary3 = Color(0xFF53A3FF);
   static const secondary2 = Color(0xFF34E4AA);
@@ -99,15 +99,9 @@ class AppTheme {
   static const gray0 = Color(0xFF000000);
   static const gray = Color(0xFF001D3E);
 
-  static const lightBackground = Color(0xfff6f6f6);
+  static const lightBackground = Color(0xfff8f8f8);
 
   static const maskWhite = Color.fromRGBO(255, 255, 255, 0.8);
-
-  static const whiteShadow = BoxShadow(
-    offset: Offset(0, 4),
-    blurRadius: 25,
-    color: Color(0xFFEAEAEA),
-  );
 
   static const shadow = BoxShadow(
     offset: Offset(0, 4),
