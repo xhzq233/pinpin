@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/model/load_more/data_refreshable_list.dart';
+import 'package:pinpin/manager/load_more/data_refreshable_list.dart';
 
 class LoadMoreListView<T, S> extends StatelessWidget {
   final RefreshableListAdapter<T, S> sourceList;
