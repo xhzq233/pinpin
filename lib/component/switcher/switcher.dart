@@ -31,6 +31,7 @@ class PPSwitcher extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final keys = titles.keys.toList(growable: false);
     return Container(
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)), color: AppTheme.gray95, boxShadow: [AppTheme.shadow]),
@@ -40,7 +41,7 @@ class PPSwitcher extends StatelessWidget {
         () => Stack(
           children: [
             AnimatedAlign(
-              alignment: Alignment(-1.0 + 2 * rxIndex.value / (titles.length - 1), 0),
+              alignment: Alignment(-1.0 + 2 * keys.indexOf(rxIndex.value) / (titles.length - 1), 0),
               duration: _animationDuration,
               child: FractionallySizedBox(
                 widthFactor: 1 / titles.length,
@@ -57,7 +58,7 @@ class PPSwitcher extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                for (int i in titles.keys)
+                for (int i in keys)
                   Expanded(
                     child: FractionallySizedBox(
                       widthFactor: fontScale,
