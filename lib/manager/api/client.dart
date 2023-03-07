@@ -124,9 +124,16 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
   Future<UserInfo?> getUserInfo({
     required String email,
   }) =>
-      request(Api.getUserInfo, UserInfo.fromJson, queryParameters: {
-        "Email": email,
-      });
+      request(
+        Api.getUserInfo,
+        UserInfo.fromJson,
+        jsonReplacement: {
+          'Email': email,
+        },
+        queryParameters: {
+          "Email": email,
+        },
+      );
 
   /// change
   @override

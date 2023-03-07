@@ -17,6 +17,8 @@ class UserInfo {
   final String myTags;
   @JsonKey(name: 'Username')
   final String username;
+  @JsonKey(name: 'Email')
+  final String email;
 
   static const sample = UserInfo(
     background: 'https://www.technocrazed.com/wp-content/uploads/2015/12/Windows-XP-wallpaper-23.jpg',
@@ -25,6 +27,7 @@ class UserInfo {
     brief: 'brief',
     myTags: 'myTags',
     username: '大家好啊',
+    email: '1761373255@qq.com'
   );
 
   const UserInfo({
@@ -34,6 +37,7 @@ class UserInfo {
     required this.brief,
     required this.myTags,
     required this.username,
+    required this.email,
   });
 
   factory UserInfo.fromJson(dynamic json) {

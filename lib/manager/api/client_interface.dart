@@ -70,6 +70,7 @@ abstract class HttpClientInterface {
     Decoder<T> decoder, {
     data,
     Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? jsonReplacement,
     CancelToken? cancelToken,
     Options? options,
     ProgressCallback? onSendProgress,
@@ -86,7 +87,13 @@ abstract class HttpClientInterface {
         onReceiveProgress: onReceiveProgress,
         options: options?.copyWith(method: api.method) ?? Options(method: api.method),
       );
-      return decoder.call(response.data['data']);
+      final json = response.data['data'];
+      if (jsonReplacement != null && jsonReplacement.isNotEmpty) {
+        jsonReplacement.forEach((key, value) {
+          json[key] = value;
+        });
+      }
+      return decoder.call(json);
     } catch (e) {
       Logger.e('HttpClientInterface.request<$T>, response:\n${response?.data}', e);
       return null;
