@@ -30,14 +30,10 @@ abstract class HttpClientInterface {
           final token = accountGetter.call()?.token;
           if (null != token) {
             options.headers[_authHeaderName] = 'Bearer $token';
-            log('ADD TOKEN ${options.headers[_authHeaderName]}');
+            // Logger.i('ADD TOKEN ${options.headers[_authHeaderName]}');
           }
-          log('REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path + options.queryParameters.toString()}, DATA: ${options.data}');
+          Logger.i('REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path + options.queryParameters.toString()}, DATA: ${options.data}');
           return handler.next(options); //continue
-        },
-        onResponse: (response, handler) {
-          log('RESPONSE[${response.statusCode}] => DATA: ${response.data} ');
-          return handler.next(response); // continue
         },
         onError: (DioError e, handler) {
           if (e.response == null) {
@@ -69,6 +65,7 @@ abstract class HttpClientInterface {
     Api api,
     Decoder<T> decoder, {
     data,
+    String? contentField = 'data',
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? jsonReplacement,
     CancelToken? cancelToken,
@@ -87,12 +84,19 @@ abstract class HttpClientInterface {
         onReceiveProgress: onReceiveProgress,
         options: options?.copyWith(method: api.method) ?? Options(method: api.method),
       );
-      final json = response.data['data'];
+      final dynamic json;
+      if (null != contentField) {
+        json = response.data[contentField];
+      } else {
+        json = response.data;
+      }
+
       if (jsonReplacement != null && jsonReplacement.isNotEmpty) {
         jsonReplacement.forEach((key, value) {
           json[key] = value;
         });
       }
+      Logger.i('RESPONSE[${response.statusCode}] => DATA: ${response.data}');
       return decoder.call(json);
     } catch (e) {
       Logger.e('HttpClientInterface.request<$T>, response:\n${response?.data}', e);
@@ -109,24 +113,18 @@ abstract class HttpClientInterface {
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    Response? response;
-    try {
-      response = await _dio.request(
-        api.val,
+  }) =>
+      request(
+        api,
+        decoder,
+        contentField: 'info',
         data: data,
         queryParameters: queryParameters,
         cancelToken: cancelToken,
+        options: options,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
-        options: options?.copyWith(method: api.method) ?? Options(method: api.method),
       );
-      return decoder.call(response.data['info']);
-    } catch (e) {
-      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data}', e);
-      return null;
-    }
-  }
 
   Future<T?> requestForMsg<T>(
     Api api,
@@ -137,24 +135,18 @@ abstract class HttpClientInterface {
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
-  }) async {
-    Response? response;
-    try {
-      response = await _dio.request(
-        api.val,
+  }) =>
+      request(
+        api,
+        decoder,
+        contentField: null,
         data: data,
         queryParameters: queryParameters,
         cancelToken: cancelToken,
+        options: options,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
-        options: options?.copyWith(method: api.method) ?? Options(method: api.method),
       );
-      return decoder.call(response.data);
-    } catch (e) {
-      Logger.e('HttpClientInterface.request<$T>, msg:${response?.data}', e);
-      return null;
-    }
-  }
 
   Future<List<T>?> requestList<T>(
     Api api,
@@ -168,7 +160,7 @@ abstract class HttpClientInterface {
   }) =>
       request(
         api,
-        (list) => (list as List<dynamic>).map((e) => decoder.call(e)).toList(),
+        (list) => (list as List<dynamic>).map((e) => decoder.call(e)).toList(growable: false),
         data: data,
         queryParameters: queryParameters,
         cancelToken: cancelToken,
