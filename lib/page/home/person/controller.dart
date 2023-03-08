@@ -14,7 +14,6 @@ import '../../../manager/db_manager/pinpin_db.dart';
 
 class PPHomePersonController extends GetxController {
   final _accountManager = Get.find<AccountManager>();
-  // final _dbManager = Get.find<PPDBManager>();
   final _http = Get.find<PPNetWorkInterface>();
 
   final Rx<UserInfo> userInfo = UserInfo.sample.obs;

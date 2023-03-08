@@ -9,7 +9,7 @@ class ReplyDao {
   }
 
   static Future<Reply?> getReplyByEmail(String email) async {
-    List<Map> maps = await ppDB.query(
+    final maps = await ppDB.query(
       replyTableName,
       where: 'email = ?',
       whereArgs: [email],
@@ -25,7 +25,7 @@ class ReplyDao {
   }
 
   static Future<List<Reply>> list() async {
-    List<Map> maps = await ppDB.query(replyTableName);
+    final maps = await ppDB.query(replyTableName);
 
     List<Reply> replies = [];
     for (var map in maps) {

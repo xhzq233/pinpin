@@ -107,8 +107,8 @@ class PPDBManager extends GetxService {
             id INTEGER NOT NULL
               CONSTRAINT ${userInfoTableName}_pk
                 PRIMARY KEY AUTOINCREMENT,
-            background VARCHAR(104) NOT NULL,
-            image VARCHAR(104) NOT NULL,
+            background VARCHAR(255) NOT NULL,
+            image VARCHAR(255) NOT NULL,
             brief VARCHAR(40) NOT NULL,
             my_tags VARCHAR(32) NOT NULL,
             username VARCHAR(32) NOT NULL,
