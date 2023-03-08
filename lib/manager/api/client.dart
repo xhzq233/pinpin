@@ -7,15 +7,20 @@ import 'package:pinpin/manager/api/client_interface.dart';
 import 'package:pinpin/model/account/account.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/model/pinpin/pinpin_list_data.dart';
+import 'package:pinpin/model/reply/reply.dart';
 import 'package:pinpin/model/reply/reply_list_data.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 import 'package:pinpin/model/notice/notice.dart';
 import 'package:pinpin/model/response/msg_response.dart';
 
 PPNetWorkInterface Function({
-  required AccountGetter accountGetter,
-  required AccountUpdater accountUpdater,
   required String deviceName,
+  required Account? Function() accountGetter,
+  required void Function(Account) accountUpdater,
+  required Future<PinPin?> Function(dynamic) ppGetter,
+  required Future<Notice?> Function(dynamic) noticeGetter,
+  required Future<Reply?> Function(dynamic) replyGetter,
+  required Future<UserInfo?> Function(dynamic) userInfoGetter,
 }) initPPHttp = _PPNetworkImplement.init;
 
 class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
@@ -23,6 +28,10 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
     required super.deviceName,
     required super.accountGetter,
     required super.accountUpdater,
+    required super.ppGetter,
+    required super.noticeGetter,
+    required super.replyGetter,
+    required super.userInfoGetter,
   }) : super.init();
 
   /// welcome
