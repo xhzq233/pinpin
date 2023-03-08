@@ -5,11 +5,16 @@ import 'package:dio/dio.dart';
 
 import 'package:pinpin/manager/api/api.dart';
 import 'package:pinpin/model/account/account.dart';
+import 'package:pinpin/model/notice/notice.dart';
+import 'package:pinpin/model/pinpin/pin_pin.dart';
+import 'package:pinpin/model/reply/reply.dart';
+import 'package:pinpin/model/user_info/user_info.dart';
 import 'package:util/util.dart';
 
 typedef Decoder<T> = T Function(dynamic);
 typedef AccountGetter = Account? Function();
 typedef AccountUpdater = void Function(Account account);
+typedef DataBaseGetter<T> = Future<T?> Function(dynamic);
 
 abstract class HttpClientInterface {
   late final Dio _dio = createDio();
@@ -32,7 +37,8 @@ abstract class HttpClientInterface {
             options.headers[_authHeaderName] = 'Bearer $token';
             // Logger.i('ADD TOKEN ${options.headers[_authHeaderName]}');
           }
-          Logger.i('REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path + options.queryParameters.toString()}, DATA: ${options.data}');
+          Logger.i(
+              'REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path + options.queryParameters.toString()}, DATA: ${options.data}');
           return handler.next(options); //continue
         },
         onError: (DioError e, handler) {
@@ -55,10 +61,19 @@ abstract class HttpClientInterface {
   final AccountGetter accountGetter;
   final AccountUpdater accountUpdater;
 
+  final DataBaseGetter<PinPin> ppGetter;
+  final DataBaseGetter<UserInfo> userInfoGetter;
+  final DataBaseGetter<Reply> replyGetter;
+  final DataBaseGetter<Notice> noticeGetter;
+
   HttpClientInterface.init({
     required this.deviceName,
     required this.accountGetter,
     required this.accountUpdater,
+    required this.ppGetter,
+    required this.userInfoGetter,
+    required this.replyGetter,
+    required this.noticeGetter,
   });
 
   Future<T?> request<T>(
