@@ -4,8 +4,18 @@ import 'package:sqflite/sqflite.dart';
 
 class NoticeDao {
 
-  static Future<void> addAccount(Notice notice) async {
+
+  static Future<void> addNotice(Notice notice) async {
     await ppDB.insert(noticeTableName, notice.toJson(), conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  static Future<void> addNotices(List<Notice>? notices) async {
+    if(null == notices) {
+      return;
+    }
+    for (var notice in notices) {
+      addNotice(notice);
+    }
   }
 
   static Future<Notice?> getNoticeByEmail(String email) async {
@@ -24,7 +34,7 @@ class NoticeDao {
     await ppDB.rawUpdate("UPDATE $noticeTableName SET user_name = ? where email = ?", [userName, email]);
   }
 
-  static Future<List<Notice>> list() async {
+  static Future<List<Notice>?> list() async {
     List<Map> maps = await ppDB.query(noticeTableName);
 
     List<Notice> notices = [];

@@ -30,35 +30,20 @@ class PPDBManager extends GetxService {
             type INTEGER NOT NULL,
             deadline DATE NOT NULL,
             label INTEGER NOT NULL,
-            team_introduction VARCHAR(200) DEFAULT 'No demanding description',
-            demanding_description VARCHAR(200) DEFAULT 'No team introduction',
+            team_introduction TEXT DEFAULT 'No demanding description',
+            demanding_description TEXT DEFAULT 'No team introduction',
             demanding_num INTEGER NOT NULL,
-            is_followed BOOLEAN DEFAULT false,
-            is_deleted BOOLEAN DEFAULT false,
+            is_followed INTEGER DEFAULT false,
+            is_deleted INTEGER DEFAULT false,
             now_num INTEGER NOT NULL,
             reply_num INTEGER DEFAULT 0,
             owner_email VARCHAR(32) NOT NULL,
             updated_at INTEGER NOT NULL,
             create_at INTEGER DEFAULT 0,
-            description VARCHAR(1037) NOT NULL,
+            description TEXT NOT NULL,
+            update_time TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT
           );
           CREATE UNIQUE INDEX ${pinpinTableName}_pinpin_id_uindex ON $pinpinTableName (pinpin_id);
-        ''',
-    );
-
-    await db.execute(
-        '''
-          CREATE TABLE $accountTableName
-          (
-            id INTEGER NOT NULL
-              CONSTRAINT ${accountTableName}_pk
-                PRIMARY KEY AUTOINCREMENT,
-            user_name VARCHAR(32) NOT NULL,
-            token VARCHAR(104) NOT NULL,
-            email VARCHAR(32) NOT NULL,
-            image VARCHAR(104) NOT NULL,
-          );
-          CREATE UNIQUE INDEX ${accountTableName}_email_uindex ON $accountTableName (email);
         ''',
     );
 
@@ -77,6 +62,7 @@ class PPDBManager extends GetxService {
             email VARCHAR(32) NOT NULL,
             time_stamp INTEGER NOT NULL,
             is_read BOOLEAN NOT NULL,
+            update_time TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT
           );
         ''',
     );
@@ -91,11 +77,12 @@ class PPDBManager extends GetxService {
             created_at VARCHAR(32) NOT NULL,
             content VARCHAR(204) NOT NULL,
             email VARCHAR(32) NOT NULL,
-            is_deleted BOOLEAN NOT NULL,
-            Is_thumb_up BOOLEAN NOT NULL,
+            is_deleted INTEGER NOT NULL,
+            is_thumb_up INTEGER NOT NULL,
             pinpin_id INTEGER NOT NULL,
             reply_to INTEGER NOT NULL,
             thumb_up_int INTEGER NOT NULL,
+            update_time TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT
           );
         ''',
     );
@@ -109,10 +96,11 @@ class PPDBManager extends GetxService {
                 PRIMARY KEY AUTOINCREMENT,
             background VARCHAR(255) NOT NULL,
             image VARCHAR(255) NOT NULL,
-            brief VARCHAR(40) NOT NULL,
+            brief TEXT NOT NULL,
             my_tags VARCHAR(32) NOT NULL,
             username VARCHAR(32) NOT NULL,
             email VARCHAR(32) NOT NULL,
+            update_time TIMESTAMP NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT
           );
           CREATE UNIQUE INDEX ${userInfoTableName}_email_uindex ON $userInfoTableName (email);
         ''',

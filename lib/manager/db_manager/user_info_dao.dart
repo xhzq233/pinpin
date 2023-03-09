@@ -4,7 +4,10 @@ import 'package:sqflite/sqflite.dart';
 
 class UserInfoDao {
 
-  static Future<void> addUserInfo(UserInfo userInfo) async {
+  static Future<void> addUserInfo(UserInfo? userInfo) async {
+    if (null == userInfo) {
+      return;
+    }
     await ppDB.insert(userInfoTableName, userInfo.toJson(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
