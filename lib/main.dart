@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:pinpin/manager/api/client.dart';
+import 'package:pinpin/manager/db_manager/pinpin_dao.dart';
 import 'package:pinpin/manager/db_manager/pinpin_db.dart';
 import 'package:pinpin/app/route/route.dart';
 import 'package:pinpin/app/route/route_name.dart';

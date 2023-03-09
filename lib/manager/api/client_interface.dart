@@ -61,19 +61,10 @@ abstract class HttpClientInterface {
   final AccountGetter accountGetter;
   final AccountUpdater accountUpdater;
 
-  final DataBaseGetter<PinPin> ppGetter;
-  final DataBaseGetter<UserInfo> userInfoGetter;
-  final DataBaseGetter<Reply> replyGetter;
-  final DataBaseGetter<Notice> noticeGetter;
-
   HttpClientInterface.init({
     required this.deviceName,
     required this.accountGetter,
     required this.accountUpdater,
-    required this.ppGetter,
-    required this.userInfoGetter,
-    required this.replyGetter,
-    required this.noticeGetter,
   });
 
   Future<T?> request<T>(

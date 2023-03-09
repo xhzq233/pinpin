@@ -1,9 +1,16 @@
 /// pinpin - http_client
 /// Created by xhz on 27/07/2022
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:dio/dio.dart';
 import 'package:pinpin/manager/api/api.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/manager/api/client_interface.dart';
+import 'package:pinpin/manager/db_manager/notice_dao.dart';
+import 'package:pinpin/manager/db_manager/pinpin_dao.dart';
+import 'package:pinpin/manager/db_manager/reply_dao.dart';
+import 'package:pinpin/manager/db_manager/user_info_dao.dart';
 import 'package:pinpin/model/account/account.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/model/pinpin/pinpin_list_data.dart';
@@ -16,11 +23,7 @@ import 'package:pinpin/model/response/msg_response.dart';
 PPNetWorkInterface Function({
   required String deviceName,
   required Account? Function() accountGetter,
-  required void Function(Account) accountUpdater,
-  required Future<PinPin?> Function(dynamic) ppGetter,
-  required Future<Notice?> Function(dynamic) noticeGetter,
-  required Future<Reply?> Function(dynamic) replyGetter,
-  required Future<UserInfo?> Function(dynamic) userInfoGetter,
+  required void Function(Account) accountUpdater
 }) initPPHttp = _PPNetworkImplement.init;
 
 class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
@@ -28,10 +31,6 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
     required super.deviceName,
     required super.accountGetter,
     required super.accountUpdater,
-    required super.ppGetter,
-    required super.noticeGetter,
-    required super.replyGetter,
-    required super.userInfoGetter,
   }) : super.init();
 
   /// welcome
@@ -41,8 +40,10 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
     required int label, // tag
     required int startTime,
     CancelToken? cancelToken,
-  }) =>
-      request(
+  }) async {
+    final res = await PinPinDao.getPinPinList(type, label, startTime);
+    if(null == res) {
+      final pinPinData = await request(
         Api.getPinPinData,
         PinPinListData.fromJson,
         cancelToken: cancelToken,
@@ -52,6 +53,12 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
           'Start': startTime,
         },
       );
+      //store in db
+      PinPinDao.addPinPinList(pinPinData?.data);
+      return pinPinData;
+    }
+    return res;
+  }
 
   @override
   Future<PinPinListData?> searchPinPinData({
@@ -132,8 +139,10 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
   @override
   Future<UserInfo?> getUserInfo({
     required String email,
-  }) =>
-      request(
+  }) async {
+    final res = await UserInfoDao.getUserInfoByEmail(email);
+    if (null == res) {
+      final userInfo = await request(
         Api.getUserInfo,
         UserInfo.fromJson,
         jsonReplacement: {
@@ -143,6 +152,13 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
           "Email": email,
         },
       );
+      UserInfoDao.addUserInfo(userInfo);
+      return userInfo;
+    } else {
+       return res;
+    }
+  }
+
 
   /// change
   @override
@@ -256,7 +272,6 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
       "Content": content,
       "PinpinId": pinPinId,
     });
-
     return requestForMsg(Api.createReportPinPin, MsgResponse.fromJson, data: formData);
   }
 
@@ -299,7 +314,7 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
     FormData formData = FormData.fromMap({
       "PinpinId": pinPinId,
     });
-
+    PinPinDao.deletePinPin(pinPinId);
     return requestForMsg(Api.deletePinpin, MsgResponse.fromJson, data: formData);
   }
 
@@ -309,7 +324,7 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
     required int replyId,
   }) {
     FormData formData = FormData.fromMap({"PinpinId": pinPinId, "ReplyId": replyId});
-
+    ReplyDao.deleteReply(pinPinId, replyId);
     return requestForMsg(Api.deleteReply, MsgResponse.fromJson, data: formData);
   }
 
@@ -320,21 +335,30 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
     FormData formData = FormData.fromMap({
       "PinpinId": pinPinId,
     });
-
+    PinPinDao.followPinPin(pinPinId);
     return requestForMsg(Api.followPinPin, MsgResponse.fromJson, data: formData);
   }
 
   @override
   Future<ReplyListData?> getAllReplys({
     required int pinPinId,
-  }) =>
-      requestForMsg(
+  }) async {
+    final res = await ReplyDao.getCommentsByPinPinId(pinPinId);
+    if (null == res) {
+      final replys = await requestForMsg(
         Api.getAllReplys,
         ReplyListData.fromJson,
         queryParameters: {
           "PinpinId": pinPinId,
         },
       );
+      ReplyDao.addReplys(replys?.data);
+      return replys;
+    } else {
+      return res;
+    }
+  }
+
 
   @override
   Future<List<PinPin>?> getMyFollow() => requestList(Api.getMyFollow, PinPin.fromJson);
@@ -346,7 +370,16 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
   Future<List<Notice>?> getMySysNotice() => requestList(Api.getMySysNotice, Notice.fromJson);
 
   @override
-  Future<List<Notice>?> getNotice() => requestList(Api.getNotice, Notice.fromJson);
+  Future<List<Notice>?> getNotice() async {
+    final res = await NoticeDao.list();
+    if (null == res) {
+      final notices = await requestList(Api.getNotice, Notice.fromJson);
+      NoticeDao.addNotices(notices);
+      return notices;
+    } else {
+      return res;
+    }
+  }
 
   @override
   Future<PinPin?> getSpecifiedPinpin({
@@ -394,7 +427,7 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
       "DemandingDescription": demandingDescription,
       "TeamIntroduction": teamIntroduction
     });
-
+    PinPinDao.updatePinPin(pinPinId, title, label, type, deadline, description, demandingNum, nowNum, demandingDescription, teamIntroduction);
     return requestForMsg(Api.updatePinpin, MsgResponse.fromJson, data: formData);
   }
 
@@ -409,7 +442,7 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
       "DemandingNum": demandingNum,
       "NowNum": nowNum,
     });
-
+    PinPinDao.updatePinpinPersonQty(pinPinId, demandingNum, nowNum);
     return requestForMsg(Api.updatePinpinPersonQty, MsgResponse.fromJson, data: formData);
   }
 
@@ -420,7 +453,6 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
     FormData formData = FormData.fromMap({
       "PinpinId": pinPinId,
     });
-
     return requestForMsg(Api.addPinpinPersonQty, MsgResponse.fromJson, data: formData);
   }
 
@@ -431,6 +463,7 @@ class _PPNetworkImplement extends HttpClientInterface with PPNetWorkInterface {
     FormData formData = FormData.fromMap({
       "ReplyId": replyId,
     });
+    ReplyDao.removeThumbUpReply(replyId);
     return requestForMsg(Api.cancelThumpUp, MsgResponse.fromJson, data: formData);
   }
 
