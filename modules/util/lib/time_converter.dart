@@ -1,8 +1,6 @@
 /// pinpin - time_converter
 /// Created by xhz on 3/5/23
 
-import '';
-
 class TimeConverter {
   static String fromSeconds(int time) {
     final date = DateTime.fromMillisecondsSinceEpoch(time * 1000);
