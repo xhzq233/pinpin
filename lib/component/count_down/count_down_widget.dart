@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/loading/loading.dart';
-import 'package:pinpin/component/stateful_button/hold_active_button.dart';
+import 'package:widget/button/hold.dart';
 
 class CountDownController extends GetxController {
   CountDownController({int maxSeconds = 60})
@@ -86,9 +86,9 @@ class CountDownWidget extends StatelessWidget {
           content = '${controller.current}s';
         }
 
-        return HoldActiveButton(
+        return HoldButton(
           onPressed: !controller.banned && controller.stopped ? controller.start : null,
-          builder: (state) => DecoratedBox(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               color: fillColor,
               border: border,

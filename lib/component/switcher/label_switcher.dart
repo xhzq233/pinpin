@@ -9,18 +9,18 @@ import 'package:widget/button/hold.dart';
 class LabelSwitcher extends StatelessWidget {
   const LabelSwitcher({
     Key? key,
-    required this.selectedLabel,
+    required this.selectedLabelIndex,
     required this.selectedType,
     this.onTap,
   }) : super(key: key);
 
   final int selectedType;
-  final int selectedLabel;
+  final int selectedLabelIndex;
   final void Function(int index)? onTap;
 
   Widget _labelBuilder(BuildContext context, int index) {
-    final selected = selectedLabel == index;
-    final target = AppAssets.label_array[selectedType]![index];
+    final selected = selectedLabelIndex == index;
+    final target = AppAssets.labelArray[selectedType]![index];
     final imgSource = selected ? target.activeImg : target.inactiveImg;
     final bgColor = selected ? AppTheme.primary : AppTheme.gray95;
     final textColor = selected ? const Color(0xff4d94fe) : AppTheme.gray50;
@@ -69,7 +69,7 @@ class LabelSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: AppAssets.label_array[selectedType]!.length,
+      itemCount: AppAssets.labelArray[selectedType]!.length,
       padding: const EdgeInsets.symmetric(vertical: 8),
       scrollDirection: Axis.horizontal,
       itemBuilder: _labelBuilder,

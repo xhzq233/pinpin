@@ -16,18 +16,23 @@ import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/model/reply/reply.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 
-// const databaseName = 'pinpin.db';
-// const accountTableName = 'account';
-// const pinpinTableName = 'pinpin';
-// const noticeTableName = 'notice';
-// const replyTableName = 'reply';
-// const responseTableName = 'response';
-// const userInfoTableName = 'userinfo';
+part 'database.g.dart'; // the generated code will be there
 
-part 'pinpin_db.g.dart'; // the generated code will be there
+class DateTimeConverter extends TypeConverter<DateTime, int> {
+  @override
+  DateTime decode(int databaseValue) {
+    return DateTime.fromMillisecondsSinceEpoch(databaseValue);
+  }
 
+  @override
+  int encode(DateTime value) {
+    return value.millisecondsSinceEpoch;
+  }
+}
+
+@TypeConverters([DateTimeConverter])
 @Database(version: 1, entities: [Notice, PinPin, UserInfo, Reply])
-abstract class AppDatabase extends GetxService with FloorDatabase {
+abstract class PPDatabase extends GetxService with FloorDatabase {
   NoticeDao get personDao;
 
   PinPinDao get pinpinDao;
@@ -37,9 +42,15 @@ abstract class AppDatabase extends GetxService with FloorDatabase {
   ReplyDao get replyDao;
 }
 
-
 // import 'package:path/path.dart';
 // import 'package:sqflite/sqflite.dart';
+// const databaseName = 'pinpin.db';
+// const accountTableName = 'account';
+// const pinpinTableName = 'pinpin';
+// const noticeTableName = 'notice';
+// const replyTableName = 'reply';
+// const responseTableName = 'response';
+// const userInfoTableName = 'userinfo';
 // Database? _ppDB;
 //
 // Database get ppDB => _ppDB!;

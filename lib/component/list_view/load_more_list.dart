@@ -11,6 +11,7 @@ class LoadMoreListView<T, S> extends StatelessWidget {
   final SliverGridDelegate? gridDelegate;
   final ExtendedListDelegate? extendedListDelegate;
   final Widget Function(BuildContext context, T item, int index) itemBuilder;
+  final ScrollPhysics physics;
 
   const LoadMoreListView({
     Key? key,
@@ -18,6 +19,7 @@ class LoadMoreListView<T, S> extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 12),
     this.gridDelegate,
     this.extendedListDelegate,
+    this.physics = const BouncingScrollPhysics(),
     required this.itemBuilder,
   }) : super(key: key);
 
@@ -31,11 +33,10 @@ class LoadMoreListView<T, S> extends StatelessWidget {
       onRefresh: func,
       child: LoadingMoreList(
         ListConfig(
-          physics: const ClampingScrollPhysics(),
+          physics: physics,
           padding: padding,
           showGlowLeading: false,
           showGlowTrailing: false,
-          primary: true,
           itemBuilder: itemBuilder,
           sourceList: sourceList,
           extendedListDelegate: extendedListDelegate,
@@ -56,7 +57,7 @@ class LoadMoreListView<T, S> extends StatelessWidget {
         widget = const SizedBox();
         break;
       case IndicatorStatus.loadingMoreBusying:
-        widget = const Text('Loading', style: textStyle);
+        widget = const Text('加载中', style: textStyle);
         break;
       case IndicatorStatus.fullScreenBusying:
         widget = const CircularProgressIndicator();
@@ -64,14 +65,14 @@ class LoadMoreListView<T, S> extends StatelessWidget {
       case IndicatorStatus.error:
         widget = InkWell(
           onTap: () => sourceList.errorRefresh,
-          child: const Text('Load Error', style: textStyle),
+          child: const Text('加载错误', style: textStyle),
         );
         break;
       case IndicatorStatus.noMoreLoad:
-        widget = const Text('No more data', style: textStyle);
+        widget = const Text('没有更多惹', style: textStyle);
         break;
       case IndicatorStatus.empty:
-        widget = const Text('Nothing here...', style: textStyle);
+        widget = const Text('空空如也...', style: textStyle);
         return LayoutBuilder(
           builder: (_, layout) => SingleChildScrollView(
             child: SizedBox(
@@ -84,11 +85,11 @@ class LoadMoreListView<T, S> extends StatelessWidget {
         widget = Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('Load Error', style: textStyle),
+            const Text('加载错误', style: textStyle),
             const SizedBox(height: 8),
             ElevatedButton(
               onPressed: _refresh,
-              child: const Text('Retry', style: textStyle),
+              child: const Text('重试', style: textStyle),
             )
           ],
         );
@@ -103,7 +104,10 @@ class LoadMoreListView<T, S> extends StatelessWidget {
     }
 
     return Center(
-      child: widget,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: widget,
+      ),
     );
   }
 

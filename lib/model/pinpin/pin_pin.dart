@@ -1,9 +1,18 @@
 import 'dart:convert';
-
 import 'package:json_annotation/json_annotation.dart';
+import 'package:floor/floor.dart';
+import 'package:pinpin/model/user_info/user_info.dart';
 
 part 'pin_pin.g.dart';
 
+@Entity(
+  indices: [
+    Index(value: ['type', 'label']),
+  ],
+  foreignKeys: [
+    ForeignKey(childColumns: ['ownerEmail'], parentColumns: ['email'], entity: UserInfo),
+  ],
+)
 @JsonSerializable(explicitToJson: true)
 class PinPin {
   PinPin({
@@ -22,10 +31,11 @@ class PinPin {
 
   static final sample = PinPin.fromJson(
     jsonDecode(
-      '{"PinpinId": 48, "Type": 2, "Label": 33, "Title": "学习类型", "Deadline": "2024-10-30T16:00:00Z", "Description": "", "DemandingNum": 96, "NowNum": 3, "DemandingDescription": "", "TeamIntroduction": "kdk", "IsDeleted": false, "OwnerEmail": "U202017199", "ReplyNum": 0, "CreatedAt": 1666543851, "UpdatedAt": 1666543851}',
+      '{"PinpinId": 48, "Type": 2, "Label": 33, "Title": "学习类型", "Deadline": "2024-10-30T16:00:00Z", "Description": "Description", "DemandingNum": 96, "NowNum": 3, "DemandingDescription": "DemandingDescription", "TeamIntroduction": "kdk", "IsDeleted": false, "OwnerEmail": "U202017199", "ReplyNum": 0, "CreatedAt": 1666543851, "UpdatedAt": 1666543851}',
     ),
   );
 
+  @primaryKey
   @JsonKey(name: "PinpinId")
   int pinpinId;
 
@@ -34,6 +44,7 @@ class PinPin {
 
   //ppt -> pin pin type
   static const ppt_study = 2;
+
   //ett -> entertainment
   static const ppt_ett = 1;
 

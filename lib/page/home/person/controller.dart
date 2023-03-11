@@ -10,7 +10,7 @@ import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 
-import '../../../manager/db_manager/pinpin_db.dart';
+import '../../../manager/db_manager/database.dart';
 
 class PPHomePersonController extends GetxController {
   final _accountManager = Get.find<AccountManager>();

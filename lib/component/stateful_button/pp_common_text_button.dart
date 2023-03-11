@@ -10,7 +10,7 @@ enum PPCommonTextButtonStyle { fill, outline }
 enum PPCommonTextButtonSize {
   normal(330, 56),
   secondary(276, 50),
-  tertiary(84, 36),
+  tertiary(140, 45),
   quaternary(68, 32);
 
   final double height;
@@ -53,13 +53,13 @@ class PPCustomCapsuleButton extends StatelessWidget {
 }
 
 class PPCommonTextButton extends StatelessWidget {
-  const PPCommonTextButton(
-      {Key? key,
-      this.onPressed,
-      required this.title,
-      this.size = PPCommonTextButtonSize.normal,
-      this.style = PPCommonTextButtonStyle.fill})
-      : super(key: key);
+  const PPCommonTextButton({
+    Key? key,
+    this.onPressed,
+    required this.title,
+    this.size = PPCommonTextButtonSize.normal,
+    this.style = PPCommonTextButtonStyle.fill,
+  }) : super(key: key);
   final ButtonOnPressed? onPressed;
   final String title;
   final PPCommonTextButtonSize size;
@@ -69,7 +69,7 @@ class PPCommonTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return UnconstrainedBox(
       child: SizedBox(
         width: size.width,
         height: size.height,

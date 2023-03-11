@@ -1,12 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
+import 'package:floor/floor.dart';
 
 part 'user_info.g.dart';
 
+@entity
 @JsonSerializable(explicitToJson: true)
 class UserInfo {
   @JsonKey(name: 'Background')
   final String background;
+  @ignore
   @JsonKey(name: 'History')
   final List<PinPin>? history;
   @JsonKey(name: 'Image')
@@ -17,6 +20,8 @@ class UserInfo {
   final String myTags;
   @JsonKey(name: 'Username')
   final String username;
+
+  @primaryKey
   @JsonKey(name: 'Email')
   final String email;
 
@@ -27,12 +32,12 @@ class UserInfo {
     brief: 'brief',
     myTags: 'myTags',
     username: '大家好啊',
-    email: '1761373255@qq.com'
+    email: '1761373255@qq.com',
   );
 
   const UserInfo({
     required this.background,
-    required this.history,
+    this.history,
     required this.image,
     required this.brief,
     required this.myTags,

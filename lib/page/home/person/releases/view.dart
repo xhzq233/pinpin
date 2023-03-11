@@ -6,17 +6,19 @@ import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/header/sliver_header_delegate.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/tab_bar/tab_bar.dart';
+import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'controller.dart';
+import 'package:util/util.dart';
 
-class ReleasesPage extends StatelessWidget {
+class ReleasesPage extends StatelessWidget with PPHomeCardViewDelegate {
   ReleasesPage({Key? key}) : super(key: key) {
     releases = controller.userInfo.value.history!;
   }
 
   final controller = Get.find<ReleasesController>();
-  late List<PinPin> releases;
+  late final List<PinPin> releases;
 
   final header = SliverPersistentHeader(
       pinned: false,
@@ -75,7 +77,7 @@ class ReleasesPage extends StatelessWidget {
                           )
                         ],
                       ),
-                      child: PPHomeCardView(pp: releases[index])
+                      child: PPHomeCardView(pp: releases[index],delegate: this,)
                           .paddingOnly(bottom: 8),
                     ),
                   ));
@@ -122,5 +124,17 @@ class ReleasesPage extends StatelessWidget {
               )))
 
     ];
+  }
+
+  // delegates
+  @override
+  Future<bool> pressedFollow(int pinpinId) async {
+    final res = await Get.find<PPNetWorkInterface>().followPinPin(pinPinId: pinpinId);
+
+    if (null == res) return false;
+
+    toast(res.msg);
+    Logger.i(res.msg);
+    return true;
   }
 }

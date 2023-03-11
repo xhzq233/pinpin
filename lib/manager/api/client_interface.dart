@@ -1,20 +1,16 @@
 /// pinpin - http_client_interface
 /// Created by xhz on 30/07/2022
-import 'dart:developer';
 import 'package:dio/dio.dart';
 
 import 'package:pinpin/manager/api/api.dart';
 import 'package:pinpin/model/account/account.dart';
-import 'package:pinpin/model/notice/notice.dart';
-import 'package:pinpin/model/pinpin/pin_pin.dart';
-import 'package:pinpin/model/reply/reply.dart';
-import 'package:pinpin/model/user_info/user_info.dart';
-import 'package:util/util.dart';
+import 'package:util/logger.dart';
 
 typedef Decoder<T> = T Function(dynamic);
 typedef AccountGetter = Account? Function();
 typedef AccountUpdater = void Function(Account account);
 typedef DataBaseGetter<T> = Future<T?> Function(dynamic);
+typedef Toaster = void Function(String);
 
 abstract class HttpClientInterface {
   late final Dio _dio = createDio();
@@ -38,15 +34,15 @@ abstract class HttpClientInterface {
             // Logger.i('ADD TOKEN ${options.headers[_authHeaderName]}');
           }
           Logger.i(
-              'REQUEST[${options.method}] => PATH: ${options.baseUrl + options.path + options.queryParameters.toString()}, DATA: ${options.data}');
+              'REQ[${options.method}] => PATH: ${options.baseUrl + options.path + options.queryParameters.toString()}, DATA: ${options.data}');
           return handler.next(options); //continue
         },
         onError: (DioError e, handler) {
           if (e.response == null) {
-            toast('Network unavailable');
+            toaster('Network unavailable');
           } else {
             final String? msg = e.response?.data['msg'].toString() ?? e.response?.data.toString();
-            toast(msg ?? 'Request Failed');
+            toaster(msg ?? 'Request Failed');
             Logger.e('Request:${e.requestOptions.data} ==> Response: ${e.response}');
           }
           handler.reject(e);
@@ -60,11 +56,13 @@ abstract class HttpClientInterface {
   final String deviceName;
   final AccountGetter accountGetter;
   final AccountUpdater accountUpdater;
+  final Toaster toaster;
 
   HttpClientInterface.init({
     required this.deviceName,
     required this.accountGetter,
     required this.accountUpdater,
+    required this.toaster,
   });
 
   Future<T?> request<T>(
@@ -102,7 +100,7 @@ abstract class HttpClientInterface {
           json[key] = value;
         });
       }
-      Logger.i('RESPONSE[${response.statusCode}] => DATA: ${response.data}');
+      Logger.i('RSP[${response.statusCode}] => DATA: ${response.data}');
       return decoder.call(json);
     } catch (e) {
       Logger.e('HttpClientInterface.request<$T>, response:\n${response?.data}', e);

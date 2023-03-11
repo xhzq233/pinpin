@@ -2,6 +2,7 @@
 /// Created by xhz on 05/08/2022
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:widget/button/hold.dart';
 import 'hold_active_button.dart';
 
 class PPImageButton extends StatelessWidget {
@@ -23,14 +24,14 @@ class PPImageButton extends StatelessWidget {
     );
   }
 
-  final ButtonOnPressed onPressed;
+  final void Function() onPressed;
   late final Widget _active;
 
   @override
   Widget build(BuildContext context) {
-    return HoldActiveButton(
-      builder: (_) => _active,
+    return HoldButton(
       onPressed: onPressed,
+      child: _active,
     );
   }
 }

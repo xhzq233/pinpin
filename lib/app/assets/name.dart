@@ -70,7 +70,7 @@ class AppAssets {
   ///PPFilterLabel\(([-0-9]+)\, \'(.+)\'\, \'\$\{_home\}active\=.+\.png\'\, \'\$\{_home\}inactive\=.+\.png\'\)\;
   ///->
   ///$1:PPFilterLabel\($1\, \'$2\'\, \'\$\{_home\}active\=$2\.png\'\, \'\$\{_home\}inactive\=$2\.png\'\)\,
-  static const label_map = {
+  static const labelMap = {
     PinPin.ppt_ett: {
       -1: PPFilterLabel(-1, '全部', '${_home}active=全部.png', '${_home}inactive=全部.png'),
       33: PPFilterLabel(33, '其他', '${_home}active=其他.png', '${_home}inactive=其他.png'),
@@ -100,9 +100,9 @@ class AppAssets {
   };
 
   //这里做一个排序变成一个数组，便于列表直接读取
-  static final Map<int, List<PPFilterLabel>> label_array = () {
+  static final Map<int, List<PPFilterLabel>> labelArray = () {
     final List<PPFilterLabel> ett = () {
-      final list = label_map[PinPin.ppt_ett]!.values.toList();
+      final list = labelMap[PinPin.ppt_ett]!.values.toList();
       mergeSort(list, compare: (PPFilterLabel a, PPFilterLabel b) {
         return a.id - b.id;
       });
@@ -110,7 +110,7 @@ class AppAssets {
     }();
 
     final List<PPFilterLabel> study = () {
-      final list = label_map[PinPin.ppt_study]!.values.toList();
+      final list = labelMap[PinPin.ppt_study]!.values.toList();
       mergeSort(list, compare: (PPFilterLabel a, PPFilterLabel b) {
         return a.id - b.id;
       });

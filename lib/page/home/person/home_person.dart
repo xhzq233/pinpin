@@ -181,7 +181,9 @@ class PPHomePersonView extends StatelessWidget {
 
     final background = DecoratedBox(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius), color: Colors.blueAccent),
+        borderRadius: BorderRadius.only(bottomLeft: radius, bottomRight: radius),
+        color: AppTheme.primary,
+      ),
     ).sized(height: min(height, backgroundMaxHeight), width: double.infinity);
 
     final Widget title = Opacity(

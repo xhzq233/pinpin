@@ -1,10 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:floor/floor.dart';
+import 'package:pinpin/model/pinpin/pin_pin.dart';
 
 part 'reply.g.dart';
 
+@Entity(foreignKeys: [
+  ForeignKey(childColumns: ['replyTo'], parentColumns: ['id'], entity: Reply),
+  ForeignKey(childColumns: ['pinPinId'], parentColumns: ['pinpinId'], entity: PinPin),
+])
 @JsonSerializable()
 class Reply {
-  
   Reply({
     required this.id,
     required this.createdAt,
@@ -23,6 +28,7 @@ class Reply {
   final String createdAt;
   @JsonKey(name: "Email")
   final String email;
+  @primaryKey
   @JsonKey(name: "ID")
   final int id;
   @JsonKey(name: "IsDeleted")

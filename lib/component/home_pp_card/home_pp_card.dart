@@ -10,6 +10,7 @@ import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 import 'package:util/util.dart';
 import 'package:widget/avatar.dart';
+import 'package:widget/button/future_switch_button.dart';
 
 class DemandingBubble extends StatelessWidget {
   const DemandingBubble({Key? key, required this.content}) : super(key: key);
@@ -56,10 +57,21 @@ class LabelBubble extends StatelessWidget {
   }
 }
 
+mixin PPHomeCardViewDelegate {
+  //true说明更改成功
+  Future<bool> pressedFollow(int pinpinId);
+}
+
 class PPHomeCardView extends StatelessWidget {
-  const PPHomeCardView({Key? key, required this.pp, this.userInfo = UserInfo.sample}) : super(key: key);
+  const PPHomeCardView({
+    Key? key,
+    required this.pp,
+    this.userInfo = UserInfo.sample,
+    required this.delegate,
+  }) : super(key: key);
   final PinPin pp;
   final UserInfo userInfo;
+  final PPHomeCardViewDelegate delegate;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +85,7 @@ class PPHomeCardView extends StatelessWidget {
       content: '${pp.nowNum}/${pp.demandingNum}',
     );
 
-    final label = LabelBubble(content: AppAssets.label_map[pp.type]![pp.label]!.title);
+    final label = LabelBubble(content: AppAssets.labelMap[pp.type]![pp.label]!.title);
 
     final content = Text(
       pp.title,
@@ -110,15 +122,22 @@ class PPHomeCardView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 title,
-                Builder(
-                  builder: (ctx) => PPImageButton(
-                    onPressed: () {
-                      pp.isFollowed = !pp.isFollowed;
-                      (ctx as Element).markNeedsBuild();
+                SizedBox(
+                  height: 35,
+                  width: 35,
+                  child: FutureSwitchButton<bool>(
+                    initValue: pp.isFollowed,
+                    pressedSwitch: (now) async {
+                      final res = await delegate.pressedFollow(pp.pinpinId);
+                      return res ? !now : now;
                     },
-                    active: pp.isFollowed ? AppAssets.star_active : AppAssets.star,
+                    builder: (now) {
+                      return Image.asset(
+                        now ? AppAssets.star_active : AppAssets.star,
+                      );
+                    },
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(

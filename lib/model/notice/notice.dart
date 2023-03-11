@@ -1,7 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:floor/floor.dart';
 
 part 'notice.g.dart';
 
+@Entity(indices: [
+  Index(value: ['email']),
+])
 @JsonSerializable()
 class Notice {
   Notice({
@@ -16,6 +20,7 @@ class Notice {
     required this.isRead,
   });
 
+  @primaryKey
   @JsonKey(name: 'ID')
   int id;
   @JsonKey(name: 'CreatedAt')

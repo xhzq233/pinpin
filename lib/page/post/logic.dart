@@ -49,7 +49,7 @@ class PPPostLogic extends GetxController {
     final res = await ppHttp.createPinpin(
       title: title.text,
       //TODO
-      label: AppAssets.label_array[selectedType.value]![selectedLabel.value].id,
+      label: AppAssets.labelArray[selectedType.value]![selectedLabel.value].id,
       type: selectedType.value,
       description: summary.text,
       deadline: ddl!.toUtc().toIso8601String(),

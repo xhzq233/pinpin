@@ -36,7 +36,7 @@ class PPPost1Fragment extends StatelessWidget {
           height: 96,
           child: Obx(
             () => LabelSwitcher(
-              selectedLabel: logic.selectedLabel.value,
+              selectedLabelIndex: logic.selectedLabel.value,
               selectedType: logic.selectedType.value,
               onTap: (index) => logic.selectedLabel.value = index,
             ),

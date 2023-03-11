@@ -8,6 +8,8 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/constant.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
+import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
+import 'package:widget/button/future_switch_button.dart';
 import 'package:widget/widget.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/page/pp_detail/logic.dart';
@@ -35,12 +37,41 @@ class PPDetailPage extends StatelessWidget {
         ),
       ),
     );
+
+    const buttonShadow = [BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.04), offset: Offset(0, 3), blurRadius: 10)];
+
+    barButton(String asset, function) {
+      return SizedBox(
+        width: 35,
+        height: 35,
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+              boxShadow: buttonShadow, color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: HoldButton(
+            onPressed: function,
+            child: Image.asset(asset),
+          ),
+        ),
+      );
+    }
+
+    const barButtonPadding = SizedBox(
+      width: 12,
+    );
+
+    final actionButton = PPCommonTextButton(
+      title: '求拼拼',
+      style: PPCommonTextButtonStyle.outline,
+      size: PPCommonTextButtonSize.tertiary,
+      onPressed: () {},
+    );
+
     final bottomBar = FractionallySizedBox(
       widthFactor: 1,
       heightFactor: 0.1078,
       alignment: Alignment.bottomCenter,
       child: DecoratedBox(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppTheme.maskWhite,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -56,13 +87,52 @@ class PPDetailPage extends StatelessWidget {
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: SizedBox(),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16, right: 12, left: 26),
+              child: Align(
+                alignment: Alignment.topCenter, //将其置顶进入safeArea
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center, //这里再变成center
+                  children: [
+                    SizedBox(
+                      width: 35,
+                      height: 35,
+                      child: DecoratedBox(
+                        decoration: const BoxDecoration(
+                            boxShadow: buttonShadow,
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                        child: FutureSwitchButton<bool>(
+                          initValue: pp.isFollowed,
+                          pressedSwitch: (now) async {
+                            final res = await logic.pressedFollow(pp.pinpinId);
+                            return res ? !now : now;
+                          },
+                          builder: (now) {
+                            return Image.asset(
+                              now ? AppAssets.star_active : AppAssets.star,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    barButtonPadding,
+                    barButton(AppAssets.share, () {}),
+                    barButtonPadding,
+                    barButton(AppAssets.comment, () {}),
+                    const Spacer(),
+                    actionButton,
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -140,7 +210,7 @@ class PPDetailPage extends StatelessWidget {
     );
 
     final label = LabelBubble(
-      content: AppAssets.label_map[pp.type]![pp.label]!.title,
+      content: AppAssets.labelMap[pp.type]![pp.label]!.title,
     );
 
     const borderSide = BorderSide(color: AppTheme.secondary5);
@@ -173,7 +243,7 @@ class PPDetailPage extends StatelessWidget {
           height: 22,
           child: label,
         ),
-        SizedBox(
+        const SizedBox(
           width: 11,
         ),
         SizedBox(
@@ -207,19 +277,19 @@ class PPDetailPage extends StatelessWidget {
             height: 35,
             child: avatar,
           ),
-          SizedBox(width: 6),
+          const SizedBox(width: 6),
           Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 1.7),
+                padding: const EdgeInsets.only(top: 1.7),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     nickname,
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     ConstantWidget.onlineWidget,
                   ],
                 ),
@@ -301,9 +371,9 @@ class PPDetailPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: const [heading, Text(' 活动概述', style: titleStyle)],
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               ConstrainedBox(
-                constraints: BoxConstraints(minHeight: 64),
+                constraints: const BoxConstraints(minHeight: 64),
                 child: Text(fixedDescription, style: contentStyle),
               ),
             ],
@@ -315,7 +385,7 @@ class PPDetailPage extends StatelessWidget {
     final joiner = SizedBox(height: 24, width: 24, child: avatar);
 
     final joiners = Padding(
-      padding: EdgeInsets.only(left: 6),
+      padding: const EdgeInsets.only(left: 6),
       child: Row(
         children: [joiner, joiner, joiner]
             .map((e) => Padding(
@@ -343,7 +413,7 @@ class PPDetailPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: const [heading, Text(' 人员介绍', style: titleStyle)],
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Text(fixedDemandingDescription, style: contentStyle),
             ],
           ),
@@ -368,9 +438,9 @@ class PPDetailPage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: const [heading, Text(' 队伍信息', style: titleStyle)],
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               ConstrainedBox(
-                constraints: BoxConstraints(minHeight: 64),
+                constraints: const BoxConstraints(minHeight: 64),
                 child: Text(fixedTeamDesc, style: contentStyle),
               ),
             ],
@@ -409,14 +479,14 @@ class PPDetailPage extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
                 child: DecoratedBox(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: horizontalMargin, vertical: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: horizontalMargin, vertical: 16),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: columns,

@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/page/home/person/profile_sliver_header.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/page/unknown_page/view.dart';
+import 'package:util/util.dart';
 
 import 'controller.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatelessWidget with PPHomeCardViewDelegate {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
@@ -168,7 +170,7 @@ class ProfilePage extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8),
-                  child: PPHomeCardView(pp: userInfo.history![index]),
+                  child: PPHomeCardView(pp: userInfo.history![index],delegate: this,),
                 );
               },
             ),
@@ -180,5 +182,18 @@ class ProfilePage extends StatelessWidget {
       color: AppTheme.lightBackground,
       child: body,
     );
+  }
+
+
+  // delegates
+  @override
+  Future<bool> pressedFollow(int pinpinId) async {
+    final res = await Get.find<PPNetWorkInterface>().followPinPin(pinPinId: pinpinId);
+
+    if (null == res) return false;
+
+    toast(res.msg);
+    Logger.i(res.msg);
+    return true;
   }
 }
