@@ -73,12 +73,12 @@ class CountDownWidget extends StatelessWidget {
           fillColor = AppTheme.gray80;
           textColor = AppTheme.gray100;
           border = null;
-          content = 'Code';
+          content = '验证码';
         } else if (controller.stopped) {
           fillColor = AppTheme.primary;
           textColor = AppTheme.gray100;
           border = null;
-          content = 'Code';
+          content = '验证码';
         } else {
           fillColor = AppTheme.gray100;
           textColor = AppTheme.gray0;

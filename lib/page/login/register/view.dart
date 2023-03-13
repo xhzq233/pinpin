@@ -19,7 +19,7 @@ class RegisterPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 32),
+            padding: EdgeInsets.only(top: 16, bottom: 42),
             child: Center(
               child: Text(
                 "注册1037拼拼",
@@ -31,22 +31,36 @@ class RegisterPage extends StatelessWidget {
             hintText: '输入学号',
             suffixText: '@hust.edu.cn',
             controller: controller.idTC,
+            validator: Validators.studentID,
             onChanged: controller.onIDChanged,
+          ),
+          const SizedBox(
+            height: 8,
           ),
           PPTextField(
             hintText: '输入验证码',
             suffixIcon: const FractionallySizedBox(
-              widthFactor: 0.7,
-              child: Padding(padding: EdgeInsets.symmetric(vertical: 2), child: CountDownWidget()),
+              widthFactor: 0.72,
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 2.3),
+                child: CountDownWidget(),
+              ),
             ),
+            validator: Validators.verifyCode,
             controller: controller.codeTC,
             onChanged: controller.onCodeChanged,
+          ),
+          const SizedBox(
+            height: 16,
           ),
           Obx(
             () => PPCommonTextButton(
               title: '下一步',
               onPressed: controller.btnEnabled.value ? controller.next : null,
             ),
+          ),
+          const SizedBox(
+            height: 16,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,11 +75,14 @@ class RegisterPage extends StatelessWidget {
               ).onTap(controller.toLogin),
             ],
           ),
+          const SizedBox(
+            height: 8,
+          ),
           Text(
             "1037拼拼会向您的华科校园邮箱发送邮件验证校园身份，您可稍后再进行验证。",
             style: AppTheme.headline9.copyWith(color: AppTheme.banned),
           ),
-          const Flexible(child: SizedBox(height: 380)),
+          const Spacer(),
           RichText(
             text: TextSpan(
               children: [

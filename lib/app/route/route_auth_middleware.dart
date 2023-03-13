@@ -3,9 +3,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pinpin/app/i18n/i18n_names.dart';
 import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:pinpin/app/route/route_name.dart';
+import 'package:util/toast/toast.dart';
 
 class RouteAuthMiddleware extends GetMiddleware {
   RouteAuthMiddleware() : super(priority: 1);
@@ -15,7 +15,7 @@ class RouteAuthMiddleware extends GetMiddleware {
     if (Get.find<AccountManager>().isNotEmpty) {
       return null;
     }
-    Get.snackbar(I18n.notice.tr, "请先登录APP");
+    toast("请先登录APP");
 
     return const RouteSettings(name: RN.login);
   }

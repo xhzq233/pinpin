@@ -7,12 +7,13 @@ import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/bar_items/person_avatar.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
+import 'package:util/util.dart';
+import 'package:widget/avatar.dart';
 
 class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   const PinPinPersonSliverHeaderDelegate(this.userInfo);
@@ -53,6 +54,10 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
                 scale: max(0.8 + diff * 0.32, 1), //1.12 -> 1 -> 1,
                 child: Image.network(
                   userInfo.background,
+                  errorBuilder: (_, __, ___) => Image.asset(
+                    'assets/profile.png', //出错加载默认头像
+                    fit: BoxFit.cover,
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -63,7 +68,7 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
                 opacity: diff,
                 child: PPCustomCapsuleButton(
                   background: AppTheme.secondary5,
-                  onPressed:()=> Get.toNamed(RN.edit_bg),
+                  onPressed: () => Get.toNamed(RN.edit_bg),
                   child: Text(
                     '编辑',
                     style: AppTheme.headline6.copyWith(color: AppTheme.primary),
@@ -83,7 +88,10 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     );
 
     final imgSize = diff * avatarSizeRange + avatarMinSize;
-    final img = PersonAvatar(url: userInfo.image, size: imgSize);
+    final avatar = Avatar(
+      url: userInfo.image,
+      margin: 5 * diff,
+    ).sized(width: imgSize, height: imgSize);
 
     final username = SizedBox(
       height: avatarMinSize + 2,
@@ -120,7 +128,7 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
           Align(
             // (-0.9,1) -> (-0.18, 0.1)
             alignment: Alignment(-0.18 - 0.72 * diff, endLineY),
-            child: img,
+            child: avatar,
           ),
           Align(
             // (-0.5,1) -> (0.13, 0.1)

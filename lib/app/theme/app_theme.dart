@@ -109,6 +109,12 @@ class AppTheme {
     color: Color.fromRGBO(0, 0, 0, 0.04),
   );
 
+  static const thickShadow = BoxShadow(
+    offset: Offset(0, 4),
+    blurRadius: 16,
+    color: Color.fromRGBO(0, 0, 0, 0.1),
+  );
+
   static const Color banned = Color(0xFFCCCCCC);
 
   /// A material design text theme with dark glyphs based on San Francisco.

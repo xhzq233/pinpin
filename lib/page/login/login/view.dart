@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 32),
+            padding: EdgeInsets.only(top: 16, bottom: 42),
             child: Center(
               child: Text(
                 "登陆1037拼拼",
@@ -34,12 +34,18 @@ class LoginPage extends StatelessWidget {
             validator: controller.validators[0],
             onChanged: controller.onTextChanged,
           ),
+          const SizedBox(
+            height: 16,
+          ),
           PPTextField(
             hintText: '输入密码',
             controller: controller.passwdTC,
             textFieldStyle: PPTextFieldStyle.obscure,
             validator: controller.validators[1],
             onChanged: controller.onTextChanged,
+          ),
+          const SizedBox(
+            height: 8,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,13 +60,16 @@ class LoginPage extends StatelessWidget {
               ).onTap(controller.toRegisterPage),
             ],
           ),
+          const SizedBox(
+            height: 20,
+          ),
           Obx(
             () => PPCommonTextButton(
               title: '登陆',
               onPressed: controller.isLoginEnabled.value ? controller.onPressLogin : null,
             ),
           ),
-          const Flexible(child: SizedBox(height: 400))
+          const Spacer(),
         ],
       ),
     );

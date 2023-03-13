@@ -9,7 +9,13 @@ import 'package:util/util.dart';
 class RegisterLogic extends GetxController {
   RxBool btnEnabled = false.obs;
 
-  late final CountDownController countDownController = Get.find<CountDownController>()..sendCode = sendCode;
+  late final CountDownController countDownController = CountDownController()..sendCode = sendCode;
+
+  @override
+  void onInit() {
+    Get.put(countDownController);
+    super.onInit();
+  }
 
   final idTC = TextEditingController();
   final codeTC = TextEditingController();
