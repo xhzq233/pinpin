@@ -27,6 +27,8 @@ import 'package:pinpin/page/login/login/binding.dart';
 import 'package:pinpin/page/login/password/setting/binding.dart';
 import 'package:pinpin/page/login/register/binding.dart';
 import 'package:pinpin/page/login/welcome_page.dart';
+import 'package:pinpin/page/message_center/chat/view.dart';
+import 'package:pinpin/page/message_center/view.dart';
 import 'package:pinpin/page/post/binding.dart';
 import 'package:pinpin/page/post/view.dart';
 import 'package:pinpin/page/pp_detail/bingding.dart';
@@ -106,6 +108,12 @@ class Routes {
     GetPage(
         name: RN.edit_avatar,
         page: () => const ImagePickerWidget()),
+    GetPage(
+        name: RN.message_center,
+        page: () => MessageCenterHomePage()),
+    GetPage(
+        name: RN.message_chat,
+        page: () => MessageChatPage()),
     GetPage(
       name: RN.profile,
       page: () => const ProfilePage(),

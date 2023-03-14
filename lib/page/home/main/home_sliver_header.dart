@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
+import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/search_bar/search_bar.dart';
 import 'package:util/util.dart';
@@ -39,7 +40,9 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
     const imagePadding = 8.0;
     final mailbox = PPImageButton(
-      onPressed: () {},
+      onPressed: () {
+        Get.toNamed(RN.message_center);
+      },
       active: AppAssets.msg_white,
       size: searchBarMinHeight - imagePadding,
       padding: imagePadding / 2, //to make img centralized
