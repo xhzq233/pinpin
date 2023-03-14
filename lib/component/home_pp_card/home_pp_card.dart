@@ -34,8 +34,8 @@ class DemandingBubble extends StatelessWidget {
 }
 
 class LabelBubble extends StatelessWidget {
-  const LabelBubble({Key? key, required this.content}) : super(key: key);
-  final String content;
+  const LabelBubble({Key? key, this.content}) : super(key: key);
+  final String? content;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class LabelBubble extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.9),
             child: Text(
-              content,
+              content ?? '未知',
               style: AppTheme.headline8.copyWith(color: AppTheme.primary2),
             ),
           ),
@@ -85,7 +85,7 @@ class PPHomeCardView extends StatelessWidget {
       content: '${pp.nowNum}/${pp.demandingNum}',
     );
 
-    final label = LabelBubble(content: AppAssets.labelMap[pp.type]![pp.label]!.title);
+    final label = LabelBubble(content: AppAssets.labelMap[pp.type]![pp.label]?.title);
 
     final content = Text(
       pp.title,

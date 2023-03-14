@@ -10,12 +10,11 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/search_bar/search_bar.dart';
 import 'package:util/util.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
-import '/app/i18n/i18n_names.dart';
 
 class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   const PinPinHomeSliverHeaderDelegate();
 
-  static final backgroundMaxHeight = appBarMinHeight + 53;
+  static final backgroundMaxHeight = appBarMinHeight + 64;
   static final appBarMaxHeight = backgroundMaxHeight + searchBarProtruding;
   static final appBarMinHeight = PPNavigationBarHeight + windowPadding.top; //59+40
   static final appBarHeightRange = appBarMaxHeight - appBarMinHeight;
@@ -66,7 +65,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
         children: [
           background,
           Align(
-            alignment: const Alignment(-0.8, -1),
+            alignment: const Alignment(-0.76, -0.8),
             child: Padding(
               padding: EdgeInsets.only(top: windowPadding.top + diff * 12),
               child: Opacity(
@@ -76,16 +75,16 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
             ),
           ),
           Align(
-            alignment: Alignment((1.0 - diff) * 0.05 + 0.86, 0.66 - 1.66 * curved),
-            //(0.86, -1)->(0.91, 0.66),
+            alignment: Alignment(0.82, 0.66 - (0.8 + 0.66) * curved),
+            //(0.82, -0.8)->(, 0.66),
             child: Padding(
               padding: EdgeInsets.only(top: windowPadding.top * Curves.decelerate.transform(diff) + diff * 12),
               child: mailbox,
             ),
           ),
           Align(
-            //Alignment(0, 1) -> Alignment(-0.33, 0.66)
-            alignment: Alignment((1.0 - diff) * (-0.33), 0.66 + 0.33 * diff),
+            //Alignment(0, 1) -> Alignment(-0.5, 0.66)
+            alignment: Alignment((1.0 - diff) * (-0.5), 0.66 + 0.33 * diff),
             child: const Hero(tag: PPHomeSearchBar.heroTag, child: PPHomeSearchBar()).sized(
                 width: diff * searchBarWidthRange + searchBarMinWidth,
                 height: diff * searchBarHeightRange + searchBarMinHeight),

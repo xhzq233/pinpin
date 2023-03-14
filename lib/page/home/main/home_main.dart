@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/switcher/label_switcher.dart';
-import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/list_view/load_more_list.dart';
@@ -22,13 +21,13 @@ class PPHomeMainView extends StatefulWidget {
   State<PPHomeMainView> createState() => _PPHomeMainViewState();
 }
 
-class _PPHomeMainViewState extends State<PPHomeMainView> with PPHomeCardViewDelegate, SingleTickerProviderStateMixin {
+class _PPHomeMainViewState extends State<PPHomeMainView> with SingleTickerProviderStateMixin {
   Widget _itemBuilder(BuildContext context, PinPin item, int index) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5, top: 5),
       child: PPHomeCardView(
         pp: item,
-        delegate: this,
+        delegate: controller,
       ).onTap(
         () => Get.toNamed(RN.pp_detail, arguments: item),
       ),
@@ -104,18 +103,5 @@ class _PPHomeMainViewState extends State<PPHomeMainView> with PPHomeCardViewDele
         ),
       ],
     );
-  }
-
-  // delegates
-  @override
-  Future<bool> pressedFollow(int pinpinId) async {
-    final res = await Get.find<PPNetWorkInterface>().followPinPin(pinPinId: pinpinId);
-
-    // await Future.delayed(Duration(milliseconds: 200));
-    if (null == res) return false;
-
-    toast(res.msg);
-    Logger.i(res.msg);
-    return true;
   }
 }

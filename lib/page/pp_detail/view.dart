@@ -210,7 +210,7 @@ class PPDetailPage extends StatelessWidget {
     );
 
     final label = LabelBubble(
-      content: AppAssets.labelMap[pp.type]![pp.label]!.title,
+      content: AppAssets.labelMap[pp.type]![pp.label]?.title,
     );
 
     const borderSide = BorderSide(color: AppTheme.secondary5);

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
-import 'package:pinpin/page/home/person/profile_sliver_header.dart';
+import 'package:pinpin/page/home/person/profile/profile_sliver_header.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/page/unknown_page/view.dart';

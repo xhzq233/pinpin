@@ -69,6 +69,7 @@ class LabelSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: const BouncingScrollPhysics(),
       itemCount: AppAssets.labelArray[selectedType]!.length,
       padding: const EdgeInsets.symmetric(vertical: 8),
       scrollDirection: Axis.horizontal,

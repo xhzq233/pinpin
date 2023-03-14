@@ -9,6 +9,7 @@ import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
+import 'package:util/util.dart';
 
 import '../../../manager/db_manager/database.dart';
 
@@ -23,6 +24,7 @@ class PPHomePersonController extends GetxController {
     super.onInit();
     final account = _accountManager.current;
     if (null == account) return;
+
     ///这里加数据库拉取逻辑
     _http.getUserInfo(email: account.email).then((value) {
       if (value != null) {
@@ -55,73 +57,86 @@ class PPHomePersonController extends GetxController {
     Get.toNamed(RN.advice);
   }
 
-  void logOut(BuildContext context) async {
-    bool? delete = await showDeleteConfirmDialog(context);
+  void logOut() async {
+    bool? delete = await showDeleteConfirmDialog();
     // if delete
   }
 
-  Future<bool?> showDeleteConfirmDialog(BuildContext context) {
-    return showDialog<bool>(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: const OutlineInputBorder(
-                borderSide: BorderSide(width: 0, color: Colors.white),
-                borderRadius: BorderRadius.all(Radius.circular(12))),
-            content: SizedBox(
-              width: 250,
-              height: 92,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Center(
-                    child: Text(
-                      "确认退出拼拼?",
-                      style: AppTheme.headline4,
-                    ),
-                  ),
-                  const Padding(padding: EdgeInsets.only(bottom: 20)),
-                  Row(
+  Future<bool?> showDeleteConfirmDialog() {
+    return Get.dialog(
+      FractionallySizedBox(
+        widthFactor: 0.799,
+        heightFactor: 0.1955,
+        child: DecoratedBox(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            boxShadow: [AppTheme.thickShadow],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const SizedBox(
+                height: 32,
+              ),
+              const Center(
+                child: Text(
+                  "确认退出拼拼?",
+                  style: AppTheme.headline4,
+                ),
+              ),
+              Expanded(
+                child: FittedBox(
+                  child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Expanded(
-                          flex: 1,
-                          child: SizedBox(
-                            height: 36,
-                            child: PPCommonTextButton(
-                                style: PPCommonTextButtonStyle.outline,
-                                title: "退出",
-                                onPressed: () {
-                                  if (_accountManager.isEmpty) return;
+                      const SizedBox(
+                        width: 32,
+                      ),
+                      SizedBox(
+                        height: 48,
+                        child: PPCommonTextButton(
+                            style: PPCommonTextButtonStyle.outline,
+                            size: PPCommonTextButtonSize.quaternary,
+                            title: "退出",
+                            onPressed: () {
+                              if (_accountManager.isEmpty) return;
 
-                                  // 移除账户
-                                  _accountManager.removeAccountAt(_accountManager.currentIndex.value);
-                                  _accountManager.setMainAccount(-1);
-                                  // 跳转到欢迎页
-                                  Get.offAllNamed(RN.welcome);
-                                } // 关闭对话框
-                                ),
-                          )),
-                      const SizedBox(width: 20),
-                      Expanded(
-                          flex: 1,
-                          child: SizedBox(
-                            height: 36,
-                            child: PPCommonTextButton(
-                              title: "再想想",
-                              onPressed: () {
-                                //关闭对话框并返回true
-                                Navigator.of(context).pop(true);
-                              },
+                              // 移除账户
+                              _accountManager.removeAccountAt(_accountManager.currentIndex.value);
+                              _accountManager.setMainAccount(-1);
+                              // 跳转到欢迎页
+                              Get.offAllNamed(RN.welcome);
+                            } // 关闭对话框
                             ),
-                          ))
+                      ),
+                      const SizedBox(
+                        width: 32 * 2,
+                      ),
+                      SizedBox(
+                        height: 48,
+                        child: PPCommonTextButton(
+                          title: "再想想",
+                          size: PPCommonTextButtonSize.quaternary,
+                          onPressed: () {
+                            //关闭对话框并返回true
+                            Get.back(result: true);
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 32,
+                      ),
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
-            ),
-          );
-        });
+            ],
+          ),
+        ),
+      ),
+      barrierColor: Colors.white30,
+    );
   }
 
   void pressEditAvatar() {

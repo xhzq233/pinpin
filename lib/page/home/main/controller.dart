@@ -4,10 +4,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
+import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
+import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/manager/load_more/pinpin.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
+import 'package:util/util.dart';
 
-class PPHomeMainController extends GetxController {
+class PPHomeMainController extends GetxController with PPHomeCardViewDelegate {
   final Map<int, Map<int, PinPinLoadMoreSource>> _sources = {PinPin.ppt_ett: {}, PinPin.ppt_study: {}};
 
   PinPinLoadMoreSource getSource(int type) {
@@ -25,4 +28,16 @@ class PPHomeMainController extends GetxController {
   }
 
   Map<int, RxInt> selectedLabelIndex = {PinPin.ppt_study: 0.obs, PinPin.ppt_ett: 0.obs};
+
+  // delegates
+  @override
+  Future<bool> pressedFollow(int pinpinId) async {
+    final res = await Get.find<PPNetWorkInterface>().followPinPin(pinPinId: pinpinId);
+
+    // await Future.delayed(Duration(milliseconds: 200));
+    if (null == res) return false;
+
+    toast(res.msg);
+    return true;
+  }
 }

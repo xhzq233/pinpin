@@ -11,6 +11,7 @@ import 'package:pinpin/page/home/main/controller.dart';
 import 'package:pinpin/page/home/main/home_main.dart';
 import 'package:pinpin/page/home/person/controller.dart';
 import 'package:pinpin/page/home/person/home_person.dart';
+import 'package:widget/button/hold.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -69,23 +70,19 @@ class _HomePageState extends State<HomePage> {
                   height: 30,
                 ),
               ),
-              const Text('Home', style: AppTheme.headline7),
+              const Text('主页', style: AppTheme.headline7),
             ],
           ),
         ),
-        HoldActiveButton(
+        HoldButton(
           onPressed: () => Get.toNamed(RN.post),
-          builder: (_) => add,
+          child: add,
         ),
-        HoldActiveButton(
+        HoldButton(
           onPressed: () {
-            if (Get.find<AccountManager>().isEmpty) {
-              Get.toNamed(RN.login);
-              return;
-            }
             setState(() => tabBarIndex = 1);
           },
-          builder: (_) => Column(
+          child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 3.5),
@@ -94,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                   height: 30,
                 ),
               ),
-              const Text('Person', style: AppTheme.headline7),
+              const Text('个人', style: AppTheme.headline7),
             ],
           ),
         ),
