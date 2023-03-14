@@ -19,6 +19,9 @@ class RN {
   static const edit_labels = "/edit_labels";
   static const edit_avatar = "/edit_avatar";
 
+  static const message_center = "/message_center";
+  static const message_chat = "/message_chat";
+
 
   static const register = "$login/register";
   static const passwd_set = "$login/passwd";

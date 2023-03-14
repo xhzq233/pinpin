@@ -2,6 +2,7 @@
 /// Created by xhz on 07/08/2022
 
 import 'package:flutter/material.dart';
+import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
@@ -155,7 +156,9 @@ class PPHomePersonView extends StatelessWidget {
     );
 
     final mailbox = PPImageButton(
-      onPressed: () {},
+      onPressed: () {
+        Get.toNamed(RN.message_center);
+      },
       active: AppAssets.msg_white,
       size: 25,
       padding: 3,
