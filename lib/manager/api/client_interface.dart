@@ -43,7 +43,7 @@ abstract class HttpClientInterface {
           } else {
             final String? msg = e.response?.data['msg'].toString() ?? e.response?.data.toString();
             toaster(msg ?? 'Request Failed');
-            Logger.e('Request:${e.requestOptions.data} ==> Response: ${e.response}');
+            Logger.e('REQ:${e.requestOptions.data} ==> RSP: ${e.response}');
           }
           handler.reject(e);
         },

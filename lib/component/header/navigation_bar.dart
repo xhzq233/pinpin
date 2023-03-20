@@ -7,41 +7,56 @@ import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
+import 'package:widget/button/hold.dart';
 
 class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
-  const PPNavigationBar(
-      {super.key,
-      this.title,
-      this.actions = const [],
-      this.leading,
-      this.backAction = defaultBackAction,
-      this.whiteAccent = false});
+  const PPNavigationBar({
+    super.key,
+    this.title,
+    this.trailing = const SizedBox(),
+    this.leading,
+    this.backAction = defaultBackAction,
+    this.isChat = false,
+    this.whiteAccent = false,
+    this.onMenuItemSelected = defaultMenuAction,
+  });
 
   final String? title;
+  final Widget trailing;
   final Widget? leading;
-  final List<Widget> actions;
+  final bool isChat;
   final void Function() backAction;
   final bool whiteAccent;
+  final void Function() onMenuItemSelected;
 
   static void defaultBackAction() {
     Get.back();
   }
 
+  static void defaultMenuAction() {}
+
   @override
   Widget build(BuildContext context) {
     final Widget back;
-    final padding = MediaQuery.of(context).viewPadding;
+    final padding = windowPadding;
     if (null != leading) {
       back = leading!;
     } else if (ModalRoute.of(context)?.canPop == true) {
-      back = PPImageButton(
-        active: whiteAccent ? AppAssets.arrow_left_white : AppAssets.arrow_left,
+      back = HoldButton(
         onPressed: backAction,
-        // padding: 7.2,
+        child: Image.asset(
+          whiteAccent ? AppAssets.arrow_left_white : AppAssets.arrow_left,
+        ),
       );
     } else {
       back = const SizedBox();
     }
+
+    final menu = PPImageButton(
+      active: AppAssets.more,
+      onPressed: onMenuItemSelected,
+      padding: 7.2,
+    );
 
     final TextStyle titleStyle;
 
@@ -50,58 +65,42 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
     } else {
       titleStyle = AppTheme.headline2;
     }
+
+    final trailingWrapper = Padding(
+      padding: const EdgeInsets.all(7.2),
+      child: IconTheme(
+        data: const IconThemeData(
+          color: AppTheme.primary,
+          size: 24,
+        ),
+        child: trailing,
+      ),
+    );
+
     return Padding(
-      padding: EdgeInsets.only(right: padding.right, left: padding.left),
+      padding: EdgeInsets.only(top: padding.top, right: padding.right, left: padding.left),
       child: SizedBox(
-        height: PPNavigationBarHeight + padding.top,
-        child: ColoredBox(
-          color: Colors.transparent,
-          child: Padding(
-            padding: EdgeInsets.only(top: padding.top),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: back,
-                ),
-                if (actions.isNotEmpty)
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 7),
-                      child: IconTheme(
-                        data: const IconThemeData(
-                          color: AppTheme.primary,
-                          size: 24,
-                        ),
-                        child: FittedBox(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: actions,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                FractionallySizedBox(
-                  heightFactor: 0.64,
-                  child: FittedBox(
-                    child: Text(
-                      title ?? "",
-                      style: titleStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ],
+        height: NavigationBarHeight,
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment(-0.9, 0),
+              child: back,
             ),
-          ),
+            Align(alignment: Alignment(0.9, 0), child: isChat ? menu : trailingWrapper),
+            Center(
+              child: Text(
+                title ?? "",
+                style: titleStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(PPNavigationBarHeight);
+  Size get preferredSize => const Size.fromHeight(NavigationBarHeight);
 }

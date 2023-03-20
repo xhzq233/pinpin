@@ -2,13 +2,13 @@
 /// Created by xhz on 2022/8/3
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/search_bar/search_bar.dart';
 import 'package:util/util.dart';
+import 'package:get/get.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 
 class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
@@ -16,7 +16,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   static final backgroundMaxHeight = appBarMinHeight + 64;
   static final appBarMaxHeight = backgroundMaxHeight + searchBarProtruding;
-  static final appBarMinHeight = PPNavigationBarHeight + windowPadding.top; //59+40
+  static final appBarMinHeight = NavigationBarHeight + windowPadding.top; //59+40
   static final appBarHeightRange = appBarMaxHeight - appBarMinHeight;
 
   static const searchBarProtruding = 11.0;

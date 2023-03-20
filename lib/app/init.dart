@@ -3,6 +3,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/manager/account_manager/account_manager.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/manager/api/api_interface.dart';
@@ -28,6 +29,8 @@ class Config {
         toaster: toast,
       ),
     );
+
+    windowsPaddingInit();
     await SettingsManager.init();
     if (!kIsWeb) {
       // await initDB();

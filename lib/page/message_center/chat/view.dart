@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/header/blue_static_header.dart';
+import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/message/expanded_viewport.dart';
 import 'package:pinpin/component/message/message_item.dart';
@@ -12,10 +10,10 @@ import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/model/message_chat/message_chat.dart';
 import 'package:pinpin/model/message_chat/popup_choices.dart';
 import 'package:util/clipper.dart';
-
+import 'package:util/util.dart';
 
 class MessageChatPage extends StatefulWidget {
-  MessageChatPage({Key? key}) : super(key: key);
+  const MessageChatPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MessageChatPageState();
@@ -40,10 +38,7 @@ class _MessageChatPageState extends State<MessageChatPage> {
     List<Message> temp = [];
     for (int i = 0; i < 10; i++) {
       Message message = Message(
-          uuid: i.toString(),
-          type: MessageType.text,
-          isSend: i % 2 == 0 ? true : false,
-          msg: "hello,world, $i");
+          uuid: i.toString(), type: MessageType.text, isSend: i % 2 == 0 ? true : false, msg: "hello,world, $i");
       temp.add(message);
     }
     temp.add(Message(
@@ -56,20 +51,17 @@ class _MessageChatPageState extends State<MessageChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    Stream<List<Message>> stream =
-        Stream.fromIterable(mListMessage as Iterable<List<Message>>);
+    Stream<List<Message>> stream = Stream.fromIterable(mListMessage as Iterable<List<Message>>);
 
     return Scaffold(
         appBar: PPNavigationBar(
           title: '求拼拼小妹',
           isChat: true,
-          onMenuItemSelected: () {
-
-          },
+          onMenuItemSelected: () {},
         ),
         body: SafeArea(
             child: Column(children: [
-              buildPopupMenu(),
+          buildPopupMenu(),
           buildTopBar(),
           Expanded(
             child: GestureDetector(
@@ -98,12 +90,10 @@ class _MessageChatPageState extends State<MessageChatPage> {
 
   void onItemMenuPress(PopupChoices choice) {
     if (choice.title == '删除对话!') {
-
     } else {
       // 举报页面
     }
   }
-
 
   Widget buildPopupMenu() {
     return PopupMenuButton<PopupChoices>(
@@ -196,12 +186,12 @@ class _MessageChatPageState extends State<MessageChatPage> {
       setState(() {});
 
       if (listScrollController.hasClients) {
-        listScrollController.animateTo(0,
-            duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+        listScrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       }
     } else {
-      Fluttertoast.showToast(
-          msg: 'Nothing to send', backgroundColor: Colors.blue);
+      // toast(str);
+      // Fluttertoast.showToast(
+      //     msg: 'Nothing to send', backgroundColor: Colors.blue);
     }
   }
 
@@ -210,8 +200,7 @@ class _MessageChatPageState extends State<MessageChatPage> {
       width: double.infinity,
       height: 50,
       decoration: const BoxDecoration(
-          border: Border(top: BorderSide(color: Color(0xffE8E8E8), width: 0.5)),
-          color: Colors.white),
+          border: Border(top: BorderSide(color: Color(0xffE8E8E8), width: 0.5)), color: Colors.white),
       child: Row(
         children: <Widget>[
           const SizedBox(
@@ -247,18 +236,15 @@ class _MessageChatPageState extends State<MessageChatPage> {
                     child: DecoratedBox(
                       decoration: const BoxDecoration(color: Colors.blue),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                         child: Text(
                           "发送",
-                          style:
-                              AppTheme.headline6.copyWith(color: Colors.white),
+                          style: AppTheme.headline6.copyWith(color: Colors.white),
                         ),
                       ),
                     ),
                   ),
-                  onPressed: () => onSendMessage(
-                      textEditingController.text, MessageType.text),
+                  onPressed: () => onSendMessage(textEditingController.text, MessageType.text),
                 )),
           ),
         ],

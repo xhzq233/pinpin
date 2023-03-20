@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/header/blue_static_header.dart';
+import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/key_board/key_board_detector.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:util/util.dart';
