@@ -4,9 +4,16 @@
 import 'package:flutter/material.dart';
 import 'button/hold.dart';
 
+Widget imageErrorBuilder(BuildContext ctx, Object o, StackTrace? stackTrace) {
+  return Image.asset(
+    'assets/profile.png', //出错加载默认头像
+    fit: BoxFit.scaleDown,
+  );
+}
+
 class Avatar extends StatelessWidget {
-  const Avatar({Key? key, required this.url, this.onPressed, this.margin = 1}) : super(key: key);
-  final String url;
+  const Avatar({Key? key, this.url, this.onPressed, this.margin = 1}) : super(key: key);
+  final String? url;
   final void Function()? onPressed;
   final double margin;
 
@@ -18,15 +25,10 @@ class Avatar extends StatelessWidget {
       margin: EdgeInsets.all(margin),
       child: HoldButton(
         onPressed: onPressed,
-        child: FadeInImage.assetNetwork(
-          placeholder: 'assets/profile.png',
-          image: url,
-          imageErrorBuilder: (BuildContext ctx, Object o, StackTrace? stackTrace) {
-            return Image.asset(
-              'assets/profile.png',
-              fit: BoxFit.scaleDown,
-            );
-          },
+        child: FadeInImage(
+          placeholder: const AssetImage('assets/profile.png'), //为null加载默认头像
+          image: (url == null ? const AssetImage('assets/profile.png') : NetworkImage(url!)) as ImageProvider,
+          imageErrorBuilder: imageErrorBuilder,
           fit: BoxFit.scaleDown,
         ),
       ),

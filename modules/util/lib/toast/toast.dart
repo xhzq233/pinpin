@@ -18,7 +18,11 @@ void toast(String str, {int delay = 4}) {
     builder: (_) => Align(
       alignment: const Alignment(0, 0.69),
       child: DecoratedBox(
-        decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(28))),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(28)),
+          boxShadow: [BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.1), blurRadius: 16, offset: Offset(0, 4))],
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
           child: Text(
