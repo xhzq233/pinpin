@@ -4,6 +4,7 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/key_board/key_board_detector.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
+import 'package:pinpin/component/text_field/pp_text_field.dart';
 import 'package:util/util.dart';
 
 import 'controller.dart';
@@ -23,17 +24,64 @@ class EditPersonalProfilePage extends StatelessWidget {
         child: FractionallySizedBox(
           widthFactor: 0.9,
           heightFactor: 0.8,
-          child: TextField(
+          child: PPTextField(
             style: AppTheme.headline7,
             textAlign: TextAlign.left,
             maxLines: 5,
-            controller: controller.etController,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-            ),
+            controller: controller.textEditingController,
           ),
         ),
     );
+
+    return KeyboardDetector(
+        keyboardShowCallback: (show) {
+          controller.isKeyboardShowing(show);
+        },
+        content: Scaffold(
+            body: InkWell(
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: Column(
+                            children: [
+                              const PPNavigationBar(title: "个人简介"),
+                              const Padding(padding: EdgeInsets.only(bottom: 20)),
+                              profile.sized(width: 354, height: 191),
+                            ],
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Obx(
+                                () => Visibility(
+                              visible: !controller.isKeyboardShowing.value,
+                              child: PPCommonTextButton(
+                                title: '确认修改',
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 115)
+                ],
+              ),
+            )));
+
 
     return KeyboardDetector(
         keyboardShowCallback: (show) {
