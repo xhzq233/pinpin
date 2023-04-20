@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
@@ -10,140 +11,129 @@ import 'package:pinpin/component/message/message_item.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/model/message_chat/message_chat.dart';
 import 'package:pinpin/model/message_chat/popup_choices.dart';
+import 'package:pinpin/page/message_center/chat/controller.dart';
 import 'package:util/clipper.dart';
 
 class MessageChatPage extends StatefulWidget {
-  MessageChatPage({Key? key}) : super(key: key);
+  const MessageChatPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _MessageChatPageState();
 }
 
-class _MessageChatPageState extends State<MessageChatPage> {
-  final ScrollController listScrollController = ScrollController();
-  final FocusNode focusNode = FocusNode();
-  final TextEditingController textEditingController = TextEditingController();
-
-  List<PopupChoices> choices = <PopupChoices>[
-    PopupChoices(title: '举报用户!', icon: Icons.add),
-    PopupChoices(title: '删除对话', icon: Icons.add),
-  ];
-
-  bool isShowLoading = false;
-  List<List<Message>>? mListMessage = [];
-  List<Message> data = [];
+class _MessageChatPageState extends State<MessageChatPage>
+    with WidgetsBindingObserver {
+  late ChatPageController controller;
 
   @override
   void initState() {
-    List<Message> temp = [];
-    for (int i = 0; i < 10; i++) {
-      Message message = Message(
-          uuid: i.toString(),
-          type: MessageType.text,
-          isSend: i % 2 == 0 ? true : false,
-          msg: "hello,world, $i");
-      temp.add(message);
-    }
-    temp.add(Message(
-        uuid: Random.secure().nextInt(9999).toString(),
-        type: MessageType.request,
-        isSend: Random.secure().nextInt(9999) % 2 == 0 ? true : false,
-        msg: "ddd"));
-    mListMessage!.add(temp);
+    super.initState();
+    controller = ChatPageController();
+    controller.onInit();
   }
 
   @override
   Widget build(BuildContext context) {
-    Stream<List<Message>> stream =
-        Stream.fromIterable(mListMessage as Iterable<List<Message>>);
+    Stream<List<Message>> stream = Stream.fromIterable(controller.mListMessage);
 
     return Scaffold(
         appBar: PPNavigationBar(
           actions: _buildActionsWidget(),
           title: "求拼拼小妹",
         ),
-        body: SafeArea(
-            child: Column(children: [
-          buildTopBar(),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).requestFocus(FocusNode());
-              },
-              child: StreamBuilder<List<Message>>(
-                  stream: stream,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      data = snapshot.data!;
-                      if (data.isNotEmpty) {
-                        return _buildMessage();
-                      } else {
-                        return _buildEmptyMessage();
-                      }
-                    } else {
-                      return _buildLoadingMessage();
-                    }
-                  }),
-            ),
-          ),
-          buildInput()
-        ])));
-  }
-
-  void onItemMenuPress(PopupChoices choice) {
-    if (choice.title == '删除对话!') {
-    } else {
-      // 举报页面
-    }
+        body: Stack(
+          children: [
+            Container(
+              color: const Color(0xFFF3F3F3),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildTopBar(),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                        child: StreamBuilder<List<Message>>(
+                            stream: stream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                controller.data = snapshot.data!;
+                                if (controller.data.isNotEmpty) {
+                                  return _buildMessage();
+                                } else {
+                                  return _buildEmptyMessage();
+                                }
+                              } else {
+                                return _buildLoadingMessage();
+                              }
+                            }),
+                      ),
+                    ),
+                    buildInput()
+                  ]),
+            )
+          ],
+        ));
   }
 
   List<Widget> _buildActionsWidget() {
     List<Widget> actions = [];
     actions.add(GestureDetector(
-      onTap: _buildPopupMenu,
-      child: Image.asset(
-        'assets/more.png',
-        width: 24,
-        height: 24,
-      ),
-    ));
+        onTap: _buildPopupMenu,
+        child: Obx(() => Image.asset(
+              controller.more.value,
+              width: 24,
+              height: 24,
+            ))));
     return actions;
   }
 
   void _buildPopupMenu() {
-    // 计算菜单应该显示的位置
-    final position = const RelativeRect.fromLTRB(
-      500,
-      52,
-      0,
-      450,
-    );
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+    final RelativeRect position = RelativeRect.fromLTRB(
+        overlay.size.width, 60.0, 0.0, overlay.size.height - 60.0);
+
     showMenu<PopupChoices>(
-        context: context,
-        position: position,
-        shape:  RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        items: choices.map((PopupChoices choice) {
-          return PopupMenuItem<PopupChoices>(
-              value: choice,
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 7, horizontal: 4),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Icon(
-                      choice.icon,
-                      color: const Color(0xff0076FC),
-                    ),
-                    Text(
-                      choice.title,
-                      style: AppTheme.headline4,
-                    ),
-                  ],
-                ),
-              ));
-        }).toList());
+      context: context,
+      position: position,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      items: controller.choices.map((PopupChoices choice) {
+        return PopupMenuItem<PopupChoices>(
+            onTap: choice.id == 1
+                ? controller.onCancelClick
+                : controller.onDeleteClick,
+            value: choice,
+            child: Obx(
+              () => Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Image.asset(
+                    choice.id == 1
+                        ? controller.cancel.value
+                        : controller.delete.value,
+                    width: 18,
+                    height: 18,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    choice.title,
+                    style: AppTheme.headline4,
+                  ),
+                ],
+              ),
+            ));
+      }).toList(),
+    ).then((value) {
+      if (value == null) {
+        controller.onMoreClick();
+      }
+    });
+
+    controller.onMoreClick();
   }
 
   SizedBox buildTopBar() {
@@ -200,17 +190,17 @@ class _MessageChatPageState extends State<MessageChatPage> {
 
   void onSendMessage(String content, MessageType type) {
     if (content.trim().isNotEmpty) {
-      textEditingController.clear();
+      controller.textEditingController.clear();
       Message message = Message(
           uuid: Random.secure().nextInt(9999).toString(),
           type: MessageType.text,
           isSend: Random.secure().nextInt(9999) % 2 == 0 ? true : false,
           msg: content);
-      mListMessage![0].add(message);
+      controller.mListMessage[0].add(message);
       setState(() {});
 
-      if (listScrollController.hasClients) {
-        listScrollController.animateTo(0,
+      if (controller.listScrollController.hasClients) {
+        controller.listScrollController.animateTo(0,
             duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
       }
     } else {
@@ -235,15 +225,16 @@ class _MessageChatPageState extends State<MessageChatPage> {
           Flexible(
             child: TextField(
               onSubmitted: (value) {
-                onSendMessage(textEditingController.text, MessageType.text);
+                onSendMessage(
+                    controller.textEditingController.text, MessageType.text);
               },
               style: const TextStyle(color: Color(0xff203152), fontSize: 15),
-              controller: textEditingController,
+              controller: controller.textEditingController,
               decoration: const InputDecoration.collapsed(
                 hintText: '待输入',
                 hintStyle: TextStyle(color: Color(0xffaeaeae)),
               ),
-              focusNode: focusNode,
+              focusNode: controller.focusNode,
               autofocus: true,
             ),
           ),
@@ -272,7 +263,7 @@ class _MessageChatPageState extends State<MessageChatPage> {
                     ),
                   ),
                   onPressed: () => onSendMessage(
-                      textEditingController.text, MessageType.text),
+                      controller.textEditingController.text, MessageType.text),
                 )),
           ),
         ],
@@ -283,7 +274,7 @@ class _MessageChatPageState extends State<MessageChatPage> {
   Scrollable _buildLoadingMessage() {
     return Scrollable(
       physics: const AlwaysScrollableScrollPhysics(),
-      controller: listScrollController,
+      controller: controller.listScrollController,
       axisDirection: AxisDirection.up,
       viewportBuilder: (context, offset) {
         return ExpandedViewport(
@@ -313,8 +304,8 @@ class _MessageChatPageState extends State<MessageChatPage> {
 
   Scrollable _buildEmptyMessage() {
     return Scrollable(
-      physics: const AlwaysScrollableScrollPhysics(),
-      controller: listScrollController,
+      physics: const BouncingScrollPhysics(),
+      controller: controller.listScrollController,
       axisDirection: AxisDirection.up,
       viewportBuilder: (context, offset) {
         return ExpandedViewport(
@@ -334,8 +325,8 @@ class _MessageChatPageState extends State<MessageChatPage> {
 
   Scrollable _buildMessage() {
     return Scrollable(
-      physics: const AlwaysScrollableScrollPhysics(),
-      controller: listScrollController,
+      physics: const BouncingScrollPhysics(),
+      controller: controller.listScrollController,
       axisDirection: AxisDirection.up,
       viewportBuilder: (context, offset) {
         return ExpandedViewport(
@@ -347,15 +338,15 @@ class _MessageChatPageState extends State<MessageChatPage> {
               delegate: SliverChildBuilderDelegate(
                 (c, i) {
                   ChatMessageItem mChatItem = ChatMessageItem(
-                    mMessage: data[i],
+                    mMessage: controller.data[i],
                   );
                   return mChatItem;
                 },
-                childCount: data.length,
+                childCount: controller.data.length,
               ),
             ),
             SliverToBoxAdapter(
-              child: isShowLoading
+              child: controller.isShowLoading
                   ? Container(
                       margin: const EdgeInsets.only(top: 5),
                       height: 50,
