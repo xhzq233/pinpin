@@ -1,10 +1,9 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/header/blue_static_header.dart';
+import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/message/expanded_viewport.dart';
 import 'package:pinpin/component/message/message_item.dart';
@@ -12,7 +11,6 @@ import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/model/message_chat/message_chat.dart';
 import 'package:pinpin/model/message_chat/popup_choices.dart';
 import 'package:util/clipper.dart';
-
 
 class MessageChatPage extends StatefulWidget {
   MessageChatPage({Key? key}) : super(key: key);
@@ -61,15 +59,11 @@ class _MessageChatPageState extends State<MessageChatPage> {
 
     return Scaffold(
         appBar: PPNavigationBar(
-          title: '求拼拼小妹',
-          isChat: true,
-          onMenuItemSelected: () {
-
-          },
+          actions: _buildActionsWidget(),
+          title: "求拼拼小妹",
         ),
         body: SafeArea(
             child: Column(children: [
-              buildPopupMenu(),
           buildTopBar(),
           Expanded(
             child: GestureDetector(
@@ -98,38 +92,58 @@ class _MessageChatPageState extends State<MessageChatPage> {
 
   void onItemMenuPress(PopupChoices choice) {
     if (choice.title == '删除对话!') {
-
     } else {
       // 举报页面
     }
   }
 
+  List<Widget> _buildActionsWidget() {
+    List<Widget> actions = [];
+    actions.add(GestureDetector(
+      onTap: _buildPopupMenu,
+      child: Image.asset(
+        'assets/more.png',
+        width: 24,
+        height: 24,
+      ),
+    ));
+    return actions;
+  }
 
-  Widget buildPopupMenu() {
-    return PopupMenuButton<PopupChoices>(
-      onSelected: onItemMenuPress,
-      itemBuilder: (BuildContext context) {
-        return choices.map((PopupChoices choice) {
+  void _buildPopupMenu() {
+    // 计算菜单应该显示的位置
+    final position = const RelativeRect.fromLTRB(
+      500,
+      52,
+      0,
+      450,
+    );
+    showMenu<PopupChoices>(
+        context: context,
+        position: position,
+        shape:  RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        items: choices.map((PopupChoices choice) {
           return PopupMenuItem<PopupChoices>(
               value: choice,
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    choice.icon,
-                    color: const Color(0xff0076FC),
-                  ),
-                  Container(
-                    width: 10,
-                  ),
-                  Text(
-                    choice.title,
-                    style: AppTheme.headline4,
-                  ),
-                ],
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 7, horizontal: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Icon(
+                      choice.icon,
+                      color: const Color(0xff0076FC),
+                    ),
+                    Text(
+                      choice.title,
+                      style: AppTheme.headline4,
+                    ),
+                  ],
+                ),
               ));
-        }).toList();
-      },
-    );
+        }).toList());
   }
 
   SizedBox buildTopBar() {

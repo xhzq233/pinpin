@@ -76,94 +76,105 @@ class EditLabelsPage extends StatelessWidget {
     ];
 
     return Scaffold(
-        body: Column(
-      children: [
-        Expanded(
-          child: Stack(
-            fit: StackFit.expand,
+        appBar: const PPNavigationBar(
+          title: "标签页",
+          background: Color(0xFF0076FC),
+          whiteAccent: true,
+        ),
+        body: SafeArea(
+          child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Column(
-                    children: [
-                      const PPNavigationBar(title: "标签页"),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "添加标签",
-                            style: AppTheme.headline5,
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: const [
-                          Text(
-                            "已添加5个，还可以再添加10个",
-                            style: AppTheme.headline7,
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 13),
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
+              Expanded(
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                                height: MediaQuery.of(context).viewPadding.top),
+                            SizedBox(height: 20),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  "添加标签",
+                                  style: AppTheme.headline5,
+                                )
+                              ],
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  "已添加5个，还可以再添加10个",
+                                  style: AppTheme.headline7,
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 13),
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                                color: Colors.white,
+                              ),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Wrap(
+                                    spacing: 10,
+                                    runSpacing: 10,
+                                    alignment: WrapAlignment.start,
+                                    children: myLabels
+                                        .map((e) => PPCustomCapsuleButton(
+                                              onPressed: () {}, // 点击变色
+                                              background: AppTheme.secondary5,
+                                              child: Text(
+                                                e,
+                                                style: AppTheme.headline9
+                                                    .copyWith(
+                                                        color:
+                                                            AppTheme.primary),
+                                              ),
+                                            ))
+                                        .toList()),
+                              ),
+                            ),
+                            SizedBox(height: 18),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                  child: addLabel,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Wrap(
-                              spacing: 10,
-                              runSpacing: 10,
-                              alignment: WrapAlignment.start,
-                              children: myLabels
-                                  .map((e) => PPCustomCapsuleButton(
-                                        onPressed: () {}, // 点击变色
-                                        background: AppTheme.secondary5,
-                                        child: Text(
-                                          e,
-                                          style: AppTheme.headline9.copyWith(
-                                              color: AppTheme.primary),
-                                        ),
-                                      ))
-                                  .toList()),
-                        ),
                       ),
-                      SizedBox(height: 18),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 20,
-                            child: addLabel,
-                          ),
-                        ],
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: PPCommonTextButton(
+                        title: '提交',
+                        onPressed: () {
+                          Get.back();
+                        },
                       ),
-                    ],
-                  ),
+                    )
+                  ],
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: PPCommonTextButton(
-                  title: '提交',
-                  onPressed: () {
-                    Get.back();
-                  },
-                ),
-              )
+              const SizedBox(height: 115)
             ],
           ),
-        ),
-        const SizedBox(height: 115)
-      ],
-    ));
+        ));
   }
 }

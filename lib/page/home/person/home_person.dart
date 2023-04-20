@@ -170,7 +170,7 @@ class PPHomePersonView extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(border: Border.all(width: 2, color: AppTheme.primary), shape: BoxShape.circle),
         child: Avatar(
-          url: account?.userInfo.image,
+          url: account!.userInfo.image,
           margin: 2,
           onPressed: controller.pressEditAvatar,
         ),

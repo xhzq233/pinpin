@@ -34,7 +34,7 @@ class PPHomePersonController extends GetxController {
   }
 
   void toEditProfilePage() {
-    Get.toNamed(RN.edit_profile);
+    Get.toNamed(RN.edit_profile, arguments: userInfo.value);
   }
 
   void toProfilePage() {
@@ -103,7 +103,8 @@ class PPHomePersonController extends GetxController {
                               if (_accountManager.isEmpty) return;
 
                               // 移除账户
-                              _accountManager.removeAccountAt(_accountManager.currentIndex.value);
+                              _accountManager.removeAccountAt(
+                                  _accountManager.currentIndex.value);
                               _accountManager.setMainAccount(-1);
                               // 跳转到欢迎页
                               Get.offAllNamed(RN.welcome);

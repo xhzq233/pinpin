@@ -12,6 +12,6 @@ class EditPersonalProfileController extends GetxController{
   late TextEditingController textEditingController;
 
   EditPersonalProfileController(){
-    textEditingController = TextEditingController(text: userInfo?.brief);
+    textEditingController = TextEditingController(text: userInfo?.brief == '' ? "whl555" : userInfo?.brief);
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:pinpin/app/device/window_padding.dart';
 import 'package:util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,6 +58,30 @@ class _EditProfileState extends State<EditProfilePage> {
           children: [
             Text(
               title,
+              style: AppTheme.headline5,
+            ),
+            back
+          ],
+        ).paddingSymmetric(vertical: 3);
+      },
+    );
+  }
+
+
+  Widget getItemWithUsername(String title, void Function() function) {
+    return HoldActiveButton(
+      onPressed: function,
+      builder: (_) {
+        return Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Text(
+              title,
+              style: AppTheme.headline5,
+            ),
+            Spacer(),
+            Text(
+              controller.userInfo?.username ?? "",
               style: AppTheme.headline5,
             ),
             back
@@ -127,26 +152,42 @@ class _EditProfileState extends State<EditProfilePage> {
     }
 
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const PPNavigationBar(title: "编辑个人资料"),
-          getItemWidthAvatar("头像", changeAvatar)._bg(),
-          getItem("昵称", controller.toEditUsernamePage)._bg(),
-          getItem("个人简介", controller.toEditPersonalProfilePage)._bg(),
-          getItem("标签页", controller.toEditLabelsPage)._bg(),
-          getItemWidthOpenButton(
+      appBar: const PPNavigationBar(
+          title: "编辑个人资料",
+          background: Color(0xFF0076FC),
+          whiteAccent: true,
+      ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: MediaQuery.of(context).viewPadding.top),
+                  getItemWidthAvatar("头像", changeAvatar)._bg(),
+                  getItemWithUsername("昵称", controller.toEditUsernamePage)._bg(),
+                  getItem("个人简介", controller.toEditPersonalProfilePage)._bg(),
+                  getItem("标签页", controller.toEditLabelsPage)._bg(),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: getItemWidthOpenButton(
                   title: "向他人展示我发布过的",
                   onTap: controller.onClickShowOrNotButton,
                   onChanged: (value) {
                     controller.onClickShowOrNotButton();
                   })
-              ._bg(),
-        ],
-      ).paddingSymmetric(
-        // ListView添加内边距
-        horizontal: 16,
+                  ._bg(),
+            ),
+          ]
+        ).paddingSymmetric(
+          horizontal: 16,
+        ),
       ),
     );
   }

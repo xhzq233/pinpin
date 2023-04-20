@@ -35,6 +35,11 @@ class ReleasesPage extends StatelessWidget with PPHomeCardViewDelegate {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar:const PPNavigationBar(
+      title: "我发布的",
+      background: Color(0xFF0076FC),
+      whiteAccent: true,
+    ),
         body: DefaultTabController(
               length: 2,
               child: NestedScrollView(
@@ -45,7 +50,6 @@ class ReleasesPage extends StatelessWidget with PPHomeCardViewDelegate {
   Widget buildSliverBody() {
     return CustomScrollView(
       slivers: [
-
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
@@ -66,7 +70,7 @@ class ReleasesPage extends StatelessWidget with PPHomeCardViewDelegate {
                                 onPressed: (_) {
                                   controller.deletePinPin(releases[index].pinpinId);
                                 },
-                                backgroundColor: Colors.blue,
+                                backgroundColor: Color(0xFF0076FC),
                                 foregroundColor: Colors.white,
                                 icon: Icons.delete,
                                 label: '删除',
@@ -91,15 +95,6 @@ class ReleasesPage extends StatelessWidget with PPHomeCardViewDelegate {
 
   List<Widget> _sliverBuilder(BuildContext context, bool innerBoxIsScrolled) {
     return [
-      SliverToBoxAdapter(
-        child: Container(
-          color: Colors.white,
-          padding: const EdgeInsets.all(10.0),
-          child:  const PPNavigationBar(
-            title: "我发布的",
-          ),
-        ),
-      ),
       SliverPersistentHeader(
           floating: true,
           pinned: true,

@@ -14,6 +14,7 @@ class EditProfileController extends GetxController {
 
   XFile? pickedFile;
   final imageFile = File("").obs;
+
   final isShowBottomSheet = false.obs;
   int count = 0;
   RxBool switchValue = RxBool(false);

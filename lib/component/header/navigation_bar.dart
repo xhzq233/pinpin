@@ -9,19 +9,22 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 
 class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
-  const PPNavigationBar(
-      {super.key,
+  const PPNavigationBar({
+      super.key,
       this.title,
       this.actions = const [],
       this.leading,
       this.backAction = defaultBackAction,
-      this.whiteAccent = false});
+      this.whiteAccent = false,
+      this.background = Colors.transparent
+      });
 
   final String? title;
   final Widget? leading;
   final List<Widget> actions;
   final void Function() backAction;
   final bool whiteAccent;
+  final Color background; // appbar背景色
 
   static void defaultBackAction() {
     Get.back();
@@ -55,7 +58,7 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
       child: SizedBox(
         height: PPNavigationBarHeight + padding.top,
         child: ColoredBox(
-          color: Colors.transparent,
+          color: background,
           child: Padding(
             padding: EdgeInsets.only(top: padding.top),
             child: Stack(
