@@ -591,17 +591,14 @@ class MainActivity : FlutterActivity() {
     }
 
     override fun onDestroy() {
-        println("onDestroy()onDestroy()onDestroy()onDestroy()onDestroy()onDestroy()onDestroy()onDestroy()onDestroy()onDestroy()onDestroy()")
         super.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        println("onSaveInstanceState()onSaveInstanceState()onSaveInstanceState()onSaveInstanceState()onSaveInstanceState()onSaveInstanceState()onSaveInstanceState()onSaveInstanceState()onSaveInstanceState()onSaveInstanceState()")
         super.onSaveInstanceState(outState, outPersistentState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        println("onRestoreInstanceState()onRestoreInstanceState()onRestoreInstanceState()onRestoreInstanceState()\nonRestoreInstanceState()onRestoreInstanceState()")
         super.onRestoreInstanceState(savedInstanceState)
     }
 
