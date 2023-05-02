@@ -6,29 +6,32 @@ import 'package:flutter/material.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:widget/button/hold.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
+import 'package:widget/button/hold.dart';
 
 class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
-  const PPNavigationBar(
-      {super.key,
-      this.title,
-      this.actions = const [],
-      this.leading,
-      this.backAction = defaultBackAction,
-      this.whiteAccent = false,
-      this.trailing = const SizedBox(),
-      this.onMenuItemSelected = defaultMenuAction,
-      this.isChat = false,
-      });
+  const PPNavigationBar({
+    super.key,
+    this.title,
+    this.actions = const [],
+    this.leading,
+    this.backAction = defaultBackAction,
+    this.whiteAccent = false,
+    this.background = Colors.transparent,
+    this.trailing = const SizedBox(),
+    this.onMenuItemSelected = defaultMenuAction,
+    this.isChat = false,
+  });
 
   final String? title;
   final Widget? leading;
   final List<Widget> actions;
   final void Function() backAction;
   final bool whiteAccent;
+  final Color background; // appbar背景色
   final bool isChat;
   final void Function() onMenuItemSelected;
+  final Widget trailing;
 
   static void defaultBackAction() {
     Get.back();
@@ -39,6 +42,7 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final Widget back;
+    // final padding = MediaQuery.of(context).viewPadding;
     final padding = windowPadding;
     if (null != leading) {
       back = leading!;
@@ -59,14 +63,6 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
       padding: 7.2,
     );
 
-    final TextStyle titleStyle;
-
-    if (whiteAccent) {
-      titleStyle = AppTheme.headline2.copyWith(color: Colors.white);
-    } else {
-      titleStyle = AppTheme.headline2;
-    }
-
     final trailingWrapper = Padding(
       padding: const EdgeInsets.all(7.2),
       child: IconTheme(
@@ -78,12 +74,19 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
 
+    final TextStyle titleStyle;
+
+    if (whiteAccent) {
+      titleStyle = AppTheme.headline2.copyWith(color: Colors.white);
+    } else {
+      titleStyle = AppTheme.headline2;
+    }
     return Padding(
       padding: EdgeInsets.only(top: padding.top, right: padding.right, left: padding.left),
       child: SizedBox(
         height: NavigationBarHeight,
         child: ColoredBox(
-          color: Colors.transparent,
+          color: background,
           child: Padding(
             padding: EdgeInsets.only(top: padding.top),
             child: Stack(
