@@ -94,7 +94,7 @@ class PPHomePersonController extends GetxController {
                         width: 32,
                       ),
                       SizedBox(
-                        height: 48,
+                        height: 42,
                         child: PPCommonTextButton(
                             style: PPCommonTextButtonStyle.outline,
                             size: PPCommonTextButtonSize.quaternary,
@@ -115,7 +115,7 @@ class PPHomePersonController extends GetxController {
                         width: 32 * 2,
                       ),
                       SizedBox(
-                        height: 48,
+                        height: 42,
                         child: PPCommonTextButton(
                           title: "再想想",
                           size: PPCommonTextButtonSize.quaternary,

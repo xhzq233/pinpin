@@ -75,7 +75,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         HoldButton(
-          onPressed: () => Get.toNamed(RN.post),
+          onPressed: () {
+            Get.toNamed(RN.post);
+          },
           child: add,
         ),
         HoldButton(

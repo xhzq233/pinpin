@@ -44,12 +44,12 @@ class Logger {
       if (null != color) {
         print(color('$label ${content.toString()}'));
         if (error != null) {
-          print(color('$error Error\n${_formatStackTrace(StackTrace.current)}'));
+          print(color('$error'));
         }
       } else {
         print('$label ${content.toString()}');
         if (error != null) {
-          print('$error Error\n${_formatStackTrace(StackTrace.current)}');
+          print('$error');
         }
       }
     }

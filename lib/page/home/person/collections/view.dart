@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/header/blue_static_header.dart';
+import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/header/sliver_header_delegate.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/tab_bar/tab_bar.dart';
@@ -10,7 +10,6 @@ import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:util/util.dart';
-import 'dart:math' as Math;
 
 import 'controller.dart';
 

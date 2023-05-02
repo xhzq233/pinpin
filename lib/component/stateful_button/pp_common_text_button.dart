@@ -20,13 +20,13 @@ enum PPCommonTextButtonSize {
 }
 
 class PPCustomCapsuleButton extends StatelessWidget {
-  const PPCustomCapsuleButton(
-      {Key? key,
-      this.onPressed = empty,
-      required this.child,
-      this.background = AppTheme.primary,
-      this.contentPadding = const EdgeInsets.symmetric(vertical: 2, horizontal: 9)})
-      : super(key: key);
+  const PPCustomCapsuleButton({
+    Key? key,
+    this.onPressed = empty,
+    required this.child,
+    this.background = AppTheme.primary,
+    this.contentPadding = const EdgeInsets.symmetric(vertical: 2, horizontal: 9),
+  }) : super(key: key);
   final Widget child;
   final ButtonOnPressed onPressed;
   final Color background;

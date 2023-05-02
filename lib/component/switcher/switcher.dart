@@ -32,57 +32,64 @@ class PPSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final keys = titles.keys.toList(growable: false);
-    return Container(
+
+    final widget = Container(
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)), color: AppTheme.gray95, boxShadow: [AppTheme.shadow]),
       height: height,
       width: width,
       child: Obx(
-        () => Stack(
-          children: [
-            AnimatedAlign(
-              alignment: Alignment(-1.0 + 2 * keys.indexOf(rxIndex.value) / (titles.length - 1), 0),
-              duration: _animationDuration,
-              child: FractionallySizedBox(
-                widthFactor: 1 / titles.length,
-                heightFactor: 1,
-                child: const DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: Colors.white,
-                    boxShadow: [AppTheme.shadow],
-                  ),
+        () {
+          final slider = AnimatedAlign(
+            alignment: Alignment(-1.0 + 2 * keys.indexOf(rxIndex.value) / (titles.length - 1), 0),
+            duration: _animationDuration,
+            child: FractionallySizedBox(
+              widthFactor: 1 / titles.length,
+              heightFactor: 1,
+              child: const DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Colors.white,
+                  boxShadow: [AppTheme.shadow],
                 ),
               ),
             ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                for (int i in keys)
-                  Expanded(
-                    child: FractionallySizedBox(
-                      widthFactor: fontScale,
-                      heightFactor: 1,
-                      child: FittedBox(
-                        child: HoldActiveButton(
-                          onPressed: () => onTap(i, rxIndex),
-                          builder: (_) => Padding(
-                            padding: const EdgeInsets.all(5.6),
-                            child: AnimatedOpacity(
-                              opacity: rxIndex.value == i ? 1.0 : 0.5,
-                              duration: _animationDuration,
-                              child: Text(titles[i]!),
-                            ),
+          );
+          final labels = Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              for (int i in keys)
+                Expanded(
+                  child: FractionallySizedBox(
+                    widthFactor: fontScale,
+                    heightFactor: 1,
+                    child: FittedBox(
+                      child: HoldActiveButton(
+                        onPressed: () => onTap(i, rxIndex),
+                        builder: (_) => Padding(
+                          padding: const EdgeInsets.all(5.6),
+                          child: AnimatedOpacity(
+                            opacity: rxIndex.value == i ? 1.0 : 0.5,
+                            duration: _animationDuration,
+                            child: Text(titles[i]!),
                           ),
                         ),
                       ),
                     ),
-                  )
-              ],
-            ),
-          ],
-        ),
+                  ),
+                )
+            ],
+          );
+          return Stack(
+            children: [
+              slider,
+              labels,
+            ],
+          );
+        },
       ),
     );
+
+    return RepaintBoundary(child: widget);
   }
 }

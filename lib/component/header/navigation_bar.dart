@@ -6,17 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:widget/button/hold.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 
 class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
-  const PPNavigationBar({
-      super.key,
+  const PPNavigationBar(
+      {super.key,
       this.title,
       this.actions = const [],
       this.leading,
       this.backAction = defaultBackAction,
       this.whiteAccent = false,
-      this.background = Colors.transparent
+      this.trailing = const SizedBox(),
+      this.onMenuItemSelected = defaultMenuAction,
+      this.isChat = false,
       });
 
   final String? title;
@@ -24,27 +27,37 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> actions;
   final void Function() backAction;
   final bool whiteAccent;
-  final Color background; // appbar背景色
+  final bool isChat;
+  final void Function() onMenuItemSelected;
 
   static void defaultBackAction() {
     Get.back();
   }
 
+  static void defaultMenuAction() {}
+
   @override
   Widget build(BuildContext context) {
     final Widget back;
-    final padding = MediaQuery.of(context).viewPadding;
+    final padding = windowPadding;
     if (null != leading) {
       back = leading!;
     } else if (ModalRoute.of(context)?.canPop == true) {
-      back = PPImageButton(
-        active: whiteAccent ? AppAssets.arrow_left_white : AppAssets.arrow_left,
+      back = HoldButton(
         onPressed: backAction,
-        // padding: 7.2,
+        child: Image.asset(
+          whiteAccent ? AppAssets.arrow_left_white : AppAssets.arrow_left,
+        ),
       );
     } else {
       back = const SizedBox();
     }
+
+    final menu = PPImageButton(
+      active: AppAssets.more,
+      onPressed: onMenuItemSelected,
+      padding: 7.2,
+    );
 
     final TextStyle titleStyle;
 
@@ -53,12 +66,24 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
     } else {
       titleStyle = AppTheme.headline2;
     }
+
+    final trailingWrapper = Padding(
+      padding: const EdgeInsets.all(7.2),
+      child: IconTheme(
+        data: const IconThemeData(
+          color: AppTheme.primary,
+          size: 24,
+        ),
+        child: trailing,
+      ),
+    );
+
     return Padding(
-      padding: EdgeInsets.only(right: padding.right, left: padding.left),
+      padding: EdgeInsets.only(top: padding.top, right: padding.right, left: padding.left),
       child: SizedBox(
-        height: PPNavigationBarHeight + padding.top,
+        height: NavigationBarHeight,
         child: ColoredBox(
-          color: background,
+          color: Colors.transparent,
           child: Padding(
             padding: EdgeInsets.only(top: padding.top),
             child: Stack(
@@ -106,5 +131,5 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(PPNavigationBarHeight);
+  Size get preferredSize => const Size.fromHeight(NavigationBarHeight);
 }

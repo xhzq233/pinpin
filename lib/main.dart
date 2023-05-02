@@ -13,7 +13,6 @@ void main() async {
     GetMaterialApp(
       defaultTransition: Transition.cupertino,
       enableLog: true,
-      debugShowCheckedModeBanner: false,
       // title: I18n.title.tr,
       title: '拼拼',
       // translations: I18nTranslations(),
@@ -29,6 +28,10 @@ void main() async {
       theme: AppTheme.lightTheme,
       initialRoute: Get.find<AccountManager>().isEmpty ? RN.welcome : RN.home,
       unknownRoute: Routes.unknown,
+
+      debugShowCheckedModeBanner: false,
+      showPerformanceOverlay: false,
+      // checkerboardOffscreenLayers: true,
     ),
   );
 }
