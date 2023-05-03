@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
+import 'package:pinpin/page/search/search_hint/search_hint_page.dart';
 import 'package:util/util.dart';
 
 import '../../app/assets/name.dart';
@@ -60,37 +61,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget _buildSearchPageContent() {
     switch (controller.status.value) {
       case Status.hint:
-        return Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text("历史搜索",
-                      style:
-                      AppTheme.headline5.copyWith(color: AppTheme.gray20)),
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: PPImageButton(
-                    active: AppAssets.trash_active,
-                    onPressed: () {},
-                  ).sized(width: 40, height: 42),
-                ),
-              ],
-            ).paddingOnly(top: 6.0, bottom: 16),
-            Obx(
-                  () => Wrap(
-                  spacing: 8.0,
-                  runSpacing: 4.0,
-                  alignment: WrapAlignment.start,
-                  children: controller.pinpins.value
-                      .map((e) => Chip(label: Text(e.title)))
-                      .toList()),
-            )
-          ],
-        );
+        return const SearchHintPage();
       case Status.result:
         return Container(color: Colors.yellow);
       case Status.initial:
@@ -115,15 +86,30 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ],
             ).paddingOnly(top: 6.0, bottom: 16),
-            Obx(
-              () => Wrap(
-                  spacing: 8.0,
-                  runSpacing: 4.0,
-                  alignment: WrapAlignment.start,
-                  children: controller.pinpins.value
-                      .map((e) => Chip(label: Text(e.title)))
-                      .toList()),
-            )
+            Wrap(
+                spacing: 8.0,
+                runSpacing: 4.0,
+                alignment: WrapAlignment.start,
+                children: const <Widget>[
+                  Chip(
+                    label: Text("大学生计算机比赛"),
+                  ),
+                  Chip(
+                    label: Text('美赛'),
+                  ),
+                  Chip(
+                    label: Text('王者荣耀'),
+                  ),
+                  Chip(
+                    label: Text('大计赛'),
+                  ),
+                  Chip(
+                    label: Text('美赛'),
+                  ),
+                  Chip(
+                    label: Text('大计赛'),
+                  ),
+                ]),
           ],
         );
     }
@@ -204,9 +190,16 @@ class _SearchPageState extends State<SearchPage> {
             style: AppTheme.headline5,
             maxLines: 1,
             onChanged: (value) {
-              controller.handleSearchPinPin(value);
+              if(value != "") {
+                controller.handleSearchPinPin(value);
+              } else {
+                controller.setStatus(Status.initial);
+              }
             },
-            onSubmitted: (value) {},
+            onSubmitted: (value) {
+              controller.handleSearchPinPin(value);
+              controller.setStatus(Status.result);
+            },
             decoration: InputDecoration(
                 isDense: true,
                 hintText: "请输入内容...",

@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pinpin/page/search/controller.dart';
 
-class SearchHintPage extends StatelessWidget {
-  const SearchHintPage({Key? key}) : super(key: key);
+class SearchHintController extends GetxController {
+  final searchController = Get.find<SearchController>();
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+  void handleSearchPinPin(String title) {
+    searchController.handleSearchPinPin(title);
+    searchController.setStatus(Status.result);
   }
 }

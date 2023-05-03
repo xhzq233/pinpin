@@ -23,4 +23,8 @@ class SearchController extends GetxController {
     }
   }
 
+  void setStatus(Status status) {
+    _status(status);
+  }
+
 }
