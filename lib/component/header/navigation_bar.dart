@@ -51,11 +51,14 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
         onPressed: backAction,
         child: Image.asset(
           whiteAccent ? AppAssets.arrow_left_white : AppAssets.arrow_left,
+          width: 30,
+          height: 30,
         ),
       );
     } else {
       back = const SizedBox();
     }
+
 
     final menu = PPImageButton(
       active: AppAssets.more,
@@ -82,9 +85,9 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
       titleStyle = AppTheme.headline2;
     }
     return Padding(
-      padding: EdgeInsets.only(top: padding.top, right: padding.right, left: padding.left),
+      padding: EdgeInsets.only(right: padding.right, left: padding.left),
       child: SizedBox(
-        height: NavigationBarHeight,
+        height: NavigationBarHeight + padding.top,
         child: ColoredBox(
           color: background,
           child: Padding(
