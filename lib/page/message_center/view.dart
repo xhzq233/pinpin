@@ -24,7 +24,7 @@ class MessageCenterHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // build内局部变量
+
     final headers = <Widget>[
       SliverPersistentHeader(
         pinned: true,

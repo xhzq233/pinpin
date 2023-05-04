@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class PopupChoices {
+  int id;
   String title;
-  IconData icon;
+  String iconPath;
 
-  PopupChoices({required this.title, required this.icon});
+  PopupChoices({required this.id, required this.title, required this.iconPath});
 }

@@ -9,9 +9,9 @@ class EditPersonalProfileController extends GetxController{
   final UserInfo? userInfo = Get.arguments;
   RxBool isKeyboardShowing = false.obs;
 
-  TextEditingController? etController;
+  late TextEditingController textEditingController;
 
   EditPersonalProfileController(){
-    etController = TextEditingController(text: userInfo!.brief);
+    textEditingController = TextEditingController(text: userInfo?.brief == '' ? "whl555" : userInfo?.brief);
   }
 }

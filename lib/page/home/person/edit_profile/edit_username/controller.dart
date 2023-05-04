@@ -8,10 +8,10 @@ class EditUsernameController extends GetxController {
 
   final UserInfo? userInfo = Get.arguments;
   RxBool isKeyboardShowing = false.obs;
-  TextEditingController? controller;
+  late TextEditingController textEditingController;
 
   EditUsernameController(){
-    controller = TextEditingController(text: userInfo!.username);
+    textEditingController = TextEditingController(text: userInfo?.username);
   }
 
 }

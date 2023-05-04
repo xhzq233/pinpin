@@ -37,6 +37,7 @@ class PPTextField extends StatefulWidget {
     this.radius = 15,
     this.limitations = const [],
     this.textAlign = TextAlign.start,
+    this.counterText = null
   });
 
   final TextInputType? keyboardType;
@@ -57,6 +58,7 @@ class PPTextField extends StatefulWidget {
   final double radius;
   final List<TextFiledLimitation> limitations;
   final TextAlign textAlign;
+  final String? counterText;
 
   @override
   State<PPTextField> createState() => _PPTextFieldState();
@@ -138,10 +140,10 @@ class _PPTextFieldState extends State<PPTextField> {
     super.didUpdateWidget(oldWidget);
   }
 
-  static Widget? counterBuilder(BuildContext context,
+  Widget? counterBuilder(BuildContext context,
       {required int currentLength, required bool isFocused, required int? maxLength}) {
     return Text(
-      '$currentLength/$maxLength',
+      widget.counterText ?? '$currentLength/$maxLength',
       style: TextStyle(color: isFocused ? AppTheme.primary : AppTheme.gray80),
     );
   }
@@ -233,7 +235,7 @@ class _PPTextFieldState extends State<PPTextField> {
             hintText: widget.hintText,
             hintStyle: AppTheme.headline7.copyWith(color: AppTheme.gray80),
           ),
-          buildCounter: widget.maxLength == null ? null : counterBuilder,
+          buildCounter: widget.maxLength == null  ? null : counterBuilder,
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
         ),
       ).background(GestureDetector(

@@ -35,7 +35,7 @@ class AppAssets {
   static const home = 'assets/home.png';
   static const lock = 'assets/lock.png';
   static const more = 'assets/more.png';
-  static const more_onclick = 'assets/more_onclick.png';
+  static const more_onclick = 'assets/more_on_click.png';
   static const more_white = 'assets/more_white.png';
   static const msg_white = 'assets/msg_white.png';
   static const notification_center_comment = 'assets/notification_center_comment.png';
