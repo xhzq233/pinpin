@@ -211,6 +211,9 @@ class _SearchPageState extends State<SearchPage> {
               } else {
                 controller.setStatus(Status.initial);
               }
+              setState(() {
+
+              });
             },
             onSubmitted: (value) {
               controller.handleSearchPinPin(value);

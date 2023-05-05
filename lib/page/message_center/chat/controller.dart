@@ -25,27 +25,29 @@ class ChatPageController extends GetxController {
   ];
 
   bool isShowLoading = false;
-  List<List<Message>> mListMessage = [];
-  List<Message> data = [];
+  final List<Message> _messages = [];
+  List<Message> get messages  => _messages; // 当前聊天列表的信息
 
   @override
   void onInit() {
-    List<Message> temp = [];
     for (int i = 0; i < 10; i++) {
       Message message = Message(
           uuid: i.toString(),
           type: MessageType.text,
           isSend: i % 2 == 0 ? true : false,
           msg: "hello,world, $i");
-      temp.add(message);
+      _messages.add(message);
     }
-    temp.add(Message(
+    _messages.add(Message(
         uuid: Random.secure().nextInt(9999).toString(),
         type: MessageType.request,
         isSend: Random.secure().nextInt(9999) % 2 == 0 ? true : false,
         msg: "ddd"));
-    mListMessage.add(temp);
     super.onInit();
+  }
+
+  void addMessage(Message message) {
+    _messages.add(message);
   }
 
   void onMoreClick() {
