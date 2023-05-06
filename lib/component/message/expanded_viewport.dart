@@ -25,7 +25,6 @@ class ExpandedViewport extends Viewport {
 
   @override
   RenderViewport createRenderObject(BuildContext context) {
-    // TODO: implement createRenderObject
     return _RenderExpandedViewport(
       axisDirection: axisDirection,
       crossAxisDirection: crossAxisDirection ??
@@ -55,6 +54,7 @@ class _RenderExpandedViewport extends RenderViewport {
             center: center,
             cacheExtent: cacheExtent);
 
+  // 首先循环遍历所有子节点，计算总的布局范围，并记录下需要扩展的子节点。然后调用 _attemptLayout 方法
   @override
   void performLayout() {
     super.performLayout();
@@ -79,7 +79,7 @@ class _RenderExpandedViewport extends RenderViewport {
     }
   }
 
-  // _minScrollExtent private in super,no setter method
+  // 根据偏移量计算出需要显示的子节点，并计算出它们的位置和大小。如果子节点需要缓存，则根据缓存策略进行缓存。最后，返回计算出的最小滚动偏移量。
   double _attemptLayout(RenderSliver expandPosition, double mainAxisExtent,
       double crossAxisExtent, double correctedOffset) {
     assert(!mainAxisExtent.isNaN);
@@ -104,7 +104,8 @@ class _RenderExpandedViewport extends RenderViewport {
     final double forwardDirectionRemainingCacheExtent =
         (fullCacheExtent - centerCacheOffset).clamp(0.0, fullCacheExtent);
 
-    final RenderSliver leadingNegativeChild = childBefore(center!)!;
+
+    final RenderSliver? leadingNegativeChild = childBefore(center!);
     // positive scroll offsets
     return layoutChildSequence(
       child: expandPosition,

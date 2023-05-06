@@ -33,13 +33,14 @@ class _MessageChatPageState extends State<MessageChatPage>
     super.initState();
     controller = ChatPageController();
     controller.onInit();
-    _messageStreamController.addStream(Stream.fromIterable(controller.messages));
     _subscription = _messageStreamController.stream.listen((message) {
       // handler
       setState(() {
         controller.addMessage(message);
       });
     });
+    final copy = List.of(controller.messages);
+    _messageStreamController.addStream(Stream.fromIterable(copy));
   }
 
   @override
