@@ -9,6 +9,7 @@ import 'package:pinpin/component/constant.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
+import 'package:util/bottom_sheet.dart';
 import 'package:widget/button/future_switch_button.dart';
 import 'package:widget/widget.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
@@ -126,7 +127,12 @@ class PPDetailPage extends StatelessWidget {
                     barButtonPadding,
                     barButton(AppAssets.share, () {}),
                     barButtonPadding,
-                    barButton(AppAssets.comment, () {}),
+                    barButton(AppAssets.comment, () {
+                      showPinPinBottomSheet(
+                          context: context,
+                          builder: (context) => _buildComments()
+                      );
+                    }),
                     const Spacer(),
                     actionButton,
                   ],
@@ -513,4 +519,9 @@ class PPDetailPage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildComments() {
+    return const ModalInsideModal();
+  }
 }
+

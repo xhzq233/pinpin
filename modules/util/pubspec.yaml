@@ -14,7 +14,7 @@ dependencies:
   boxy: ^2.0.6+2
   get: ^4.6.5
   universal_html: ^2.0.8
-  modal_bottom_sheet: ^2.1.2
+  modal_bottom_sheet: ^3.0.0-pre
 
 dev_dependencies:
   flutter_test:

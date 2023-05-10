@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
+/// Template code for the bottom sheet
+/// The bottom sheet for the modal style pinpin
+/// 写自己的widget即可
 Future<dynamic> showPinPinBottomSheet({
   required BuildContext context,
   required WidgetBuilder builder,
@@ -26,4 +29,32 @@ Future<dynamic> showPinPinBottomSheet({
       ),
     ),
   );
+}
+
+class ModalInsideModal extends StatelessWidget {
+  const ModalInsideModal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: SafeArea(
+        bottom: false,
+        child: ListView(
+            reverse: false,
+            shrinkWrap: true,
+            controller: ModalScrollController.of(context),
+            physics: const ClampingScrollPhysics(),
+            children: List.generate(
+              100,
+              (index) => ListTile(
+                  title: Text("Modal $index"),
+                  onTap: () => showPinPinBottomSheet(
+
+                        context: context,
+                        builder: (context) => const ModalInsideModal(),
+                      )),
+            ).toList()),
+      ),
+    );
+  }
 }
