@@ -128,7 +128,7 @@ class PPDetailPage extends StatelessWidget {
                     barButton(AppAssets.share, () {}),
                     barButtonPadding,
                     barButton(AppAssets.comment, () {
-                      showPinPinBottomSheet(
+                      showTopPaddingModalBottomSheet(
                           context: context,
                           builder: (context) => _buildComments()
                       );
