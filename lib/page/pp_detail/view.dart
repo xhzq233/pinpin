@@ -1,6 +1,7 @@
 /// pinpin - view
 /// Created by xhz on 2022/8/8
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
@@ -694,6 +695,27 @@ class PPDetailPage extends StatelessWidget {
                           context: context,
                           builder: (context) => _buildCommentDetail(context),
                           enableDrag: false);
+ 
+
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                            pageBuilder: (context, animation, _) {
+                              return _buildCommentDetail(context);
+                            },
+                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(1.0, 0.0);
+                            const end = Offset.zero;
+                            const curve = Curves.easeInOut;
+                            final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
+
+                        ),
+                      );
                     },
                     child: Container(
                       decoration: BoxDecoration(
