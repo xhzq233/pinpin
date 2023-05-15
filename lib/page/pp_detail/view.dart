@@ -18,8 +18,31 @@ import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/page/pp_detail/logic.dart';
 import 'package:util/util.dart';
 
-class PPDetailPage extends StatelessWidget {
+class PPDetailPage extends StatefulWidget {
   const PPDetailPage({Key? key}) : super(key: key);
+
+  @override
+  State<PPDetailPage> createState() => _PPDetailPageState();
+}
+
+class _PPDetailPageState extends State<PPDetailPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -693,28 +716,11 @@ class PPDetailPage extends StatelessWidget {
                     onTap: () {
                       showPinPinBottomSheet(
                           context: context,
-                          builder: (context) => _buildCommentDetail(context),
-                          enableDrag: false);
- 
-
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                            pageBuilder: (context, animation, _) {
-                              return _buildCommentDetail(context);
-                            },
-                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                            const begin = Offset(1.0, 0.0);
-                            const end = Offset.zero;
-                            const curve = Curves.easeInOut;
-                            final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-                            return SlideTransition(
-                              position: animation.drive(tween),
-                              child: child,
-                            );
+                          builder: (context) {
+                            return _buildCommentDetail(context);
                           },
-
-                        ),
+                          enableDrag: false,
+                        enableHorizontal: true
                       );
                     },
                     child: Container(
@@ -807,8 +813,8 @@ class PPDetailPage extends StatelessWidget {
           headerSliverBuilder: (context, __) {
             return [
               SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context),
                 sliver: const PPBottomSheetHeader(),
               )
             ];
@@ -816,7 +822,7 @@ class PPDetailPage extends StatelessWidget {
           body: Column(
             children: [
               Container(
-                padding: const EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.only(top: 20),
                   child: buildCommentItem(
                       0, avatar, buttonShadow, pp, logic, context)),
               Row(
@@ -824,8 +830,8 @@ class PPDetailPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Text("10条回复",
-                        style:
-                            AppTheme.headline4.copyWith(color: AppTheme.gray20)),
+                        style: AppTheme.headline4
+                            .copyWith(color: AppTheme.gray20)),
                   )
                 ],
               ),

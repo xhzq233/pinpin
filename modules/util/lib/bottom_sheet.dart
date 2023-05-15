@@ -3,11 +3,12 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 /// Template code for the bottom sheet
 /// The bottom sheet for the modal style pinpin
-Future<dynamic> showPinPinBottomSheet(
-    {required BuildContext context,
-    required WidgetBuilder builder,
-    bool? enableDrag,
-    }) async {
+Future<dynamic> showPinPinBottomSheet({
+  required BuildContext context,
+  required WidgetBuilder builder,
+  bool? enableDrag,
+  bool enableHorizontal = false,
+}) async {
   return await showCustomModalBottomSheet<dynamic>(
       context: context,
       expand: false,
@@ -15,7 +16,16 @@ Future<dynamic> showPinPinBottomSheet(
       animationCurve: Curves.easeInOut,
       backgroundColor: const Color.fromRGBO(0x0A, 0x11, 0x1A, 0.7),
       builder: builder,
-      containerWidget: (context, animation, child) => Material(
+      containerWidget: (context, animation, child) {
+        final begin =
+            enableHorizontal == true ? const Offset(1.0, -1.0) : Offset.zero;
+        const end = Offset.zero;
+        const curve = Curves.easeInOut;
+        final tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: Material(
             color: Colors.white,
             clipBehavior: Clip.antiAlias,
             borderRadius: const BorderRadius.only(
@@ -28,7 +38,9 @@ Future<dynamic> showPinPinBottomSheet(
               ),
               child: child,
             ),
-          ));
+          ),
+        );
+      });
 }
 
 Future<T?> showMyCustomModalBottomSheet<T>({
@@ -78,5 +90,3 @@ Future<T?> showMyCustomModalBottomSheet<T>({
   ));
   return result;
 }
-
-
