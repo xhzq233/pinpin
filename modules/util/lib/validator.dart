@@ -41,15 +41,15 @@ class Validators {
   static Validator studentID = (String str) {
     if (str.isEmpty) {
       return "学号不能为空";
-    } else if (str[0] == 'U' || str[0] == 'u') {
+    } else if (str[0] == 'U' || str[0] == 'u' || str[0] == 'M' || str[0] == 'm') {
       final num = int.tryParse(str.substring(1));
-      if (num != null && 201600000 < num && num < 202240000) {
+      if (num != null && 201600000 < num && num < 202340000) {
         return null;
       } else {
         return "学号格式错误";
       }
     } else {
-      return "学号应以u/U开头";
+      return "学号应以u/U/m/M开头";
     }
   };
 

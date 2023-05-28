@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
+import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/bottom_sheet/bottom_sheet_header.dart';
 import 'package:pinpin/component/constant.dart';
@@ -96,7 +97,9 @@ class _PPDetailPageState extends State<PPDetailPage>
       title: '求拼拼',
       style: PPCommonTextButtonStyle.outline,
       size: PPCommonTextButtonSize.tertiary,
-      onPressed: () {},
+      onPressed: () {
+        Get.toNamed(RN.message_chat);
+      },
     );
 
     final bottomBar = FractionallySizedBox(
