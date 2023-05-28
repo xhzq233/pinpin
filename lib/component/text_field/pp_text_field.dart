@@ -9,6 +9,13 @@ import 'package:util/util.dart';
 
 const _kDuration = Duration(milliseconds: 200);
 
+typedef CounterBuilder = Widget? Function(
+  BuildContext context, {
+  required int currentLength,
+  required bool isFocused,
+  required int? maxLength,
+});
+
 enum PPTextFieldStyle {
   outline,
   //  need more args void Function()? onPressVisible;  bool? isPasswordVisible;
@@ -37,8 +44,16 @@ class PPTextField extends StatefulWidget {
     this.radius = 15,
     this.limitations = const [],
     this.textAlign = TextAlign.start,
-    this.counterText = null
+    this.counterBuilder = defaultCounterBuilder,
   });
+
+  static Widget? defaultCounterBuilder(BuildContext context,
+      {required int currentLength, required bool isFocused, required int? maxLength}) {
+    return Text(
+      '$currentLength/$maxLength',
+      style: TextStyle(color: isFocused ? AppTheme.primary : AppTheme.gray80),
+    );
+  }
 
   final TextInputType? keyboardType;
   final TextEditingController? controller;
@@ -58,7 +73,7 @@ class PPTextField extends StatefulWidget {
   final double radius;
   final List<TextFiledLimitation> limitations;
   final TextAlign textAlign;
-  final String? counterText;
+  final CounterBuilder? counterBuilder;
 
   @override
   State<PPTextField> createState() => _PPTextFieldState();
@@ -138,14 +153,6 @@ class _PPTextFieldState extends State<PPTextField> {
     }
 
     super.didUpdateWidget(oldWidget);
-  }
-
-  Widget? counterBuilder(BuildContext context,
-      {required int currentLength, required bool isFocused, required int? maxLength}) {
-    return Text(
-      widget.counterText ?? '$currentLength/$maxLength',
-      style: TextStyle(color: isFocused ? AppTheme.primary : AppTheme.gray80),
-    );
   }
 
   late String lastTextContent;
@@ -235,7 +242,7 @@ class _PPTextFieldState extends State<PPTextField> {
             hintText: widget.hintText,
             hintStyle: AppTheme.headline7.copyWith(color: AppTheme.gray80),
           ),
-          buildCounter: widget.maxLength == null  ? null : counterBuilder,
+          buildCounter: widget.counterBuilder,
           maxLengthEnforcement: MaxLengthEnforcement.enforced,
         ),
       ).background(GestureDetector(

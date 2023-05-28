@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/component/loading/loading.dart';
-import 'package:pinpin/component/page_view/page_view.dart';
-
 import 'package:pinpin/manager/api/api_interface.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:util/util.dart';
@@ -37,7 +35,7 @@ class PPPostLogic extends GetxController {
   // max 3
   final RxInt progress = RxInt(0);
 
-  final CachePageController pageController = CachePageController(initialPage: 0);
+  final PageController pageController = PageController(initialPage: 0);
 
   final RxInt currentPage = 0.obs;
 

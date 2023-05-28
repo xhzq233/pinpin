@@ -1,9 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
-import 'package:pinpin/component/page_view/page_view.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/component/text_field/unfocus.dart';
@@ -12,6 +10,7 @@ import 'package:pinpin/page/post/fragments/post_2.dart';
 import 'package:pinpin/page/post/fragments/post_3.dart';
 import 'package:pinpin/page/post/fragments/post_progress.dart';
 import 'package:pinpin/page/post/logic.dart';
+import 'package:widget/keep_alive_wrapper.dart';
 
 const _kPadding = 18.0;
 const _kStatusHeightFactor = 67 / 742;
@@ -60,24 +59,25 @@ class PPPostPage extends StatelessWidget {
                       SizedBox(
                         height: height * _kBodyHeightFactor,
                         width: width,
-                        child: CachePageView.builder(
-                          cacheExtent: 2,
+                        child: PageView.builder(
                           controller: logic.pageController,
                           physics: const BouncingScrollPhysics(),
                           itemCount: children.length,
-                          itemBuilder: (_, int index) => Align(
-                            alignment: Alignment.topCenter,
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxWidth: width - _kPadding * 2,
-                                minWidth: width - _kPadding * 2,
-                                maxHeight: height * 502 / 742,
-                              ),
-                              child: DecoratedBox(
-                                decoration: bg,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                                  child: children[index],
+                          itemBuilder: (_, int index) => KeepAliveWrapper(
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth: width - _kPadding * 2,
+                                  minWidth: width - _kPadding * 2,
+                                  maxHeight: height * 502 / 742,
+                                ),
+                                child: DecoratedBox(
+                                  decoration: bg,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                                    child: children[index],
+                                  ),
                                 ),
                               ),
                             ),

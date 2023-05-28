@@ -20,6 +20,7 @@ class ReleasesController extends GetxController {
       if (value != null) {
         userInfo.value = value;
       }
+      update();
     });
   }
 

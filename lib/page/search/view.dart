@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide SearchController;
 import 'package:get/get.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
@@ -20,7 +20,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final controller = Get.find<SearchController>();
+  final controller = Get.find<PPSearchController>();
   late TextEditingController _controller;
   late FocusNode _searchNode;
 
@@ -44,25 +44,21 @@ class _SearchPageState extends State<SearchPage> {
       body: SafeArea(
         child: Container(
             alignment: Alignment.topCenter,
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color.fromRGBO(243, 243, 243, 0.3),
-                Color(0xFFF3F3F3),
-              ],
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color.fromRGBO(243, 243, 243, 0.3),
+                  Color(0xFFF3F3F3),
+                ],
+              ),
             ),
-          ),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            _buildSearchInput(),
-            Expanded(
-                child: GestureDetector(
-                    onTap: _hideKeyboard,
-                    child: Obx(() => _buildSearchPageContent())))
-          ])
-        ),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              _buildSearchInput(),
+              Expanded(child: GestureDetector(onTap: _hideKeyboard, child: Obx(() => _buildSearchPageContent())))
+            ])),
       ),
     );
   }
@@ -88,9 +84,7 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                 Align(
                   alignment: Alignment.bottomLeft,
-                  child: Text("历史搜索",
-                      style:
-                          AppTheme.headline5.copyWith(color: AppTheme.gray20)),
+                  child: Text("历史搜索", style: AppTheme.headline5.copyWith(color: AppTheme.gray20)),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
@@ -101,30 +95,26 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ],
             ).paddingOnly(top: 6.0, bottom: 16),
-            Wrap(
-                spacing: 8.0,
-                runSpacing: 4.0,
-                alignment: WrapAlignment.start,
-                children: const <Widget>[
-                  Chip(
-                    label: Text("大学生计算机比赛"),
-                  ),
-                  Chip(
-                    label: Text('美赛'),
-                  ),
-                  Chip(
-                    label: Text('王者荣耀'),
-                  ),
-                  Chip(
-                    label: Text('大计赛'),
-                  ),
-                  Chip(
-                    label: Text('美赛'),
-                  ),
-                  Chip(
-                    label: Text('大计赛'),
-                  ),
-                ]),
+            const Wrap(spacing: 8.0, runSpacing: 4.0, alignment: WrapAlignment.start, children: <Widget>[
+              Chip(
+                label: Text("大学生计算机比赛"),
+              ),
+              Chip(
+                label: Text('美赛'),
+              ),
+              Chip(
+                label: Text('王者荣耀'),
+              ),
+              Chip(
+                label: Text('大计赛'),
+              ),
+              Chip(
+                label: Text('美赛'),
+              ),
+              Chip(
+                label: Text('大计赛'),
+              ),
+            ]),
           ],
         );
     }
@@ -196,6 +186,7 @@ class _SearchPageState extends State<SearchPage> {
     return Padding(
       padding: const EdgeInsets.only(left: 16),
       child: Material(
+        color: Colors.transparent,
         child: TextField(
             textInputAction: TextInputAction.search,
             textAlign: TextAlign.start,
@@ -206,14 +197,12 @@ class _SearchPageState extends State<SearchPage> {
             style: AppTheme.headline5,
             maxLines: 1,
             onChanged: (value) {
-              if(value != "") {
+              if (value != "") {
                 controller.handleSearchPinPin(value);
               } else {
                 controller.setStatus(Status.initial);
               }
-              setState(() {
-
-              });
+              setState(() {});
             },
             onSubmitted: (value) {
               controller.handleSearchPinPin(value);

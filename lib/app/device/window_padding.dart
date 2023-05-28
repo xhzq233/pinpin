@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:util/logger.dart';
 
-const NavigationBarHeight = 41.0;
+const NavigationBarHeight = 42.0;
 late WindowPadding physicalPadding;
 late double devicePixelRatio;
 late EdgeInsets windowPadding;

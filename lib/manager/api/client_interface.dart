@@ -19,9 +19,9 @@ abstract class HttpClientInterface {
   Dio createDio() {
     var dio = Dio(BaseOptions(
       baseUrl: Api.head,
-      receiveTimeout: 15000,
-      connectTimeout: 15000,
-      sendTimeout: 15000,
+      receiveTimeout: const Duration(milliseconds: 15000),
+      connectTimeout: const Duration(milliseconds: 15000),
+      sendTimeout: const Duration(milliseconds: 15000),
       responseType: ResponseType.json,
     ));
 

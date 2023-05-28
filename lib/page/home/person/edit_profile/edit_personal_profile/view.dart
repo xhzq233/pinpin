@@ -17,12 +17,12 @@ class EditPersonalProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = PPTextField(
-        textFieldStyle: PPTextFieldStyle.backgroundFilled,
-        maxLines: 5,
-        maxLength: 100,
-        hintText: '提示：可以写兴趣爱好、星座、mbti等等',
-        controller: controller.textEditingController,
-        counterText: ''
+      textFieldStyle: PPTextFieldStyle.backgroundFilled,
+      maxLines: 5,
+      maxLength: 100,
+      hintText: '提示：可以写兴趣爱好、星座、mbti等等',
+      controller: controller.textEditingController,
+      counterBuilder: null,
     );
 
     return KeyboardDetector(
@@ -52,11 +52,8 @@ class EditPersonalProfilePage extends StatelessWidget {
                             alignment: Alignment.topCenter,
                             child: Column(
                               children: [
-                                SizedBox(
-                                    height:
-                                        MediaQuery.of(context).viewPadding.top),
-                                const Padding(
-                                    padding: EdgeInsets.only(bottom: 20)),
+                                SizedBox(height: MediaQuery.of(context).viewPadding.top),
+                                const Padding(padding: EdgeInsets.only(bottom: 20)),
                                 profile.sized(width: 354, height: 191),
                               ],
                             ),
@@ -83,46 +80,5 @@ class EditPersonalProfilePage extends StatelessWidget {
                 ),
               ),
             )));
-
-    return KeyboardDetector(
-        keyboardShowCallback: (show) {
-          controller.isKeyboardShowing(show);
-        },
-        content: Scaffold(
-            body: InkWell(
-                onTap: () {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                },
-                highlightColor: Colors.transparent, // 去除水波纹
-                splashColor: Colors.transparent,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Column(
-                        children: [
-                          const PPNavigationBar(title: "个人简介"),
-                          const Padding(padding: EdgeInsets.only(bottom: 20)),
-                          profile.sized(width: 354, height: 191),
-                        ],
-                      ),
-                    ),
-                    Align(
-                      alignment: const Alignment(0, 2.0),
-                      child: Obx(
-                        () => Visibility(
-                          visible: !controller.isKeyboardShowing.value,
-                          child: PPCommonTextButton(
-                            title: '确认修改',
-                            onPressed: () {
-                              Get.back();
-                            },
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ))));
   }
 }

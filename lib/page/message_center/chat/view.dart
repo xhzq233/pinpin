@@ -102,7 +102,7 @@ class _MessageChatPageState extends State<MessageChatPage>
 
   void _buildPopupMenu() {
     final RenderBox overlay =
-        Overlay.of(context).context.findRenderObject() as RenderBox;
+        Overlay.of(context)?.context.findRenderObject() as RenderBox;
     final RelativeRect position = RelativeRect.fromLTRB(
         overlay.size.width, 60.0, 0.0, overlay.size.height - 60.0);
 

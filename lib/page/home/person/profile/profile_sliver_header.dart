@@ -10,10 +10,10 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
-import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 import 'package:util/util.dart';
 import 'package:widget/avatar.dart';
+import 'package:widget/button/hold.dart';
 
 class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   const PinPinPersonSliverHeaderDelegate(this.userInfo);
@@ -81,10 +81,16 @@ class PinPinPersonSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
       ),
     );
 
-    final arrow = PPImageButton(
-      active: AppAssets.arrow_left_white,
-      onPressed: PPNavigationBar.defaultBackAction,
-      padding: 5,
+    final arrow = Padding(
+      padding: const EdgeInsets.only(left: 15,top: 5),
+      child: HoldButton(
+        onPressed: PPNavigationBar.defaultBackAction,
+        child: Image.asset(
+          AppAssets.arrow_left_white,
+          width: 24,
+          height: 24,
+        ),
+      ),
     );
 
     final imgSize = diff * avatarSizeRange + avatarMinSize;

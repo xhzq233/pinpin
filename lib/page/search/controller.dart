@@ -13,7 +13,7 @@ enum Status {
   result,
   error
 }
-class SearchController extends GetxController with PPHomeCardViewDelegate {
+class PPSearchController extends GetxController with PPHomeCardViewDelegate {
 
   final _http = Get.find<PPNetWorkInterface>();
   final Map<int, Map<int, PinPinLoadMoreSource>> _sources = {PinPin.ppt_ett: {}, PinPin.ppt_study: {}};

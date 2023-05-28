@@ -16,7 +16,7 @@ class PinPinHomeSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   static final backgroundMaxHeight = appBarMinHeight + 64;
   static final appBarMaxHeight = backgroundMaxHeight + searchBarProtruding;
-  static final appBarMinHeight = NavigationBarHeight + windowPadding.top; //59+40
+  static final appBarMinHeight = NavigationBarHeight + windowPadding.top;
   static final appBarHeightRange = appBarMaxHeight - appBarMinHeight;
 
   static const searchBarProtruding = 11.0;

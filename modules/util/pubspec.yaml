@@ -1,11 +1,10 @@
 name: util
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
 publish_to: 'none'
 
 environment:
-  sdk: '>=2.17.0 <3.0.0'
+  sdk: '>=2.17.0'
   flutter: ">=1.17.0"
 
 dependencies:

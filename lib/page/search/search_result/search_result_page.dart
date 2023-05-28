@@ -18,7 +18,7 @@ class SearchResultPage extends StatefulWidget {
 class _SearchResultPageState extends State<SearchResultPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _tabIndex = 0;
-  final controller = Get.find<SearchController>();
+  final controller = Get.find<PPSearchController>();
 
   @override
   void initState() {

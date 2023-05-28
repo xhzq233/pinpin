@@ -28,7 +28,7 @@ class SettingsManager {
 
   static set guideInit(bool value) => _sharedPreferences.setBool('guide_init', value);
 
-  static int get theme => _sharedPreferences.getInt('theme') ?? ThemeMode.dark.index;
+  static int get theme => _sharedPreferences.getInt('theme') ?? ThemeMode.light.index;
 
   static Brightness themeModeToBrightness(int value) {
     if (value == ThemeMode.dark.index) {
@@ -46,12 +46,14 @@ class SettingsManager {
   }
 
   static setStatusBar(Brightness brightness) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarBrightness: brightness,
-      ),
-    );
+    switch (brightness) {
+      case Brightness.dark:
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent));
+        break;
+      case Brightness.light:
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent));
+        break;
+    }
   }
 
   static bool get enableHistory => _sharedPreferences.getBool('enable_history') ?? false;

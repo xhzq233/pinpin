@@ -28,8 +28,6 @@ void main() async {
       theme: AppTheme.lightTheme,
       initialRoute: Get.find<AccountManager>().isEmpty ? RN.welcome : RN.home,
       unknownRoute: Routes.unknown,
-
-      debugShowCheckedModeBanner: false,
       showPerformanceOverlay: false,
       // checkerboardOffscreenLayers: true,
     ),

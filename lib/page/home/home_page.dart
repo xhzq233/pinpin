@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
+import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/bottom_tab_bar/bottom_tab_bar.dart';
@@ -101,18 +102,22 @@ class _HomePageState extends State<HomePage> {
     );
 
     return Material(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          IndexedStack(
-            index: tabBarIndex,
-            children: const [
-              PPHomeMainView(),
-              PPHomePersonView(),
-            ],
-          ),
-          Align(alignment: Alignment.bottomCenter, child: bottomBar),
-        ],
+      child: Padding(
+        // padding: EdgeInsets.only(bottom: windowPadding.bottom),
+        padding: EdgeInsets.only(bottom: 0),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            IndexedStack(
+              index: tabBarIndex,
+              children: const [
+                PPHomeMainView(),
+                PPHomePersonView(),
+              ],
+            ),
+            Align(alignment: Alignment.bottomCenter, child: bottomBar),
+          ],
+        ),
       ),
     );
   }

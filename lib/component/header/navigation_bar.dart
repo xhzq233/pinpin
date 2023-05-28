@@ -1,12 +1,12 @@
 /// pinpin - navigation_bar
 /// Created by xhz on 06/09/2022
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/device/window_padding.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:widget/button/hold.dart';
 
 class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
@@ -18,9 +18,6 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
     this.backAction = defaultBackAction,
     this.whiteAccent = false,
     this.background = Colors.transparent,
-    this.trailing = const SizedBox(),
-    this.onMenuItemSelected = defaultMenuAction,
-    this.isChat = false,
   });
 
   final String? title;
@@ -29,9 +26,6 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
   final void Function() backAction;
   final bool whiteAccent;
   final Color background; // appbar背景色
-  final bool isChat;
-  final void Function() onMenuItemSelected;
-  final Widget trailing;
 
   static void defaultBackAction() {
     Get.back();
@@ -47,35 +41,20 @@ class PPNavigationBar extends StatelessWidget implements PreferredSizeWidget {
     if (null != leading) {
       back = leading!;
     } else if (ModalRoute.of(context)?.canPop == true) {
-      back = HoldButton(
-        onPressed: backAction,
-        child: Image.asset(
-          whiteAccent ? AppAssets.arrow_left_white : AppAssets.arrow_left,
-          width: 30,
-          height: 30,
+      back = Padding(
+        padding: const EdgeInsets.only(left: 15),
+        child: HoldButton(
+          onPressed: backAction,
+          child: Image.asset(
+            whiteAccent ? AppAssets.arrow_left_white : AppAssets.arrow_left,
+            width: 24,
+            height: 24,
+          ),
         ),
       );
     } else {
       back = const SizedBox();
     }
-
-
-    final menu = PPImageButton(
-      active: AppAssets.more,
-      onPressed: onMenuItemSelected,
-      padding: 7.2,
-    );
-
-    final trailingWrapper = Padding(
-      padding: const EdgeInsets.all(7.2),
-      child: IconTheme(
-        data: const IconThemeData(
-          color: AppTheme.primary,
-          size: 24,
-        ),
-        child: trailing,
-      ),
-    );
 
     final TextStyle titleStyle;
 

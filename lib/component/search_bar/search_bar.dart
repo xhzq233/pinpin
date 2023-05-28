@@ -7,10 +7,10 @@ import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
+import 'package:util/util.dart';
 
 class PPHomeSearchBar extends StatefulWidget {
-  const PPHomeSearchBar({Key? key, this.onClick = defaultOnClick, this.textEditingController})
-      : super(key: key);
+  const PPHomeSearchBar({Key? key, this.onClick = defaultOnClick, this.textEditingController}) : super(key: key);
   static const heroTag = 'home_search_bar';
 
   final void Function() onClick;
@@ -46,6 +46,7 @@ class _PPHomeSearchBarState extends State<PPHomeSearchBar> {
     return Padding(
       padding: const EdgeInsets.only(left: 16),
       child: Material(
+        color: Colors.transparent,
         child: TextField(
             focusNode: _searchNode,
             controller: _controller,
@@ -84,7 +85,7 @@ class _PPHomeSearchBarState extends State<PPHomeSearchBar> {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        borderRadius: BorderRadius.all(Radius.circular(25)),
         boxShadow: [AppTheme.shadow],
       ),
       child: Row(

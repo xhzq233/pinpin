@@ -65,7 +65,7 @@ class _ToastQueue {
       final i = _queue.removeAt(0);
       final context = Get.overlayContext;
       if (context != null) {
-        Overlay.of.call(context)?.insert(i.overlayEntry);
+        Overlay.of(context).insert(i.overlayEntry);
       }
       await i.delay.delay();
       i.overlayEntry.remove();
