@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -24,18 +25,33 @@ class MessageChatPage extends StatefulWidget {
 class _MessageChatPageState extends State<MessageChatPage>
     with WidgetsBindingObserver {
   late ChatPageController controller;
+  final StreamController<Message> _messageStreamController = StreamController<Message>.broadcast();
+  late StreamSubscription<Message> _subscription;
 
   @override
   void initState() {
     super.initState();
     controller = ChatPageController();
     controller.onInit();
+    _subscription = _messageStreamController.stream.listen((message) {
+      // handler
+      setState(() {
+        controller.addMessage(message);
+      });
+    });
+    final copy = List.of(controller.messages);
+    _messageStreamController.addStream(Stream.fromIterable(copy));
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    _messageStreamController.close();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    Stream<List<Message>> stream = Stream.fromIterable(controller.mListMessage);
-
     return Scaffold(
         appBar: PPNavigationBar(
           actions: _buildActionsWidget(),
@@ -54,16 +70,11 @@ class _MessageChatPageState extends State<MessageChatPage>
                         onTap: () {
                           FocusScope.of(context).requestFocus(FocusNode());
                         },
-                        child: StreamBuilder<List<Message>>(
-                            stream: stream,
+                        child: StreamBuilder<Message>(
+                            stream: _messageStreamController.stream,
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
-                                controller.data = snapshot.data!;
-                                if (controller.data.isNotEmpty) {
-                                  return _buildMessage();
-                                } else {
-                                  return _buildEmptyMessage();
-                                }
+                                return _buildMessage();
                               } else {
                                 return _buildLoadingMessage();
                               }
@@ -196,8 +207,7 @@ class _MessageChatPageState extends State<MessageChatPage>
           type: MessageType.text,
           isSend: Random.secure().nextInt(9999) % 2 == 0 ? true : false,
           msg: content);
-      controller.mListMessage[0].add(message);
-      setState(() {});
+      _messageStreamController.add(message);
 
       if (controller.listScrollController.hasClients) {
         controller.listScrollController.animateTo(0,
@@ -337,12 +347,13 @@ class _MessageChatPageState extends State<MessageChatPage>
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (c, i) {
+                  int length = controller.messages.length;
                   ChatMessageItem mChatItem = ChatMessageItem(
-                    mMessage: controller.data[i],
+                    mMessage: controller.messages[length - i - 1],
                   );
                   return mChatItem;
                 },
-                childCount: controller.data.length,
+                childCount: controller.messages.length,
               ),
             ),
             SliverToBoxAdapter(

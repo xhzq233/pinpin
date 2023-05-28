@@ -102,32 +102,30 @@ class MessageCenterHomePage extends StatelessWidget {
       headerSliverBuilder: (context, _) => headers,
       body: Container(
         color: const Color(0xffE5E5E5),
-        child: Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 93), //SizedBox insert this
-                SizedBox(
-                  width: double.infinity,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 18, vertical: 15),
-                    child: DecoratedBox(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 13.5, vertical: 16),
-                        child: Column(
-                            mainAxisSize: MainAxisSize.max, children: columns),
-                      ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 93), //SizedBox insert this
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 18, vertical: 15),
+                  child: DecoratedBox(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 13.5, vertical: 16),
+                      child: Column(
+                          mainAxisSize: MainAxisSize.max, children: columns),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

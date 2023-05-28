@@ -1,22 +1,48 @@
 /// pinpin - view
 /// Created by xhz on 2022/8/8
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
+import 'package:pinpin/component/bottom_sheet/bottom_sheet_header.dart';
 import 'package:pinpin/component/constant.dart';
 import 'package:pinpin/component/header/navigation_bar.dart';
 import 'package:pinpin/component/home_pp_card/home_pp_card.dart';
 import 'package:pinpin/component/stateful_button/pp_common_text_button.dart';
+import 'package:util/bottom_sheet.dart';
 import 'package:widget/button/future_switch_button.dart';
 import 'package:widget/widget.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/page/pp_detail/logic.dart';
 import 'package:util/util.dart';
 
-class PPDetailPage extends StatelessWidget {
+class PPDetailPage extends StatefulWidget {
   const PPDetailPage({Key? key}) : super(key: key);
+
+  @override
+  State<PPDetailPage> createState() => _PPDetailPageState();
+}
+
+class _PPDetailPageState extends State<PPDetailPage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +64,12 @@ class PPDetailPage extends StatelessWidget {
       ),
     );
 
-    const buttonShadow = [BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.04), offset: Offset(0, 3), blurRadius: 10)];
+    const buttonShadow = [
+      BoxShadow(
+          color: Color.fromRGBO(0, 0, 0, 0.04),
+          offset: Offset(0, 3),
+          blurRadius: 10)
+    ];
 
     barButton(String asset, function) {
       return SizedBox(
@@ -46,7 +77,9 @@ class PPDetailPage extends StatelessWidget {
         height: 35,
         child: DecoratedBox(
           decoration: const BoxDecoration(
-              boxShadow: buttonShadow, color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(10))),
+              boxShadow: buttonShadow,
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           child: HoldButton(
             onPressed: function,
             child: Image.asset(asset),
@@ -108,7 +141,8 @@ class PPDetailPage extends StatelessWidget {
                         decoration: const BoxDecoration(
                             boxShadow: buttonShadow,
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(10))),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
                         child: FutureSwitchButton<bool>(
                           initValue: pp.isFollowed,
                           pressedSwitch: (now) async {
@@ -126,7 +160,12 @@ class PPDetailPage extends StatelessWidget {
                     barButtonPadding,
                     barButton(AppAssets.share, () {}),
                     barButtonPadding,
-                    barButton(AppAssets.comment, () {}),
+                    barButton(AppAssets.comment, () {
+                      showPinPinBottomSheet(
+                          context: context,
+                          builder: (context) => _buildComments(context),
+                          enableDrag: false);
+                    }),
                     const Spacer(),
                     actionButton,
                   ],
@@ -190,7 +229,8 @@ class PPDetailPage extends StatelessWidget {
           )
         ], //#96A3B761
       ),
-      transform: Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, intrudingOnX, 0, 0, 1),
+      transform:
+          Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, intrudingOnX, 0, 0, 1),
       child: Center(
         child: bookmark,
       ),
@@ -221,7 +261,8 @@ class PPDetailPage extends StatelessWidget {
         decoration: const BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          border: Border.symmetric(vertical: borderSide, horizontal: borderSide),
+          border:
+              Border.symmetric(vertical: borderSide, horizontal: borderSide),
         ),
         child: Center(
           child: Padding(
@@ -398,7 +439,8 @@ class PPDetailPage extends StatelessWidget {
 
     final Widget demandingDescription;
 
-    final fixedDemandingDescription = pp.demandingDescription.isEmpty ? "暂无介绍。" : pp.demandingDescription;
+    final fixedDemandingDescription =
+        pp.demandingDescription.isEmpty ? "暂无介绍。" : pp.demandingDescription;
 
     demandingDescription = SizedBox(
       width: double.infinity,
@@ -423,7 +465,8 @@ class PPDetailPage extends StatelessWidget {
 
     final Widget teamDesc;
 
-    final fixedTeamDesc = pp.teamIntroduction.isEmpty ? "暂无介绍。" : pp.teamIntroduction;
+    final fixedTeamDesc =
+        pp.teamIntroduction.isEmpty ? "暂无介绍。" : pp.teamIntroduction;
 
     teamDesc = SizedBox(
       width: double.infinity,
@@ -479,14 +522,16 @@ class PPDetailPage extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
                 child: DecoratedBox(
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: horizontalMargin, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: horizontalMargin, vertical: 16),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: columns,
@@ -512,5 +557,341 @@ class PPDetailPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildComments(BuildContext context) {
+    final logic = Get.find<PPDetailLogic>();
+    final pp = logic.pp;
+    final userInfo = logic.userInfo;
+    final avatar = Avatar(
+      url: userInfo.image,
+    );
+    const buttonShadow = [
+      BoxShadow(
+          color: Color.fromRGBO(0, 0, 0, 0.04),
+          offset: Offset(0, 3),
+          blurRadius: 10)
+    ];
+
+    return SafeArea(
+        child: SizedBox(
+      height: 460,
+      child: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (context, __) {
+            return [
+              SliverOverlapAbsorber(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: const PPBottomSheetHeader(),
+              )
+            ];
+          },
+          body: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 20),
+                  child: ListView(
+                      reverse: false,
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      children: List.generate(
+                          100,
+                          (index) => buildCommentItem(index, avatar,
+                              buttonShadow, pp, logic, context)).toList()),
+                ),
+              ),
+              SizedBox(
+                  height: 20,
+                  child: Container(
+                    color: Colors.red,
+                  ))
+            ],
+          ),
+        ),
+      ),
+    ));
+  }
+
+  Widget buildCommentItem(
+      int index,
+      Avatar avatar,
+      List<BoxShadow>? buttonShadow,
+      PinPin pp,
+      PPDetailLogic logic,
+      BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 72,
+            height: 94,
+            child: Stack(
+              children: [
+                Positioned(
+                    left: 20,
+                    top: index == 0 ? 20 : 10,
+                    child: SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: avatar,
+                    )),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: index == 0 ? 20 : 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text("加分",
+                          style: AppTheme.headline9
+                              .copyWith(color: AppTheme.gray30)),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text("5-10 22:22",
+                          style: AppTheme.headline11
+                              .copyWith(color: AppTheme.gray80)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text("啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊",
+                          style: AppTheme.headline8
+                              .copyWith(color: AppTheme.gray20)),
+                      const Spacer(),
+                      buildStar(buttonShadow, pp, logic),
+                      const SizedBox(
+                        width: 32,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 2,
+                        height: 26,
+                        color: AppTheme.primary,
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(left: 6, right: 10),
+                          child: Text(
+                            "小蓝",
+                            style: AppTheme.headline8
+                                .copyWith(color: AppTheme.primary),
+                          )),
+                      Text("顶顶顶顶顶顶顶顶顶",
+                          style: AppTheme.headline9
+                              .copyWith(color: AppTheme.gray20)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 2,
+                        height: 26,
+                        color: AppTheme.primary,
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(left: 6, right: 10),
+                          child: Text(
+                            "小蓝",
+                            style: AppTheme.headline8
+                                .copyWith(color: AppTheme.primary),
+                          )),
+                      Text("顶顶顶顶顶顶顶顶顶",
+                          style: AppTheme.headline9
+                              .copyWith(color: AppTheme.gray20)),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      showPinPinBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return _buildCommentDetail(context);
+                          },
+                          enableDrag: false,
+                        enableHorizontal: true
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.grey,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 0, horizontal: 4),
+                      height: 20,
+                      child: Text(
+                        "查看全部7条回复>",
+                        style:
+                            AppTheme.headline8.copyWith(color: AppTheme.gray0),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildStar(
+      List<BoxShadow>? buttonShadow, PinPin pp, PPDetailLogic logic) {
+    return SizedBox(
+      width: 25,
+      height: 20,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+            boxShadow: buttonShadow,
+            color: Colors.white,
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        child: FutureSwitchButton<bool>(
+          initValue: pp.isFollowed,
+          pressedSwitch: (now) async {
+            final res = await logic.pressedFollow(pp.pinpinId);
+            return res ? !now : now;
+          },
+          builder: (now) {
+            return FittedBox(
+                child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset(
+                  now ? AppAssets.thumbs_active : AppAssets.thumbs_inactive,
+                  width: 20,
+                  height: 20,
+                ),
+                now
+                    ? Text(
+                        "3",
+                        style: AppTheme.headline11
+                            .copyWith(color: AppTheme.primary),
+                      )
+                    : Text("2",
+                        style: AppTheme.headline11
+                            .copyWith(color: AppTheme.gray80))
+              ],
+            ));
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCommentDetail(BuildContext context) {
+    final logic = Get.find<PPDetailLogic>();
+    final pp = logic.pp;
+    final userInfo = logic.userInfo;
+    final avatar = Avatar(
+      url: userInfo.image,
+    );
+    const buttonShadow = [
+      BoxShadow(
+          color: Color.fromRGBO(0, 0, 0, 0.04),
+          offset: Offset(0, 3),
+          blurRadius: 10)
+    ];
+
+    return SafeArea(
+        child: SizedBox(
+      height: 460,
+      child: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (context, __) {
+            return [
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context),
+                sliver: const PPBottomSheetHeader(),
+              )
+            ];
+          },
+          body: Column(
+            children: [
+              Container(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: buildCommentItem(
+                      0, avatar, buttonShadow, pp, logic, context)),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text("10条回复",
+                        style: AppTheme.headline4
+                            .copyWith(color: AppTheme.gray20)),
+                  )
+                ],
+              ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 20),
+                  child: ListView(
+                      reverse: false,
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      children: List.generate(
+                          100,
+                          (index) => buildCommentItem(index, avatar,
+                              buttonShadow, pp, logic, context)).toList()),
+                ),
+              ),
+              SizedBox(
+                  height: 20,
+                  child: Container(
+                    color: Colors.red,
+                  ))
+            ],
+          ),
+        ),
+      ),
+    ));
+  }
+}
+
+class ModalInsideModal extends StatelessWidget {
+  const ModalInsideModal({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: SizedBox(
+      height: 460,
+      child: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (context, __) {
+            return [
+              SliverOverlapAbsorber(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: const PPBottomSheetHeader(),
+              )
+            ];
+          },
+          body: ListView(
+              reverse: false,
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              children: List.generate(
+                  100,
+                  (index) => Stack(
+                        children: [],
+                      )).toList()),
+        ),
+      ),
+    ));
   }
 }

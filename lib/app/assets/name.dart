@@ -64,6 +64,8 @@ class AppAssets {
   static const unlock = 'assets/unlock.png';
   static const profile = 'assets/profile.png';
   static const slide_button = 'assets/slide_button.png';
+  static const clear = 'assets/clear_text.png';
+  static const close = 'assets/close.png';
 
   static const _home = 'assets/home_tag/icon_big/';
 

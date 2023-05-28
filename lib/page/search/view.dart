@@ -4,6 +4,7 @@ import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/page/home/main/home_sliver_header.dart';
 import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/page/search/search_hint/search_hint_page.dart';
+import 'package:pinpin/page/search/search_result/search_result_page.dart';
 import 'package:util/util.dart';
 
 import '../../app/assets/name.dart';
@@ -41,13 +42,27 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          _buildSearchInput(),
-          Expanded(
-              child: GestureDetector(
-                  onTap: _hideKeyboard,
-                  child: Obx(() => _buildSearchPageContent())))
-        ]).paddingSymmetric(horizontal: 18),
+        child: Container(
+            alignment: Alignment.topCenter,
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color.fromRGBO(243, 243, 243, 0.3),
+                Color(0xFFF3F3F3),
+              ],
+            ),
+          ),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            _buildSearchInput(),
+            Expanded(
+                child: GestureDetector(
+                    onTap: _hideKeyboard,
+                    child: Obx(() => _buildSearchPageContent())))
+          ])
+        ),
       ),
     );
   }
@@ -63,7 +78,7 @@ class _SearchPageState extends State<SearchPage> {
       case Status.hint:
         return const SearchHintPage();
       case Status.result:
-        return Container(color: Colors.yellow);
+        return const SearchResultPage();
       case Status.initial:
       default:
         return Column(
@@ -132,6 +147,7 @@ class _SearchPageState extends State<SearchPage> {
                   if (_controller.text.isNotEmpty) {
                     _controller.clear();
                     _hideSoftKeyboard();
+                    controller.setStatus(Status.initial);
                   } else {
                     Get.back();
                   }
@@ -195,6 +211,9 @@ class _SearchPageState extends State<SearchPage> {
               } else {
                 controller.setStatus(Status.initial);
               }
+              setState(() {
+
+              });
             },
             onSubmitted: (value) {
               controller.handleSearchPinPin(value);
@@ -210,6 +229,7 @@ class _SearchPageState extends State<SearchPage> {
                         onTap: () {
                           _hideSoftKeyboard();
                           _controller.clear();
+                          controller.setStatus(Status.initial);
                         },
                         child: Container(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
