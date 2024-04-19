@@ -23,16 +23,16 @@ class EditLabelsPage extends StatelessWidget {
       padding: 5,
     );
 
-    final addLabel = ClipPath(
-      clipper: const CapsuleClipper(),
+    const addLabel = ClipPath(
+      clipper: CapsuleClipper(),
       child: DecoratedBox(
-        decoration: const BoxDecoration(color: Colors.grey),
+        decoration: BoxDecoration(color: Colors.grey),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 4),
+          padding: EdgeInsets.symmetric(vertical: 1, horizontal: 4),
           child: FittedBox(
             child: Row(
               mainAxisSize: MainAxisSize.max,
-              children: const [
+              children: [
                 Icon(Icons.add),
                 Text(
                   "自定义标签",
@@ -96,28 +96,28 @@ class EditLabelsPage extends StatelessWidget {
                           children: [
                             SizedBox(
                                 height: MediaQuery.of(context).viewPadding.top),
-                            SizedBox(height: 20),
-                            Row(
+                            const SizedBox(height: 20),
+                            const Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
                                   "添加标签",
                                   style: AppTheme.headline5,
                                 )
                               ],
                             ),
-                            Row(
+                            const Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
                                   "已添加5个，还可以再添加10个",
                                   style: AppTheme.headline7,
                                 )
                               ],
                             ),
-                            SizedBox(height: 13),
+                            const SizedBox(height: 13),
                             Container(
                               padding: const EdgeInsets.all(10),
                               decoration: const BoxDecoration(
@@ -146,8 +146,8 @@ class EditLabelsPage extends StatelessWidget {
                                         .toList()),
                               ),
                             ),
-                            SizedBox(height: 18),
-                            Row(
+                            const SizedBox(height: 18),
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SizedBox(

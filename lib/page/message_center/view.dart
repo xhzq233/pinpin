@@ -44,11 +44,11 @@ class MessageCenterHomePage extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 10),
-      Center(
+      const Center(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Text(
               "已拼",
               style: AppTheme.headline6,
@@ -73,7 +73,7 @@ class MessageCenterHomePage extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Spacer(),
+          const Spacer(),
           for (int i = 0; i < 7; i++)
             SizedBox(
               width: 40,
@@ -87,7 +87,7 @@ class MessageCenterHomePage extends StatelessWidget {
                 ),
               ),
             ),
-          Spacer(),
+          const Spacer(),
         ],
       ),
       Center(
@@ -157,9 +157,9 @@ class MessageCenterHomePage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        const Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children: [
                             Text(
                               "小红枣",
                               style: AppTheme.headline7,

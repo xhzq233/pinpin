@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/constant.dart';
-import 'package:pinpin/component/stateful_button/pp_image_button.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 import 'package:util/util.dart';

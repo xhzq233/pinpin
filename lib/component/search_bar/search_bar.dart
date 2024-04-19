@@ -7,7 +7,6 @@ import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/route/route_name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
 import 'package:pinpin/component/stateful_button/pp_image_button.dart';
-import 'package:util/util.dart';
 
 class PPHomeSearchBar extends StatefulWidget {
   const PPHomeSearchBar({Key? key, this.onClick = defaultOnClick, this.textEditingController}) : super(key: key);

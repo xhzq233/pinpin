@@ -45,7 +45,7 @@ class ChatMessageItemState extends State<ChatMessageItem> {
           ),
         );
       case MessageType.request:
-        return PPRequest();
+        return const PPRequest();
         break;
       default:
         break;

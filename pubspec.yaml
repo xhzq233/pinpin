@@ -10,8 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-#  flutter_localizations:
-#    sdk: flutter
   dio: ^5.1.2
   get: ^4.6.5
   sqflite: ^2.0.3

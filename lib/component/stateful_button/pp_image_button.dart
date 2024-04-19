@@ -1,9 +1,7 @@
 /// pinpin - pp_image_button
 /// Created by xhz on 05/08/2022
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:widget/button/hold.dart';
-import 'hold_active_button.dart';
 
 class PPImageButton extends StatelessWidget {
   PPImageButton({super.key, required this.onPressed, required String active, double? size = 30, double padding = 10}) {

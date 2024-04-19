@@ -24,7 +24,7 @@ class LabelSwitcher extends StatelessWidget {
     final imgSource = selected ? target.activeImg : target.inactiveImg;
     final bgColor = selected ? AppTheme.primary : AppTheme.gray95;
     final textColor = selected ? const Color(0xff4d94fe) : AppTheme.gray50;
-    final textStyle = AppTheme.headline5;
+    const textStyle = AppTheme.headline5;
     final List<BoxShadow> shadow = selected
         ? const [
             BoxShadow(

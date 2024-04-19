@@ -40,17 +40,17 @@ class _TabStyle extends AnimatedWidget {
     // To enable TextStyle.lerp(style1, style2, value), both styles must have
     // the same value of inherit. Force that to be inherit=true here.
     final TextStyle defaultStyle =
-        (labelStyle ?? tabBarTheme.labelStyle ?? themeData.primaryTextTheme.bodyText1!).copyWith(inherit: true);
+        (labelStyle ?? tabBarTheme.labelStyle ?? themeData.primaryTextTheme.bodyLarge!).copyWith(inherit: true);
     final TextStyle defaultUnselectedStyle = (unselectedLabelStyle ??
             tabBarTheme.unselectedLabelStyle ??
             labelStyle ??
-            themeData.primaryTextTheme.bodyText1!)
+            themeData.primaryTextTheme.bodyLarge!)
         .copyWith(inherit: true);
     final TextStyle textStyle = selected
         ? TextStyle.lerp(defaultStyle, defaultUnselectedStyle, animation.value)!
         : TextStyle.lerp(defaultUnselectedStyle, defaultStyle, animation.value)!;
 
-    final Color selectedColor = labelColor ?? tabBarTheme.labelColor ?? themeData.primaryTextTheme.bodyText1!.color!;
+    final Color selectedColor = labelColor ?? tabBarTheme.labelColor ?? themeData.primaryTextTheme.bodyLarge!.color!;
     final Color unselectedColor =
         unselectedLabelColor ?? tabBarTheme.unselectedLabelColor ?? selectedColor.withAlpha(0xB2); // 70% alpha
     final Color color = selected
@@ -123,7 +123,7 @@ class _TabLabelBarRenderer extends RenderFlex {
 }
 
 class _TabLabelBar extends Flex {
-  _TabLabelBar({
+  const _TabLabelBar({
     Key? key,
     List<Widget> children = const <Widget>[],
     required this.onPerformLayout,
@@ -711,7 +711,7 @@ class _TabBarWidgetState extends State<TabBarWidget> {
   bool get _controllerIsValid => _controller?.animation != null;
 
   void _updateTabController() {
-    final TabController? newController = widget.controller ?? DefaultTabController.of(context);
+    final TabController newController = widget.controller ?? DefaultTabController.of(context);
     if (newController == null) {
       throw FlutterError(
         'No TabController for ${widget.runtimeType}.\n'

@@ -18,7 +18,7 @@ class PPSearchController extends GetxController with PPHomeCardViewDelegate {
   final _http = Get.find<PPNetWorkInterface>();
   final Map<int, Map<int, PinPinLoadMoreSource>> _sources = {PinPin.ppt_ett: {}, PinPin.ppt_study: {}};
   RxList<PinPin> pinpins = RxList();
-  Rx<Status> _status = Status.initial.obs;
+  final Rx<Status> _status = Status.initial.obs;
   Rx<Status> get status => _status;
 
   void handleSearchPinPin(String title) async {

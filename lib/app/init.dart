@@ -33,7 +33,6 @@ class Config {
     windowsPaddingInit();
     await SettingsManager.init();
     if (!kIsWeb) {
-      // await initDB();
       await Get.putAsync(() => $FloorPPDatabase.databaseBuilder('pinpin.db').build());
     }
   }

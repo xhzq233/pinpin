@@ -87,7 +87,7 @@ class Routes {
     ),
     GetPage(
       name: RN.edit_profile,
-      page: () => EditProfilePage(),
+      page: () => const EditProfilePage(),
       middlewares: [authMiddleware],
       binding: EditProfileBinding(),
     ),
@@ -130,7 +130,7 @@ class Routes {
         page: () => MessageCenterHomePage()),
     GetPage(
         name: RN.message_chat,
-        page: () => MessageChatPage()),
+        page: () => const MessageChatPage()),
     GetPage(
       name: RN.profile,
       page: () => const ProfilePage(),

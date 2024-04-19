@@ -2,7 +2,6 @@
 /// Created by xhz on 3/11/23
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:widget/widget.dart';
 import 'package:get/get.dart';
 

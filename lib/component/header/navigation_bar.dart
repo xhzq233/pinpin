@@ -1,7 +1,3 @@
-/// pinpin - navigation_bar
-/// Created by xhz on 06/09/2022
-
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:pinpin/app/assets/name.dart';

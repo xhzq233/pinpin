@@ -61,7 +61,7 @@ extension WidgetExtensions on Widget {
     child: this,
   );
 
-  Widget clipped([BorderRadius? borderRadius]) => ClipRRect(
+  Widget clipped([BorderRadius borderRadius = BorderRadius.zero]) => ClipRRect(
     borderRadius: borderRadius,
     child: this,
   );

@@ -7,7 +7,6 @@ import 'package:pinpin/manager/api/client_interface.dart';
 import 'package:pinpin/model/account/account.dart';
 import 'package:pinpin/model/pinpin/pin_pin.dart';
 import 'package:pinpin/model/pinpin/pinpin_list_data.dart';
-import 'package:pinpin/model/reply/reply.dart';
 import 'package:pinpin/model/reply/reply_list_data.dart';
 import 'package:pinpin/model/user_info/user_info.dart';
 import 'package:pinpin/model/notice/notice.dart';

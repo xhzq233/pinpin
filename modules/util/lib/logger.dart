@@ -1,6 +1,3 @@
-/// pinpin - logger
-/// Created by xhz on 29/07/2022
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 
@@ -87,7 +84,7 @@ class _AnsiColor {
   }
 
   String call(String msg) {
-    return '${this}$msg$ansiDefault';
+    return '$this$msg$ansiDefault';
   }
 
   _AnsiColor toFg() => _AnsiColor.fg(bg);

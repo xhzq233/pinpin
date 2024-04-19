@@ -23,7 +23,7 @@ class SearchHighlightEntity {
 
   static List<SearchHighlightEntity> _parseNodes(NodeList nodes) {
     var result = <SearchHighlightEntity>[];
-    nodes.forEach((element) {
+    for (var element in nodes) {
       switch (element.nodeType) {
         case Node.TEXT_NODE:
           result.add(
@@ -36,7 +36,7 @@ class SearchHighlightEntity {
         case Node.ELEMENT_NODE:
           var e = element as Element;
           if (e.localName == 'em') {
-            e.nodes.forEach((element) {
+            for (var element in e.nodes) {
               switch (element.nodeType) {
                 case Node.TEXT_NODE:
                   result.add(
@@ -49,13 +49,13 @@ class SearchHighlightEntity {
                 default:
                   break;
               }
-            });
+            }
           }
           break;
         default:
           break;
       }
-    });
+    }
 
     return result;
   }

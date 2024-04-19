@@ -28,8 +28,8 @@ class WillPopWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      child: child,
       onWillPop: _willPop,
+      child: child,
     );
   }
 }

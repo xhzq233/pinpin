@@ -1,7 +1,6 @@
 /// pinpin - view
 /// Created by xhz on 2022/8/8
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinpin/app/assets/name.dart';
@@ -411,9 +410,9 @@ class _PPDetailPageState extends State<PPDetailPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [heading, Text(' 活动概述', style: titleStyle)],
+                children: [heading, Text(' 活动概述', style: titleStyle)],
               ),
               const SizedBox(height: 6),
               ConstrainedBox(
@@ -454,9 +453,9 @@ class _PPDetailPageState extends State<PPDetailPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [heading, Text(' 人员介绍', style: titleStyle)],
+                children: [heading, Text(' 人员介绍', style: titleStyle)],
               ),
               const SizedBox(height: 6),
               Text(fixedDemandingDescription, style: contentStyle),
@@ -480,9 +479,9 @@ class _PPDetailPageState extends State<PPDetailPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              const Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [heading, Text(' 队伍信息', style: titleStyle)],
+                children: [heading, Text(' 队伍信息', style: titleStyle)],
               ),
               const SizedBox(height: 6),
               ConstrainedBox(
@@ -890,7 +889,7 @@ class ModalInsideModal extends StatelessWidget {
               physics: const ClampingScrollPhysics(),
               children: List.generate(
                   100,
-                  (index) => Stack(
+                  (index) => const Stack(
                         children: [],
                       )).toList()),
         ),

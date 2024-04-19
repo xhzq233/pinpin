@@ -22,7 +22,7 @@ class Loading {
     if (_showing) return;
     final context = Get.overlayContext;
     if (context != null) {
-      Overlay.of.call(context)?.insert(_entry);
+      Overlay.of.call(context).insert(_entry);
       _showing = true;
     }
   }

@@ -2,9 +2,7 @@
 /// Created by xhz on 2022/8/8
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pinpin/app/assets/name.dart';
 import 'package:pinpin/app/theme/app_theme.dart';
-import 'package:pinpin/component/stateful_button/hold_active_button.dart';
 import 'package:pinpin/component/switcher/label_switcher.dart';
 import 'package:pinpin/component/switcher/switcher.dart';
 import 'package:pinpin/component/text_field/pp_text_field.dart';

@@ -8,7 +8,7 @@ class KeyboardDetector extends StatefulWidget {
 
   final Widget content;
 
-  KeyboardDetector({this.keyboardShowCallback, required this.content});
+  const KeyboardDetector({super.key, this.keyboardShowCallback, required this.content});
 
   @override
   _KeyboardDetectorState createState() => _KeyboardDetectorState();

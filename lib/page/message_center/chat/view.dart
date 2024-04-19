@@ -102,7 +102,7 @@ class _MessageChatPageState extends State<MessageChatPage>
 
   void _buildPopupMenu() {
     final RenderBox overlay =
-        Overlay.of(context)?.context.findRenderObject() as RenderBox;
+        Overlay.of(context).context.findRenderObject() as RenderBox;
     final RelativeRect position = RelativeRect.fromLTRB(
         overlay.size.width, 60.0, 0.0, overlay.size.height - 60.0);
 
@@ -148,29 +148,29 @@ class _MessageChatPageState extends State<MessageChatPage>
   }
 
   SizedBox buildTopBar() {
-    return SizedBox(
+    return const SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 15),
         child: DecoratedBox(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 13.5, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 13.5, vertical: 16),
             child: Column(mainAxisSize: MainAxisSize.max, children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     "米罗伍德密室逃脱！",
                     style: AppTheme.headline3,
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text(
                         "已拼",
                         style: AppTheme.headline6,
